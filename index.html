@@ -78,8 +78,8 @@ body {
 
 .evidence-bag { margin-top: 20px; padding: 18px; background: rgba(20,10,5,0.95); border: 2px solid rgba(240,165,0,0.4); border-radius: 12px; animation: slideUp .3s ease; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.bag-header { font-size: 14px; color: var(--gold); font-weight: 700; margin-bottom: 14px; }
-.evidence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.bag-header { font-size: 14px; color: var(--gold); font-weight: 700; margin-bottom: 14px; display: flex; justify-content: space-between; }
+.evidence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
 .evidence-card { padding: 12px 8px; text-align: center; background: rgba(255,240,220,0.05); border: 2px solid rgba(200,160,100,0.3); border-radius: 10px; cursor: pointer; transition: .15s; color: #e8dcc8; }
 .evidence-card:hover { background: rgba(240,165,0,0.18); border-color: var(--gold); transform: translateY(-3px); }
 .ev-icon { width: 44px; height: 44px; margin: 0 auto 8px; display: block; }
@@ -90,6 +90,12 @@ body {
 .feedback.ok { background: rgba(76,175,80,0.2); border: 2px solid rgba(76,175,80,0.5); }
 .feedback.ng { background: rgba(255,77,109,0.2); border: 2px solid rgba(255,77,109,0.5); }
 .feedback-text strong { display: block; margin-bottom: 6px; font-size: 15px; color: var(--gold); }
+
+/* 法官吐槽專屬樣式 */
+.feedback.judge-roast { background: rgba(139, 58, 58, 0.2); border: 2px solid #8b3a3a; }
+.feedback.judge-roast .feedback-text strong { color: #ff8899; }
+.feedback.gameover { background: #000; border: 2px solid #ff0000; text-align: center; }
+.feedback.gameover .feedback-text { color: #ff0000; font-weight: bold; font-size: 18px; }
 
 .calc-container { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
 .calc-inputs { flex: 1; min-width: 280px; }
@@ -194,20 +200,41 @@ body {
     <symbol id="i-scale" viewBox="0 0 16 16"><rect x="7.5" y="3" width="1" height="10" fill="#c8a878"/><rect x="5" y="13" width="6" height="1" fill="#c8a878"/><rect x="2" y="4" width="12" height="0.6" fill="#c8a878"/><rect x="1" y="7" width="3" height="0.6" fill="#c8a878"/><rect x="12" y="7" width="3" height="0.6" fill="#c8a878"/></symbol>
     <symbol id="i-gavel" viewBox="0 0 16 16"><rect x="2" y="6" width="8" height="3" fill="#a87840"/><rect x="9" y="7.5" width="5" height="1" fill="#6b4f2f"/></symbol>
     <symbol id="i-money" viewBox="0 0 16 16"><rect x="1" y="4" width="14" height="8" fill="#4c8b4c"/><circle cx="8" cy="8" r="2.2" fill="#f5e6c8"/></symbol>
-    <symbol id="h" viewBox="0 0 16 16"><rect x="2" y="3" width="2" height="1" fill="#ff3050"/><rect x="4" y="2" width="6" height="1" fill="#ff3050"/><rect x="10" y="2" width="2" height="1" fill="#ff3050"/><rect x="1" y="4" width="14" height="3" fill="#ff3050"/><rect x="2" y="7" width="12" height="3" fill="#ff3050"/><rect x="4" y="10" width="8" height="2" fill="#ff3050"/><rect x="6" y="12" width="4" height="1" fill="#ff3050"/><rect x="7" y="13" width="2" height="1" fill="#ff3050"/></symbol>
+    <!-- 新增超多搞笑證物圖示 -->
+    <symbol id="i-badge" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="13" rx="1" fill="#fff"/><rect x="4" y="3" width="8" height="2" fill="#3a5a8b"/><circle cx="8" cy="8" r="2" fill="#ff4d6d"/><rect x="5" y="12" width="6" height="1" fill="#888"/></symbol>
+    <symbol id="i-wig" viewBox="0 0 16 16"><rect x="4" y="1" width="8" height="3" fill="#eee"/><rect x="2" y="4" width="12" height="4" fill="#eee"/><rect x="1" y="8" width="3" height="4" fill="#eee"/><rect x="12" y="8" width="3" height="4" fill="#eee"/></symbol>
+    <symbol id="i-knife" viewBox="0 0 16 16"><rect x="2" y="7" width="10" height="3" fill="#ccc"/><rect x="12" y="7.5" width="3" height="2" fill="#6b4f2f"/><circle cx="4" cy="8.5" r="0.5" fill="#aaa"/></symbol>
+    <symbol id="i-pineapple" viewBox="0 0 16 16"><rect x="5" y="5" width="6" height="10" fill="#f7c948"/><rect x="6" y="2" width="1" height="3" fill="#2d6a2d"/><rect x="8" y="1" width="1" height="4" fill="#2d6a2d"/><rect x="10" y="2" width="1" height="3" fill="#2d6a2d"/></symbol>
+    <symbol id="i-chicken" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#d88"/><circle cx="6" cy="6" r="1.5" fill="#fff"/><circle cx="10" cy="10" r="1" fill="#fff"/><rect x="11" y="2" width="1" height="5" fill="#fff" transform="rotate(45 11 2)"/></symbol>
+    <symbol id="i-pokeball" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#fff"/><path d="M2 8 A6 6 0 0 1 14 8" fill="#ff3050"/><rect x="2" y="7.5" width="12" height="1" fill="#111"/><circle cx="8" cy="8" r="2" fill="#fff" stroke="#111" stroke-width="0.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 16 16"><path d="M8 1 L14 4 L14 9 Q14 14 8 15 Q2 14 2 9 L2 4 Z" fill="#f7c948"/><rect x="7" y="4" width="2" height="6" fill="#8b3a3a"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 16 16"><rect x="6" y="1" width="4" height="8" rx="2" fill="#aaa"/><path d="M4 7 A4 4 0 0 0 12 7" fill="none" stroke="#aaa" stroke-width="1.5"/><rect x="7" y="11" width="2" height="4" fill="#666"/></symbol>
   </defs>
 </svg>
 
 <script type="module">
-const EVIDENCE = {
-  e1: { id:'e1', name:'準備書(一)狀', icon:'i-doc', desc:'二審才提終止主張' },
-  e2: { id:'e2', name:'參加書狀', icon:'i-gavel', desc:'水利局一審即參加' },
-  e3: { id:'e3', name:'第1381號判決', icon:'i-scale', desc:'認定未善意受讓' },
-  e4: { id:'e4', name:'言詞辯論筆錄', icon:'i-doc', desc:'已參與3次開庭' },
-  e5: { id:'e5', name:'招標須知第8條', icon:'i-book', desc:'機關得終止契約條款' },
-  e6: { id:'e6', name:'撤回上訴狀', icon:'i-doc', desc:'上訴人自行撤回' },
-  e7: { id:'e7', name:'土石點交證明', icon:'i-money', desc:'92年已點交管領' },
-  e8: { id:'e8', name:'權利濫用主張', icon:'i-book', desc:'主張對方侵蝕國庫' }
+// 建立所有證物（正常+超大量搞笑）
+const ALL_EVIDENCE = {
+  // 正常證物
+  e_prep: { id:'e_prep', name:'準備書(一)狀', icon:'i-doc', desc:'二審才提終止主張' },
+  e_join: { id:'e_join', name:'參加書狀', icon:'i-gavel', desc:'水利局一審即參加' },
+  e_1381: { id:'e_1381', name:'1381號判決', icon:'i-scale', desc:'認定未善意受讓' },
+  e_min: { id:'e_min', name:'言詞辯論筆錄', icon:'i-doc', desc:'已參與3次開庭' },
+  e_tender: { id:'e_tender', name:'招標須知第8條', icon:'i-book', desc:'機關得終止契約' },
+  e_withdraw: { id:'e_withdraw', name:'撤回上訴狀', icon:'i-doc', desc:'原告自行撤回' },
+  e_deliver: { id:'e_deliver', name:'土石點交證明', icon:'i-money', desc:'92年已交付管領' },
+  e_abuse: { id:'e_abuse', name:'權利濫用主張', icon:'i-book', desc:'指控對方侵蝕國庫' },
+  
+  // 搞笑證物
+  j_badge: { id:'j_badge', name:'律師執照', icon:'i-badge', desc:'證明你考過國考', joke:'代理人，你拿自己的執照給我看，是想證明你考過國考嗎？' },
+  j_wig: { id:'j_wig', name:'法官假髮', icon:'i-wig', desc:'保養得很好的假髮', joke:'大膽！竟敢拿假髮調侃本官？法警！' },
+  j_knife: { id:'j_knife', name:'西瓜刀', icon:'i-knife', desc:'切西瓜必備', joke:'在法庭上亮刀，你是想被依現行犯逮捕嗎？' },
+  j_pineapple: { id:'j_pineapple', name:'鳳梨', icon:'i-pineapple', desc:'象徵旺來', joke:'帶鳳梨來法院？你是在詛咒本件「旺」到無法結案嗎？' },
+  j_chicken: { id:'j_chicken', name:'鹹酥雞', icon:'i-chicken', desc:'加辣加九層塔', joke:'現在是言詞辯論，不是宵夜時間！' },
+  j_pokeball: { id:'j_pokeball', name:'寶貝球', icon:'i-pokeball', desc:'想收服審判長', joke:'你想用這個收服本官嗎？本官可不是寶可夢！' },
+  j_shield: { id:'j_shield', name:'免死金牌', icon:'i-shield', desc:'免罰必備', joke:'偽造文書！這張金牌一看就是你昨晚用印表機印的！' },
+  j_mic: { id:'j_mic', name:'麥克風', icon:'i-mic', desc:'想高歌一曲', joke:'法院不是KTV，把你的麥克風收起來！' },
+  j_throw: { id:'j_throw', name:'法槌碎片', icon:'i-gavel', desc:'審判長敲壞的', joke:'你撿本官敲壞的法槌碎片幹嘛？想帶回家當紀念品？', gameover:true }
 };
 
 // 西瓜寮視角（攻擊方）
@@ -219,7 +246,9 @@ const SCENES_MELON = [
     type:'trial', title:'第二章・突襲',
     opp:'審判長，我方依招標須知第8條終止契約，屬合法行使權利。',
     challenge:'對造突襲提出終止契約。請翻找證物，證明此主張「二審才提出」！',
-    ans:['e1'], success:'異議あり！本件終止主張係二審始提出，違反民訴法第447條！',
+    ans:['e_prep'],
+    bag:['e_prep', 'e_tender', 'j_badge', 'j_wig', 'j_pineapple'], 
+    success:'異議あり！本件終止主張係二審始提出，違反民訴法第447條！',
     fbOk:'正確！水利局於108年2月19日二審才提出此主張，依民訴法447條應予駁回。',
     fbNg:'這不能證明程序違法。要找的是「提出時間點」的證物。'
   },
@@ -227,7 +256,9 @@ const SCENES_MELON = [
     type:'trial', title:'第三章・效力',
     opp:'第1381號判決係西瓜寮撤回上訴才確定，害我方無法防禦，依民訴法63條但書不受拘束。',
     challenge:'對造說自己沒防禦到。找證據證明他們「第一審就參與」了！',
-    ans:['e2'], success:'異議あり！對造第一審即參加訴訟，本得獨立上訴，不得主張裁判不當！',
+    ans:['e_join'],
+    bag:['e_join', 'e_withdraw', 'j_knife', 'j_mic', 'j_chicken'],
+    success:'異議あり！對造第一審即參加訴訟，本得獨立上訴，不得主張裁判不當！',
     fbOk:'正確！水利局於第一審即參加訴訟，且依法可獨立上訴卻未提，應受判決拘束。',
     fbNg:'對造說無法防禦。要找的是他們其實有參與的證據。'
   },
@@ -235,7 +266,9 @@ const SCENES_MELON = [
     type:'trial', title:'第四章・所有權',
     opp:'土石已交付，上訴人已善意受讓取得所有權，本件無給付不能。',
     challenge:'對造主張善意受讓。找出已經在另案打臉過這一點的證物！',
-    ans:['e3'], success:'異議あり！第1381號確定判決已認定未善意受讓！',
+    ans:['e_1381'],
+    bag:['e_1381', 'e_deliver', 'j_pokeball', 'j_shield'],
+    success:'異議あり！第1381號確定判決已認定未善意受讓！',
     fbOk:'正確！第1381號判決明確認定未善意受讓，水利局受拘束。',
     fbNg:'要找的是關於「所有權歸屬」的證據。'
   },
@@ -243,13 +276,15 @@ const SCENES_MELON = [
     type:'trial', title:'第五章・惡意',
     opp:'上訴人未積極應訴，惡意撤回上訴侵蝕國庫，請求屬權利濫用。',
     challenge:'對造指控未應訴。找出證明上訴人「有在開庭」的證物！',
-    ans:['e4'], success:'異議あり！上訴人已連續參與3次言詞辯論並提抗辯！',
+    ans:['e_min'],
+    bag:['e_min', 'e_withdraw', 'j_throw', 'j_badge'],
+    success:'異議あり！上訴人已連續參與3次言詞辯論並提抗辯！',
     fbOk:'正確！卷證顯示上訴人已盡力應訴，撤回上訴屬合法權利行使。',
     fbNg:'要找的是關於「法庭活動」的紀錄。'
   }
 ];
 
-// 水利局視角（防守方，體驗歷史上的節節敗退）
+// 水利局視角（防守方）
 const SCENES_WATER = [
   { type:'story', title:'第一章・開庭', 
     paras:['臺灣高等法院臺中分院民事第四庭。','審判長：本件上訴人西瓜寮與水利局間損害賠償事件，現在開始言詞辯論。','審判長：請被上訴人代理人就爭點進行陳述。'], btn:'開始陳述' 
@@ -258,7 +293,9 @@ const SCENES_WATER = [
     type:'trial', title:'第二章・突襲',
     opp:'審判長，對造於二審始提出「終止契約」之主張，屬新攻擊方法，應予駁回！',
     challenge:'對造指控你突襲。請拿出契約證據，主張你有權終止！',
-    ans:['e5'], success:'審判長，我方依招標須知第8條行使終止權，事關河防安全，顯非無憑！',
+    ans:['e_tender'],
+    bag:['e_tender', 'e_prep', 'j_wig', 'j_pineapple'],
+    success:'審判長，我方依招標須知第8條行使終止權，事關河防安全，顯非無憑！',
     fbOk:'你提出了招標須知。但法官認為：該主張與原條款不符，且原審已委任律師，難認顯失公平，仍予駁回。',
     fbNg:'這不是證明你有權終止的證據。請找契約條款。'
   },
@@ -266,7 +303,9 @@ const SCENES_WATER = [
     type:'trial', title:'第三章・效力',
     opp:'你水利局在第一審就參加訴訟了，依法可以獨立上訴，憑什麼說不受拘束？',
     challenge:'對造指控你本可上訴。拿出證據主張「是他們撤回害你的」！',
-    ans:['e6'], success:'審判長，是對造自行撤回上訴，導致我方無法於二審續為訴訟行為，符合民訴法63條但書！',
+    ans:['e_withdraw'],
+    bag:['e_withdraw', 'e_join', 'j_mic', 'j_pokeball'],
+    success:'審判長，是對造自行撤回上訴，導致我方無法於二審續為訴訟行為，符合民訴法63條但書！',
     fbOk:'你提出了撤回狀。但法官認為：參加人本得獨立上訴，你捨此不為，仍應受1381判決拘束。',
     fbNg:'要找的是關於「對方撤回」的證明。'
   },
@@ -274,7 +313,9 @@ const SCENES_WATER = [
     type:'trial', title:'第四章・所有權',
     opp:'土石被漢臨公司拿走，我們根本沒拿到所有權，你們賣的東西有瑕疵！',
     challenge:'對造主張沒拿到土石。拿出你們已經「交付」的證明！',
-    ans:['e7'], success:'審判長，系爭土石於92年10月1日已由苗栗地院點交予對造接管，對造已取得管領力！',
+    ans:['e_deliver'],
+    bag:['e_deliver', 'e_1381', 'j_knife', 'j_shield'],
+    success:'審判長，系爭土石於92年10月1日已由苗栗地院點交予對造接管，對造已取得管領力！',
     fbOk:'你提出了點交證明。但法官認為：依1381判決，對造未善意受讓，交付不等於取得所有權，仍屬給付不能。',
     fbNg:'要找的是證明「已經把東西交給對方」的文件。'
   },
@@ -282,7 +323,9 @@ const SCENES_WATER = [
     type:'trial', title:'第五章・責任',
     opp:'你們賣的土石有瑕疵，就應該依民法353條賠償我們的損失！',
     challenge:'對造要求賠償。試圖主張對造「權利濫用」來減輕責任！',
-    ans:['e8'], success:'審判長，對造於前案未盡力防禦，現反將責任推給國庫，顯屬權利濫用！',
+    ans:['e_abuse'],
+    bag:['e_abuse', 'e_min', 'j_throw', 'j_badge'],
+    success:'審判長，對造於前案未盡力防禦，現反將責任推給國庫，顯屬權利濫用！',
     fbOk:'你提出了權利濫用主張。但法官認為：對造已盡力應訴，撤回上訴屬正當權利行使，不構成濫用。',
     fbNg:'要找的是關於「對造行為不當」的論述。'
   }
@@ -301,12 +344,36 @@ class Model {
   open() { this.bag=true; this.res=null; }
   pick(id) {
     const s=this.cur;
+    const ev = ALL_EVIDENCE[id];
+    
+    // 搞笑證物處理
+    if (ev.joke) {
+      if (ev.gameover) {
+        this.lives = 0;
+        this.bag = false;
+        this.res = { ok:false, gameover:true, fb:`審判長暴怒：${ev.joke}\n\n【法警將你架出法庭！】` };
+        this.logs.push({ok:false, fb:'死於非命'});
+        return this.res;
+      }
+      
+      this.lives--;
+      if(this.lives<=0){ 
+        this.bag=false; 
+        this.res={ok:false, fb:`審判長動怒：${ev.joke} 書記官，將這位代理人趕出去！`, rev:'直接再見'}; 
+        this.logs.push({ok:false, fb:'被趕出法庭'}); 
+      } else { 
+        this.res={ok:false, fb:`審判長動怒：${ev.joke}`, retry:true}; 
+      }
+      return this.res;
+    }
+
+    // 正常證物處理
     if(s.ans.includes(id)){
       this.score+=10; this.bag=false; this.res={ok:true, fb:s.fbOk, line:s.success};
       this.logs.push({ok:true, fb:s.fbOk});
     } else {
       this.lives--;
-      if(this.lives<=0){ this.bag=false; this.res={ok:false, fb:s.fbNg, rev:EVIDENCE[s.ans[0]].name}; this.logs.push({ok:false, fb:'生命耗盡'}); }
+      if(this.lives<=0){ this.bag=false; this.res={ok:false, fb:s.fbNg, rev:ALL_EVIDENCE[s.ans[0]].name}; this.logs.push({ok:false, fb:'生命耗盡'}); }
       else { this.res={ok:false, fb:s.fbNg, retry:true}; }
     }
     return this.res;
@@ -396,17 +463,36 @@ class View {
       if(!m.res&&!m.bag) h+=`<div class="challenge-box">💭 ${s.challenge}</div><button class="objection-btn" id="btnObj">異議あり！</button>`;
       
       if(m.bag){
-        h+=`<div class="evidence-bag"><div class="bag-header">📁 法庭紀錄 — 請點擊證物提出</div><div class="evidence-grid">`;
-        Object.values(EVIDENCE).forEach(e=>{ h+=`<button class="evidence-card" data-id="${e.id}"><svg class="ev-icon" viewBox="0 0 16 16"><use href="#${e.icon}"/></svg><span class="ev-name">${e.name}</span><span class="ev-desc">${e.desc}</span></button>`; });
+        // 證物袋加上隨機洗牌
+        const shuffledBag = [...s.bag].sort(() => Math.random() - 0.5);
+        h+=`<div class="evidence-bag"><div class="bag-header">📁 法庭紀錄 — 請點擊證物提出 <span style="color:#ff4d6d;font-size:12px;">(此為隨機洗牌)</span></div><div class="evidence-grid">`;
+        shuffledBag.forEach(id => {
+          const e = ALL_EVIDENCE[id];
+          h+=`<button class="evidence-card" data-id="${e.id}"><svg class="ev-icon" viewBox="0 0 16 16"><use href="#${e.icon}"/></svg><span class="ev-name">${e.name}</span><span class="ev-desc">${e.desc}</span></button>`; 
+        });
         h+=`</div></div>`;
       }
       
       if(m.res){
-        h+=`<div class="feedback ${m.res.ok?'ok':'ng'}"><div class="feedback-text"><strong>${m.res.ok?'✔ 提出成功！':(m.res.rev?'✘ 生命耗盡！正確解答為「'+m.res.rev+'」':'✘ 無法說服法官！')}</strong>${m.res.fb}</div></div>`;
+        let fbClass = 'ng';
+        if (m.res.ok) fbClass = 'ok';
+        else if (m.res.gameover) fbClass = 'gameover';
+        else if (m.res.fb.includes('審判長動怒')) fbClass = 'judge-roast';
+
+        h+=`<div class="feedback ${fbClass}">
+          <div class="feedback-text">
+          <strong>${m.res.ok?'✔ 提出成功！':(m.res.gameover?'GAME OVER':(m.res.rev?'✘ 生命耗盡！':'✘ 無法說服法官！'))}</strong>
+          ${m.res.fb.replace(/\n/g, '<br>')}
+          </div></div>`;
+          
         if(m.res.ok||m.res.rev) {
           h+=`<div class="next-wrap"><button class="btn" id="btnNext">下一章 →</button></div>`;
         } else if (m.res.retry) {
           h+=`<div class="next-wrap"><button class="btn" id="btnRetry" style="background:#ff4d6d; color:#fff;">重新選擇證物</button></div>`;
+        }
+        // Gameover 直接給重新開始按鈕
+        if (m.res.gameover) {
+          h+=`<div class="next-wrap"><button class="btn" onclick="location.reload()">重新開始</button></div>`;
         }
       }
     } else if(s.type==='calc'){
