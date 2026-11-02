@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>司法的重量：西瓜寮土石案</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #e8e8e8; min-height: 100vh; padding: 24px;
+}
+#app { max-width: 820px; margin: 0 auto; }
+.progress-bar { height: 6px; background: #2a2a4a; border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #f0a500, #f7c948); transition: width .4s; }
+.hud { display: flex; justify-content: space-between; font-size: 13px; color: #9aa0b5; margin-bottom: 20px; }
+.scene {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(240,165,0,0.25);
+  border-radius: 16px; padding: 28px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  animation: fadeIn .4s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.scene-title {
+  font-size: 22px; color: #f7c948; margin-bottom: 18px;
+  border-left: 4px solid #f0a500; padding-left: 12px;
+}
+.scene-body p { line-height: 1.9; margin-bottom: 10px; color: #cfd3e0; font-size: 15px; }
+.question {
+  margin: 22px 0 14px; padding: 14px 16px;
+  background: rgba(240,165,0,0.08);
+  border-left: 3px solid #f0a500; border-radius: 6px;
+  font-weight: 600; color: #f7c948;
+}
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option {
+  text-align: left; padding: 14px 16px; cursor: pointer;
+  background: rgba(255,255,255,0.05); color: #e8e8e8;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 10px;
+  font-size: 14px; transition: all .2s;
+}
+.option:hover:not(:disabled) { background: rgba(240,165,0,0.15); border-color: #f0a500; }
+.option:disabled { cursor: default; opacity: .6; }
+.option.correct { background: rgba(46,204,113,0.18); border-color: #2ecc71; }
+.option.wrong { background: rgba(231,76,60,0.18); border-color: #e74c3c; }
+.calc-fields { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+.calc-field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #cfd3e0; }
+.calc-field small { color: #7a8199; }
+.calc-field input {
+  padding: 10px 12px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;
+}
+.submit-calc, .next-btn, .restart-btn {
+  padding: 12px 24px; border-radius: 10px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, #f0a500, #f7c948); color: #1a1a2e;
+  font-weight: 700; font-size: 15px; transition: transform .15s;
+}
+.submit-calc:hover:not(:disabled), .next-btn:hover:not(:disabled) { transform: translateY(-2px); }
+.next-btn:disabled { opacity: .35; cursor: not-allowed; }
+.feedback { margin-top: 16px; padding: 14px; border-radius: 10px; font-size: 14px; line-height: 1.7; }
+.feedback.ok { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.4); }
+.feedback.ng { background: rgba(231,76,60,0.12); border: 1px solid rgba(231,76,60,0.4); }
+.next-wrap { text-align: right; margin-top: 22px; }
+.end .verdict-line { font-size: 16px; line-height: 1.9; margin: 16px 0; padding: 16px; background: rgba(240,165,0,0.1); border-radius: 10px; }
+.end .verdict-line strong { color: #f7c948; }
+.end h2 { color: #f7c948; margin: 20px 0 8px; }
+.score-line { font-size: 18px; color: #f0a500; margin: 12px 0; }
+.answer-log { list-style: none; margin: 12px 0 20px; }
+.answer-log li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 13px; line-height: 1.6; }
+.answer-log li.ok { color: #7fd99a; }
+.answer-log li.ng { color: #e8877c; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="module">
+/* ===================== MODEL：關卡資料 ===================== */
+const SCENES = [
+  {
+    id: 'intro', type: 'story', title: '第一章・案起',
+    paragraphs: [
+      '民國91年，經濟部水利署第三河川局公開標售大安溪河床堆置的土石堆。',
+      '西瓜寮開發股份有限公司以總價 7,760 萬元得標，並簽立土石標售契約，約定土石總數量 85 萬 9,221 立方公尺。',
+      '西瓜寮已清運 30 萬立方公尺，剩下 55 萬 9,221 立方公尺（系爭土石）卻被水利局告知暫停清運。',
+      '原來，漢臨公司主張這批土石是它的，提起返還所有物訴訟（第1381號事件），法院判命西瓜寮返還，土石最終被漢臨公司載離。',
+      '西瓜寮於是告水利局：你賣我的東西不是你的，要負債務不履行損害賠償責任！'
+    ],
+    question: '你是二審承審法官。這個案件的核心法律問題是什麼？',
+    options: [
+      { text: '水利局標售程序是否合法', correct: false, feedback: '程序合法性並非本件主爭點，標售本身有效。' },
+      { text: '水利局是否應負出賣人權利瑕疵擔保及債務不履行責任', correct: true, feedback: '正確。爭點在於出賣人（水利局）未使買受人取得所有權，是否負權利瑕疵擔保與債務不履行責任。' },
+      { text: '漢臨公司能否請求返還土石', correct: false, feedback: '那是第1381號事件已確定的問題，本件不再審理。' }
+    ]
+  },
+  {
+    id: 'procedure', type: 'story', title: '第二章・程序之門',
+    paragraphs: [
+      '水利局在二審審理中，突然提出「民事準備書（一）狀」，主張：依系爭契約所附招標須知第8條，機關因政策需要或河防安全必要時得終止契約，所以水利局要終止系爭土石標售契約。',
+      '但這個攻擊防禦方法，水利局在第一審從未提出，是二審才提的新方法。',
+      '依民事訴訟法第447條，當事人原則上不得在二審提出新攻擊或防禦方法。'
+    ],
+    question: '水利局這個「終止契約」的新主張，法院應否准許？',
+    options: [
+      { text: '准許，因為涉及河防安全公益，顯失公平', correct: false, feedback: '判決認為：水利局於原審即委任專業律師，難認不許其提出有顯失公平，且該主張與招標須知第8條並不符合。' },
+      { text: '不准，屬二審新攻擊防禦方法，且不符合例外事由', correct: true, feedback: '正確。判決依民訴法447條駁回此新攻擊防禦方法。' },
+      { text: '准許，因為契約條款本來就可以隨時主張', correct: false, feedback: '訴訟法上有失權效，不能隨時提出新方法。' }
+    ]
+  },
+  {
+    id: 'intervention', type: 'story', title: '第三章・參加效力',
+    paragraphs: [
+      '水利局抗辯：第1381號事件雖然判西瓜寮敗訴，但那是西瓜寮自己撤回上訴才確定的，水利局在該案只是「輔助參加人」，因為西瓜寮撤回上訴，害它無法在二審提出攻擊防禦方法，依民事訴訟法第63條第1項但書，水利局不受該確定判決拘束。',
+      '但卷證顯示：水利局在第一審就參加訴訟，還委任律師連續參與三次言詞辯論；判決後，水利局律師於92年4月16日領取判決書；且水利局本身依法可以「獨立為被輔助人提起上訴」，卻沒有上訴。'
+    ],
+    question: '第1381號確定判決對水利局是否生參加效力？',
+    options: [
+      { text: '不生效力，因為西瓜寮撤回上訴害水利局無法防禦', correct: false, feedback: '判決認為：參加人本可獨立提起上訴，水利局捨此不為，不得反過來主張裁判不當。' },
+      { text: '生參加效力，水利局應受第1381號判決拘束', correct: true, feedback: '正確。水利局參加時得為一切訴訟行為，且本可獨立上訴，不符合民訴法63條第1項但書例外。' },
+      { text: '僅在第一審有拘束力，第二審無效', correct: false, feedback: '參加效力及於上訴審，水利局在二審仍得續為訴訟行為。' }
+    ]
+  },
+  {
+    id: 'ownership', type: 'story', title: '第四章・所有權之辯',
+    paragraphs: [
+      '水利局又抗辯：土石已經交付給西瓜寮管領，就算土石是漢臨公司的，西瓜寮也因「善意受讓」取得所有權，水利局不負權利瑕疵擔保責任。',
+      '但第1381號確定判決已認定：系爭土石為漢臨公司所有，西瓜寮未善意受讓取得所有權。而水利局受該判決參加效力拘束，不得再主張該判決不當。',
+      '另外，第328號事件雖認定「已載運的30萬立方公尺」非漢臨公司所有，但那是不同訴訟標的（已載運 vs 未載運），不能比附援引。'
+    ],
+    question: '西瓜寮是否已取得系爭土石（55萬9221立方公尺）所有權？',
+    options: [
+      { text: '已取得，因水利局已交付且善意受讓', correct: false, feedback: '第1381號判決已認定未善意受讓，水利局受拘束。' },
+      { text: '未取得，受第1381號確定判決拘束', correct: true, feedback: '正確。西瓜寮未取得系爭土石所有權。' },
+      { text: '依第328號事件，應認已取得', correct: false, feedback: '第328號事件標的是已載運的30萬立方公尺，與本件系爭土石不同。' }
+    ]
+  },
+  {
+    id: 'warranty', type: 'story', title: '第五章・瑕疵之責',
+    paragraphs: [
+      '民法第348條：出賣人負交付其物並使買受人取得所有權之義務。',
+      '民法第353條：出賣人不履行第348條至第351條義務者，買受人得依債務不履行規定行使權利。',
+      '系爭土石經第1381號判決認定為漢臨公司所有，並經漢臨公司接管載離，西瓜寮確定無法取得所有權——這是出賣人「給付不能」。',
+      '水利局另抗辯西瓜寮撤回上訴是權利濫用、違反誠信。但判決認為西瓜寮已盡力應訴，撤回上訴是綜合考量後的結果，屬合法權利行使。'
+    ],
+    question: '水利局是否應負權利瑕疵擔保／債務不履行損害賠償責任？',
+    options: [
+      { text: '應負，因給付不能且可歸責', correct: true, feedback: '正確。水利局應依民法353、227、226條負賠償責任。' },
+      { text: '不負，因西瓜寮自己撤回上訴', correct: false, feedback: '判決認為撤回上訴不影響水利局的擔保責任，也非權利濫用。' },
+      { text: '不負，因土石已交付', correct: false, feedback: '交付不等於使買受人取得所有權，仍負瑕疵擔保責任。' }
+    ]
+  },
+  {
+    id: 'damages', type: 'calc', title: '第六章・金額之算',
+    paragraphs: [
+      '接下來要算損害賠償金額。關鍵數據：',
+      '・系爭土石數量：559,221 立方公尺',
+      '・起訴時（99年5月27日）市價：每立方公尺 275 元（水利局已自認）',
+      '・清運費：依苗栗縣政府函文，挖方 10–15 元、運費 30–40 元，取平均 47.5 元/立方公尺',
+      '依民法第216條之1「損益相抵」：西瓜寮因未清運而省下清運費，應予扣除。'
+    ],
+    question: '請計算：損害賠償金額 = 市價總額 − 清運費總額',
+    fields: [
+      { key: 'market', label: '市價總額（元）', answer: 153785775, hint: '275 × 559221' },
+      { key: 'freight', label: '清運費總額（元）', answer: 26562998, hint: '47.5 × 559221，四捨五入' },
+      { key: 'total', label: '賠償金額（元）', answer: 127222777, hint: '市價 − 清運費' }
+    ]
+  },
+  {
+    id: 'verdict', type: 'story', title: '第七章・宣判',
+    paragraphs: [
+      '本院判斷：',
+      '一、水利局新攻擊防禦方法（終止契約）不准。',
+      '二、第1381號確定判決對水利局生參加效力，水利局應受拘束。',
+      '三、西瓜寮未取得系爭土石所有權。',
+      '四、水利局應負權利瑕疵擔保及債務不履行責任。',
+      '五、賠償金額：1 億 2,722 萬 2,777 元，及自 99 年 6 月 8 日起至清償日止，按年息 5% 計算之利息。',
+      '六、訴訟費用：被上訴人負擔 83%，上訴人負擔 17%。'
+    ],
+    question: '審判完成。你的判決是？',
+    options: [
+      { text: '水利局應給付 1 億 2,722 萬 2,777 元及法定利息', correct: true, feedback: '正確，與判決主文相符。' },
+      { text: '駁回上訴', correct: false, feedback: '原審駁回，但二審廢棄改判。' },
+      { text: '水利局應給付 1 億 5,378 萬 5,775 元', correct: false, feedback: '那是未扣除清運費的市價總額。' }
+    ]
+  }
+];
+
+/* ===================== MODEL：狀態管理 ===================== */
+class GameModel {
+  constructor(scenes) {
+    this.scenes = scenes;
+    this.index = 0;
+    this.score = 0;
+    this.maxScore = scenes.length * 10;
+    this.answers = [];
+  }
+  get current() { return this.scenes[this.index]; }
+  get isLast() { return this.index === this.scenes.length - 1; }
+  get progress() { return (this.index / this.scenes.length) * 100; }
+
+  submitChoice(optionIndex) {
+    const scene = this.current;
+    const opt = scene.options[optionIndex];
+    if (opt.correct) this.score += 10;
+    this.answers.push({ scene: scene.id, correct: opt.correct, feedback: opt.feedback });
+    return opt;
+  }
+
+  submitCalc(values) {
+    const scene = this.current;
+    let allCorrect = true;
+    const results = scene.fields.map(f => {
+      const ok = Number(values[f.key]) === f.answer;
+      if (!ok) allCorrect = false;
+      return { ...f, ok, userValue: values[f.key] };
+    });
+    if (allCorrect) this.score += 10;
+    this.answers.push({
+      scene: scene.id,
+      correct: allCorrect,
+      feedback: allCorrect ? '計算正確！' : '部分計算有誤。'
+    });
+    return results;
+  }
+
+  next() { if (!this.isLast) this.index++; }
+
+  getRating() {
+    const pct = this.score / this.maxScore;
+    if (pct === 1) return { title: '明察秋毫・承審法官', desc: '你完全掌握本件爭點與法律適用，判決精準。' };
+    if (pct >= 0.7) return { title: '穩健斷案・資深法官', desc: '大部分爭點判斷正確，少數細節可再精進。' };
+    if (pct >= 0.4) return { title: '尚需磨練・學習中', desc: '掌握部分爭點，建議重讀判決理由。' };
+    return { title: '初入法門・見習生', desc: '再讀一次判決，你會發現更多細節。' };
+  }
+}
+
+/* ===================== VIEW：渲染 ===================== */
+class GameView {
+  constructor(root) { this.root = root; }
+
+  renderProgress(model) {
+    return `
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${model.progress}%"></div>
+      </div>
+      <div class="hud">
+        <span>第 ${model.index + 1} / ${model.scenes.length} 章</span>
+        <span>得分：${model.score} / ${model.maxScore}</span>
+      </div>`;
+  }
+
+  renderScene(model) {
+    const scene = model.current;
+    const body = scene.paragraphs.map(p => `<p>${p}</p>`).join('');
+    let interactive = '';
+
+    if (scene.type === 'story') {
+      interactive = `
+        <div class="question">${scene.question}</div>
+        <div class="options">
+          ${scene.options.map((o, i) =>
+            `<button class="option" data-index="${i}">${String.fromCharCode(65 + i)}. ${o.text}</button>`
+          ).join('')}
+        </div>
+        <div class="feedback" id="feedback"></div>`;
+    } else if (scene.type === 'calc') {
+      interactive = `
+        <div class="question">${scene.question}</div>
+        <div class="calc-fields">
+          ${scene.fields.map(f => `
+            <label class="calc-field">
+              <span>${f.label} <small>（提示：${f.hint}）</small></span>
+              <input type="number" data-key="${f.key}" placeholder="輸入金額">
+            </label>`).join('')}
+        </div>
+        <button class="submit-calc">送出計算</button>
+        <div class="feedback" id="feedback"></div>`;
+    }
+
+    return `
+      ${this.renderProgress(model)}
+      <div class="scene">
+        <h1 class="scene-title">${scene.title}</h1>
+        <div class="scene-body">${body}</div>
+        ${interactive}
+        <div class="next-wrap">
+          <button class="next-btn" id="nextBtn" disabled>下一章 →</button>
+        </div>
+      </div>`;
+  }
+
+  renderEnd(model) {
+    const rating = model.getRating();
+    const log = model.answers.map((a, i) =>
+      `<li class="${a.correct ? 'ok' : 'ng'}">
+        第 ${i + 1} 關：${a.correct ? '✔ 正確' : '✘ 待改進'} — ${a.feedback}
+      </li>`).join('');
+    return `
+      <div class="scene end">
+        <h1 class="scene-title">判決宣示</h1>
+        <p class="verdict-line">水利局應給付西瓜寮 <strong>1 億 2,722 萬 2,777 元</strong>，及自 99 年 6 月 8 日起至清償日止，按年息 5% 計算之利息。</p>
+        <h2>你的評價：${rating.title}</h2>
+        <p>${rating.desc}</p>
+        <p class="score-line">總得分：${model.score} / ${model.maxScore}</p>
+        <h3>審判紀錄</h3>
+        <ul class="answer-log">${log}</ul>
+        <button class="restart-btn" onclick="location.reload()">重新審判</button>
+      </div>`;
+  }
+
+  showFeedback(html, isCorrect) {
+    const el = document.getElementById('feedback');
+    if (!el) return;
+    el.innerHTML = html;
+    el.className = 'feedback ' + (isCorrect ? 'ok' : 'ng');
+    const nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) nextBtn.disabled = false;
+  }
+}
+
+/* ===================== CONTROLLER：流程控制 ===================== */
+class GameController {
+  constructor(model, view) {
+    this.model = model;
+    this.view = view;
+  }
+  start() { this.render(); }
+
+  render() {
+    if (this.model.index >= this.model.scenes.length) {
+      this.view.root.innerHTML = this.view.renderEnd(this.model);
+      return;
+    }
+    this.view.root.innerHTML = this.view.renderScene(this.model);
+    this.bind();
+  }
+
+  bind() {
+    const scene = this.model.current;
+    const nextBtn = document.getElementById('nextBtn');
+
+    if (scene.type === 'story') {
+      document.querySelectorAll('.option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.option').forEach(b => b.disabled = true);
+          const idx = Number(btn.dataset.index);
+          const opt = this.model.submitChoice(idx);
+          const feedback = `<strong>${opt.correct ? '✔ 正確' : '✘ 不正確'}</strong><br>${opt.feedback}`;
+          this.view.showFeedback(feedback, opt.correct);
+          btn.classList.add(opt.correct ? 'correct' : 'wrong');
+        });
+      });
+    } else if (scene.type === 'calc') {
+      document.querySelector('.submit-calc').addEventListener('click', () => {
+        const values = {};
+        document.querySelectorAll('.calc-field input').forEach(inp => {
+          values[inp.dataset.key] = inp.value;
+        });
+        const results = this.model.submitCalc(values);
+        const allOk = results.every(r => r.ok);
+        const html = results.map(r =>
+          `<div>${r.label}：${r.ok ? '✔ 正確' : `✘ 正確答案為 ${r.answer.toLocaleString()} 元`}</div>`
+        ).join('');
+        this.view.showFeedback(html, allOk);
+        document.querySelector('.submit-calc').disabled = true;
+      });
+    }
+
+    nextBtn.addEventListener('click', () => {
+      this.model.next();
+      this.render();
+    });
+  }
+}
+
+/* ===================== 啟動 ===================== */
+const root = document.getElementById('app');
+const model = new GameModel(SCENES);
+const view = new GameView(root);
+const controller = new GameController(model, view);
+controller.start();
+</script>
+</body>
+</html>
