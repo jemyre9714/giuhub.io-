@@ -3,685 +3,364 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>司法的重量：西瓜寮土石案</title>
+<title>西瓜寮裁判</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-/* ========== 裁判所背景 ========== */
+:root { --gold: #f0a500; --red: #ff4d6d; --green: #4caf50; --wood: #8b6f47; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
 body {
-  font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
   color: #e8e8e8; min-height: 100vh; padding: 24px;
   background-color: #1a1008;
-  background-image:
-    /* 木紋細紋 */
-    repeating-linear-gradient(90deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0) 2px, rgba(255,255,255,0.02) 3px, rgba(0,0,0,0) 5px),
-    /* 水平木紋 */
+  background-image: 
     repeating-linear-gradient(0deg, rgba(60,35,15,0.5) 0px, rgba(40,22,8,0.4) 8px, rgba(55,30,12,0.5) 16px),
-    /* 頂部暖燈光暈 */
-    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(240,165,0,0.18), transparent 70%),
-    /* 底部陰影 */
-    radial-gradient(ellipse 100% 50% at 50% 100%, rgba(0,0,0,0.6), transparent 70%),
-    /* 主木質漸層 */
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(240,165,0,0.15), transparent 70%),
     linear-gradient(180deg, #2a1a0e 0%, #1a1008 50%, #0f0805 100%);
   background-attachment: fixed;
-  position: relative;
 }
+.bg-decor { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-decor svg { position: absolute; opacity: 0.2; }
+.lamp { top: 0; left: 50%; transform: translateX(-50%); opacity: 0.5 !important; }
+.scale { bottom: 40px; right: 40px; }
+.gavel { bottom: 40px; left: 40px; }
 
-/* 背景裝飾 SVG 圖層 */
-.bg-decor {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  overflow: hidden;
-}
-.bg-decor svg { position: absolute; opacity: 0.4; }
-.decor-lamp { top: 0; left: 50%; transform: translateX(-50%); }
-.decor-scale { bottom: 40px; right: 40px; opacity: 0.15; }
-.decor-gavel { bottom: 40px; left: 40px; opacity: 0.15; }
-.decor-books-l { top: 20%; left: 0; opacity: 0.2; }
-.decor-books-r { top: 20%; right: 0; opacity: 0.2; transform: scaleX(-1); }
-
-/* ========== 主容器 ========== */
-#app { max-width: 820px; margin: 0 auto; position: relative; z-index: 1; }
-
-/* ========== 進度條 + 西瓜 ========== */
-.top-bar {
-  display: flex; align-items: center; gap: 14px; margin-bottom: 12px;
-}
-.watermelon-icon { width: 40px; height: 40px; flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+#app { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+.top-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.icon-40 { width: 40px; height: 40px; flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
 .progress-wrap { flex: 1; }
-.progress-bar {
-  height: 8px; background: #2a1a0e; border-radius: 4px; overflow: hidden;
-  border: 1px solid rgba(240,165,0,0.2);
-}
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #2d6a2d, #4caf50, #ff4d6d);
-  transition: width .4s; border-radius: 4px;
-  box-shadow: 0 0 8px rgba(255,77,109,0.5);
-}
-.hud {
-  display: flex; justify-content: space-between; font-size: 13px;
-  color: #b8a080; margin-top: 8px;
-}
-.hud .score { color: #f7c948; font-weight: 700; }
+.progress-bar { height: 8px; background: #2a1a0e; border-radius: 4px; overflow: hidden; border: 1px solid rgba(240,165,0,0.2); }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #2d6a2d, #4caf50, #ff4d6d); transition: width .4s; }
+.hud { display: flex; justify-content: space-between; font-size: 13px; color: #b8a080; margin-top: 8px; align-items: center; }
+.score { color: var(--gold); font-weight: 700; }
+.hp-heart { width: 20px; height: 20px; margin-left: 4px; transition: 0.3s; }
+.hp-heart.lost { filter: grayscale(1) brightness(0.3); }
 
-/* ========== 場景卡片（羊皮紙/木質風格） ========== */
 .scene {
-  background:
-    linear-gradient(135deg, rgba(60,40,20,0.85), rgba(35,22,12,0.9));
-  border: 2px solid #8b6f47;
-  border-radius: 16px; padding: 32px;
-  box-shadow:
-    0 0 0 1px rgba(240,165,0,0.15),
-    0 12px 48px rgba(0,0,0,0.7),
-    inset 0 1px 0 rgba(255,220,150,0.1);
-  animation: fadeIn .4s ease;
-  position: relative;
+  background: linear-gradient(135deg, rgba(60,40,20,0.85), rgba(35,22,12,0.9));
+  border: 2px solid var(--wood); border-radius: 16px; padding: 32px;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,220,150,0.1);
+  animation: fadeIn .4s ease; position: relative;
 }
-.scene::before {
-  content: '';
-  position: absolute; inset: 8px;
-  border: 1px solid rgba(240,165,0,0.15);
-  border-radius: 10px; pointer-events: none;
-}
+.scene::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(240,165,0,0.15); border-radius: 10px; pointer-events: none; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-.scene-title {
-  font-size: 22px; color: #f7c948; margin-bottom: 20px;
-  border-left: 4px solid #f0a500; padding-left: 14px;
-  display: flex; align-items: center; gap: 10px;
-  text-shadow: 0 2px 8px rgba(240,165,0,0.3);
-}
-.scene-title .watermelon-mini { width: 28px; height: 28px; flex-shrink: 0; }
+.scene-title { font-size: 22px; color: var(--gold); margin-bottom: 20px; border-left: 4px solid var(--gold); padding-left: 14px; display: flex; align-items: center; gap: 10px; text-shadow: 0 2px 8px rgba(240,165,0,0.3); }
+.icon-28 { width: 28px; height: 28px; }
+.scene-body p { line-height: 1.95; margin-bottom: 12px; color: #ddd2c0; font-size: 15px; }
 
-.scene-body p {
-  line-height: 1.95; margin-bottom: 12px; color: #ddd2c0; font-size: 15px;
+/* 身分選擇畫面 */
+.start-screen { text-align: center; padding: 40px 20px; }
+.start-title { font-size: 32px; color: var(--gold); font-weight: 900; margin-bottom: 10px; text-shadow: 0 4px 12px rgba(240,165,0,0.4); }
+.start-sub { color: #b8a080; margin-bottom: 40px; }
+.role-btn {
+  display: block; width: 100%; max-width: 400px; margin: 16px auto; padding: 20px;
+  background: rgba(255,240,220,0.05); border: 2px solid rgba(200,160,100,0.3); border-radius: 12px;
+  color: #e8dcc8; cursor: pointer; transition: .2s; font-size: 18px; font-weight: bold;
 }
+.role-btn:hover { background: rgba(240,165,0,0.15); border-color: var(--gold); transform: scale(1.02); }
+.role-btn.melon { border-color: var(--green); }
+.role-btn.melon:hover { background: rgba(76,175,80,0.15); }
+.role-btn.water { border-color: var(--red); }
+.role-btn.water:hover { background: rgba(255,77,109,0.15); }
 
-/* ========== 問題區 ========== */
-.question {
-  margin: 24px 0 16px; padding: 16px 18px;
-  background: linear-gradient(135deg, rgba(240,165,0,0.12), rgba(240,165,0,0.05));
-  border-left: 3px solid #f0a500; border-radius: 6px;
-  font-weight: 600; color: #f7c948; font-size: 15px;
-}
+.courtroom { display: flex; gap: 16px; margin: 24px 0; align-items: flex-start; }
+.avatar { width: 88px; height: 88px; flex-shrink: 0; border-radius: 12px; padding: 6px; background: rgba(60,20,30,0.8); border: 2px solid rgba(255,77,109,0.5); }
+.avatar.player { background: rgba(30,77,30,0.8); border-color: rgba(76,175,80,0.6); }
+.avatar svg { width: 100%; height: 100%; }
+.dialog { flex: 1; padding: 16px 20px; background: rgba(40,15,20,0.92); border: 2px solid rgba(255,77,109,0.4); border-radius: 12px; font-size: 15px; line-height: 1.8; color: #f0e8dd; position: relative; min-height: 72px; }
+.dialog.player { background: rgba(20,45,20,0.92); border-color: rgba(76,175,80,0.5); }
+.speaker { display: block; font-size: 12px; color: #ff8899; font-weight: 700; margin-bottom: 6px; }
+.dialog.player .speaker { color: #8fd9a8; }
 
-/* ========== 選項 ========== */
-.options { display: flex; flex-direction: column; gap: 10px; }
-.option {
-  text-align: left; padding: 15px 18px; cursor: pointer;
-  background: rgba(255,240,220,0.05); color: #e8dcc8;
-  border: 1px solid rgba(200,160,100,0.25); border-radius: 10px;
-  font-size: 14px; transition: all .2s; font-family: inherit;
-}
-.option:hover:not(:disabled) {
-  background: rgba(240,165,0,0.15); border-color: #f0a500;
-  transform: translateX(4px);
-}
-.option:disabled { cursor: default; opacity: .65; }
-.option.correct {
-  background: linear-gradient(135deg, rgba(76,175,80,0.25), rgba(76,175,80,0.1));
-  border-color: #4caf50; color: #c8f0c8;
-}
-.option.wrong {
-  background: linear-gradient(135deg, rgba(255,77,109,0.25), rgba(255,77,109,0.1));
-  border-color: #ff4d6d; color: #ffd0d8;
-}
+.challenge-box { padding: 18px; margin: 20px 0; background: rgba(240,165,0,0.1); border-left: 4px solid var(--gold); border-radius: 8px; font-size: 15px; color: var(--gold); font-weight: 600; }
+.objection-btn { display: block; margin: 20px auto; padding: 18px 48px; background: linear-gradient(135deg, #ff3050, #ff4d6d); color: #fff; border: 3px solid #fff; border-radius: 14px; font-size: 20px; font-weight: 900; cursor: pointer; box-shadow: 0 8px 24px rgba(255,48,80,0.5); transition: .15s; letter-spacing: 3px; }
+.objection-btn:hover { transform: translateY(-3px) scale(1.03); }
 
-/* ========== 計算題 ========== */
-.calc-fields { display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; }
-.calc-field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #ddd2c0; }
-.calc-field small { color: #8a7a60; }
-.calc-field input {
-  padding: 11px 14px; border-radius: 8px;
-  border: 1px solid rgba(200,160,100,0.3);
-  background: rgba(0,0,0,0.4); color: #fff; font-size: 15px;
-  font-family: inherit;
-}
-.calc-field input:focus { outline: none; border-color: #f0a500; box-shadow: 0 0 0 3px rgba(240,165,0,0.15); }
+.evidence-bag { margin-top: 20px; padding: 18px; background: rgba(25,15,10,0.95); border: 2px solid rgba(240,165,0,0.4); border-radius: 12px; animation: slideUp .3s ease; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.bag-header { font-size: 14px; color: var(--gold); font-weight: 700; margin-bottom: 14px; }
+.evidence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.evidence-card { padding: 12px 8px; text-align: center; background: rgba(255,240,220,0.05); border: 2px solid rgba(200,160,100,0.3); border-radius: 10px; cursor: pointer; transition: .15s; color: #e8dcc8; }
+.evidence-card:hover { background: rgba(240,165,0,0.18); border-color: var(--gold); transform: translateY(-3px); }
+.ev-icon { width: 44px; height: 44px; margin: 0 auto 8px; display: block; }
+.ev-name { font-size: 12px; font-weight: 700; display: block; }
+.ev-desc { font-size: 10px; color: #8a7a60; margin-top: 4px; display: block; }
 
-/* ========== 按鈕 ========== */
-.submit-calc, .next-btn, .restart-btn {
-  padding: 13px 28px; border-radius: 10px; border: none; cursor: pointer;
-  background: linear-gradient(135deg, #f0a500, #f7c948);
-  color: #1a1008; font-weight: 700; font-size: 15px;
-  transition: all .15s; font-family: inherit;
-  box-shadow: 0 4px 12px rgba(240,165,0,0.3);
-}
-.submit-calc:hover:not(:disabled), .next-btn:hover:not(:disabled), .restart-btn:hover {
-  transform: translateY(-2px); box-shadow: 0 6px 20px rgba(240,165,0,0.5);
-}
-.next-btn:disabled { opacity: .35; cursor: not-allowed; box-shadow: none; }
+.feedback { margin-top: 18px; padding: 16px 18px; border-radius: 10px; font-size: 14px; line-height: 1.8; display: flex; gap: 12px; align-items: flex-start; }
+.feedback.ok { background: rgba(76,175,80,0.2); border: 2px solid rgba(76,175,80,0.5); }
+.feedback.ng { background: rgba(255,77,109,0.2); border: 2px solid rgba(255,77,109,0.5); }
+.feedback-text strong { display: block; margin-bottom: 6px; font-size: 15px; color: var(--gold); }
 
-/* ========== 回饋 ========== */
-.feedback {
-  margin-top: 18px; padding: 16px; border-radius: 10px;
-  font-size: 14px; line-height: 1.8;
-  display: flex; gap: 12px; align-items: flex-start;
-}
-.feedback.ok {
-  background: linear-gradient(135deg, rgba(76,175,80,0.15), rgba(76,175,80,0.05));
-  border: 1px solid rgba(76,175,80,0.5);
-}
-.feedback.ng {
-  background: linear-gradient(135deg, rgba(255,77,109,0.15), rgba(255,77,109,0.05));
-  border: 1px solid rgba(255,77,109,0.5);
-}
-.feedback .melon { width: 32px; height: 32px; flex-shrink: 0; }
-.feedback-text { flex: 1; }
+.calc-field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; margin-bottom: 14px; color: #ddd2c0; }
+.calc-field input { padding: 11px 14px; border-radius: 8px; border: 1px solid rgba(200,160,100,0.3); background: rgba(0,0,0,0.4); color: #fff; font-size: 15px; }
 
-.next-wrap { text-align: right; margin-top: 24px; }
+.btn { padding: 13px 28px; border-radius: 10px; border: none; cursor: pointer; background: linear-gradient(135deg, var(--gold), #f7c948); color: #1a1008; font-weight: 700; font-size: 15px; transition: .15s; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(240,165,0,0.5); }
+.next-wrap { text-align: right; margin-top: 20px; }
 
-/* ========== 結局 ========== */
-.end .verdict-line {
-  font-size: 16px; line-height: 1.95; margin: 18px 0; padding: 18px;
-  background: linear-gradient(135deg, rgba(240,165,0,0.15), rgba(240,165,0,0.05));
-  border-radius: 10px; border: 1px solid rgba(240,165,0,0.3);
-}
-.end .verdict-line strong { color: #f7c948; }
-.end h2 { color: #f7c948; margin: 22px 0 8px; display: flex; align-items: center; gap: 10px; }
-.end h2 .watermelon-mini { width: 32px; height: 32px; }
-.score-line { font-size: 18px; color: #f0a500; margin: 14px 0; font-weight: 700; }
+.objection-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; pointer-events: none; }
+.objection-text { font-size: clamp(60px, 15vw, 140px); font-weight: 900; color: #fff; text-shadow: 6px 6px 0 #ff3050, 12px 12px 0 #1a1008; transform: rotate(-8deg); animation: boom .8s cubic-bezier(0.2, 1.4, 0.4, 1); }
+@keyframes boom { 0% { transform: rotate(-8deg) scale(0); } 50% { transform: rotate(-8deg) scale(1.5); } 100% { transform: rotate(-8deg) scale(1); } }
+
+.shake { animation: shake .5s ease; }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-12px); } 40%, 80% { transform: translateX(12px); } }
+
+.end .verdict-line { font-size: 16px; line-height: 1.95; margin: 18px 0; padding: 18px; background: rgba(240,165,0,0.15); border-radius: 10px; border: 1px solid rgba(240,165,0,0.3); }
+.end .verdict-line strong { color: var(--gold); }
+.end h2 { color: var(--gold); margin: 22px 0 8px; display: flex; align-items: center; gap: 10px; }
+.score-line { font-size: 18px; color: var(--gold); margin: 14px 0; font-weight: 700; }
 .answer-log { list-style: none; margin: 14px 0 22px; }
-.answer-log li {
-  padding: 10px 0; border-bottom: 1px solid rgba(200,160,100,0.15);
-  font-size: 13px; line-height: 1.6;
-}
-.answer-log li.ok { color: #8fd9a8; }
-.answer-log li.ng { color: #ff9caa; }
-
-/* 答對時的西瓜彈跳 */
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-.feedback.ok .melon { animation: bounce .6s ease infinite; }
+.answer-log li { padding: 10px 0; border-bottom: 1px solid rgba(200,160,100,0.15); font-size: 13px; line-height: 1.6; }
 </style>
 </head>
 <body>
 
-<!-- ========== 背景裝飾 ========== -->
 <div class="bg-decor">
-  <!-- 吊燈 -->
-  <svg class="decor-lamp" width="120" height="140" viewBox="0 0 120 140">
-    <line x1="60" y1="0" x2="60" y2="40" stroke="#5a4020" stroke-width="2"/>
-    <path d="M30 40 L90 40 L100 70 L20 70 Z" fill="#3d2810" stroke="#5a4020" stroke-width="2"/>
-    <ellipse cx="60" cy="70" rx="40" ry="6" fill="#5a4020"/>
-    <ellipse cx="60" cy="72" rx="40" ry="4" fill="#f0a500" opacity="0.6"/>
-    <circle cx="60" cy="85" r="8" fill="#f7c948" opacity="0.8"/>
-    <circle cx="60" cy="85" r="20" fill="#f7c948" opacity="0.15"/>
-  </svg>
-
-  <!-- 正義天平 -->
-  <svg class="decor-scale" width="180" height="180" viewBox="0 0 180 180">
-    <line x1="90" y1="40" x2="90" y2="150" stroke="#8b6f47" stroke-width="4"/>
-    <rect x="60" y="148" width="60" height="8" fill="#8b6f47"/>
-    <line x1="30" y1="55" x2="150" y2="55" stroke="#8b6f47" stroke-width="3"/>
-    <circle cx="90" cy="40" r="6" fill="#8b6f47"/>
-    <!-- 左盤 -->
-    <line x1="30" y1="55" x2="20" y2="90" stroke="#8b6f47" stroke-width="2"/>
-    <line x1="30" y1="55" x2="40" y2="90" stroke="#8b6f47" stroke-width="2"/>
-    <path d="M10 90 L50 90 Q45 105 30 105 Q15 105 10 90" fill="none" stroke="#8b6f47" stroke-width="2"/>
-    <!-- 右盤 -->
-    <line x1="150" y1="55" x2="140" y2="90" stroke="#8b6f47" stroke-width="2"/>
-    <line x1="150" y1="55" x2="160" y2="90" stroke="#8b6f47" stroke-width="2"/>
-    <path d="M130 90 L170 90 Q165 105 150 105 Q135 105 130 90" fill="none" stroke="#8b6f47" stroke-width="2"/>
-  </svg>
-
-  <!-- 法槌 -->
-  <svg class="decor-gavel" width="160" height="160" viewBox="0 0 160 160">
-    <rect x="30" y="50" width="80" height="30" rx="3" fill="#8b6f47" transform="rotate(-30 70 65)"/>
-    <rect x="30" y="50" width="80" height="6" fill="#a88860" transform="rotate(-30 70 65)"/>
-    <rect x="90" y="100" width="12" height="50" fill="#6b4f2f" transform="rotate(-30 96 125)"/>
-  </svg>
-
-  <!-- 左側書架 -->
-  <svg class="decor-books-l" width="100" height="200" viewBox="0 0 100 200">
-    <rect x="0" y="180" width="100" height="8" fill="#6b4f2f"/>
-    <rect x="10" y="140" width="14" height="40" fill="#8b3a3a"/>
-    <rect x="26" y="130" width="12" height="50" fill="#3a5a8b"/>
-    <rect x="40" y="145" width="16" height="35" fill="#5a8b3a"/>
-    <rect x="58" y="135" width="12" height="45" fill="#8b6f47"/>
-    <rect x="72" y="150" width="14" height="30" fill="#6b3a6b"/>
-  </svg>
-
-  <!-- 右側書架 -->
-  <svg class="decor-books-r" width="100" height="200" viewBox="0 0 100 200">
-    <rect x="0" y="180" width="100" height="8" fill="#6b4f2f"/>
-    <rect x="10" y="140" width="14" height="40" fill="#6b3a6b"/>
-    <rect x="26" y="130" width="12" height="50" fill="#8b6f47"/>
-    <rect x="40" y="145" width="16" height="35" fill="#3a5a8b"/>
-    <rect x="58" y="135" width="12" height="45" fill="#5a8b3a"/>
-    <rect x="72" y="150" width="14" height="30" fill="#8b3a3a"/>
-  </svg>
+  <svg class="lamp" width="120" height="140" viewBox="0 0 120 140"><path d="M30 40 L90 40 L100 70 L20 70 Z" fill="#3d2810"/><ellipse cx="60" cy="72" rx="40" ry="4" fill="#f0a500"/><circle cx="60" cy="85" r="20" fill="#f7c948" opacity="0.2"/></svg>
+  <svg class="scale" width="180" height="180" viewBox="0 0 180 180"><line x1="90" y1="40" x2="90" y2="150" stroke="#8b6f47" stroke-width="4"/><rect x="60" y="148" width="60" height="8" fill="#8b6f47"/><line x1="30" y1="55" x2="150" y2="55" stroke="#8b6f47" stroke-width="3"/><circle cx="90" cy="40" r="6" fill="#8b6f47"/><path d="M10 90 L50 90 Q45 105 30 105 Q15 105 10 90" fill="none" stroke="#8b6f47" stroke-width="2"/><path d="M130 90 L170 90 Q165 105 150 105 Q135 105 130 90" fill="none" stroke="#8b6f47" stroke-width="2"/></svg>
+  <svg class="gavel" width="160" height="160" viewBox="0 0 160 160"><rect x="30" y="50" width="80" height="30" rx="3" fill="#8b6f47" transform="rotate(-30 70 65)"/><rect x="90" y="100" width="12" height="50" fill="#6b4f2f" transform="rotate(-30 96 125)"/></svg>
 </div>
 
-<!-- ========== 主容器 ========== -->
 <div id="app"></div>
 
-<!-- ========== 可重用 SVG 素材庫 ========== -->
+<!-- SVG 素材庫 -->
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <!-- 像素風西瓜切片（朝下） -->
-    <symbol id="watermelon" viewBox="0 0 16 16">
-      <!-- 深綠外皮 -->
-      <rect x="4" y="0" width="8" height="1" fill="#1e4d1e"/>
-      <rect x="2" y="1" width="12" height="1" fill="#1e4d1e"/>
-      <rect x="1" y="2" width="14" height="1" fill="#1e4d1e"/>
-      <rect x="1" y="3" width="14" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="4" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="5" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="6" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="7" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="8" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="1" y="9" width="14" height="1" fill="#1e4d1e"/>
-      <rect x="1" y="10" width="14" height="1" fill="#1e4d1e"/>
-      <rect x="2" y="11" width="12" height="1" fill="#1e4d1e"/>
-      <rect x="3" y="12" width="10" height="1" fill="#1e4d1e"/>
-      <rect x="4" y="13" width="8" height="1" fill="#1e4d1e"/>
-      <rect x="5" y="14" width="6" height="1" fill="#1e4d1e"/>
-      <rect x="6" y="15" width="4" height="1" fill="#1e4d1e"/>
-      <!-- 淺綠內皮 -->
-      <rect x="5" y="1" width="6" height="1" fill="#4caf50"/>
-      <rect x="3" y="2" width="10" height="1" fill="#4caf50"/>
-      <rect x="2" y="3" width="12" height="1" fill="#4caf50"/>
-      <rect x="1" y="4" width="14" height="1" fill="#4caf50"/>
-      <rect x="1" y="5" width="14" height="1" fill="#4caf50"/>
-      <rect x="1" y="6" width="14" height="1" fill="#4caf50"/>
-      <rect x="1" y="7" width="14" height="1" fill="#4caf50"/>
-      <rect x="1" y="8" width="14" height="1" fill="#4caf50"/>
-      <rect x="2" y="9" width="12" height="1" fill="#4caf50"/>
-      <rect x="3" y="10" width="10" height="1" fill="#4caf50"/>
-      <rect x="4" y="11" width="8" height="1" fill="#4caf50"/>
-      <rect x="5" y="12" width="6" height="1" fill="#4caf50"/>
-      <rect x="6" y="13" width="4" height="1" fill="#4caf50"/>
-      <rect x="7" y="14" width="2" height="1" fill="#4caf50"/>
-      <!-- 紅色果肉 -->
-      <rect x="6" y="2" width="4" height="1" fill="#ff4d6d"/>
-      <rect x="4" y="3" width="8" height="1" fill="#ff4d6d"/>
-      <rect x="3" y="4" width="10" height="1" fill="#ff4d6d"/>
-      <rect x="3" y="5" width="10" height="1" fill="#ff4d6d"/>
-      <rect x="3" y="6" width="10" height="1" fill="#ff4d6d"/>
-      <rect x="3" y="7" width="10" height="1" fill="#ff4d6d"/>
-      <rect x="3" y="8" width="10" height="1" fill="#ff4d6d"/>
-      <rect x="4" y="9" width="8" height="1" fill="#ff4d6d"/>
-      <rect x="5" y="10" width="6" height="1" fill="#ff4d6d"/>
-      <rect x="6" y="11" width="4" height="1" fill="#ff4d6d"/>
-      <rect x="7" y="12" width="2" height="1" fill="#ff4d6d"/>
-      <!-- 黑籽 -->
-      <rect x="5" y="5" width="1" height="1" fill="#1a1008"/>
-      <rect x="9" y="4" width="1" height="1" fill="#1a1008"/>
-      <rect x="7" y="7" width="1" height="1" fill="#1a1008"/>
-      <rect x="10" y="6" width="1" height="1" fill="#1a1008"/>
-      <rect x="6" y="8" width="1" height="1" fill="#1a1008"/>
-      <rect x="8" y="9" width="1" height="1" fill="#1a1008"/>
+    <symbol id="wm" viewBox="0 0 16 16">
+      <rect x="4" y="0" width="8" height="1" fill="#1e4d1e"/><rect x="2" y="1" width="12" height="1" fill="#1e4d1e"/>
+      <rect x="1" y="2" width="14" height="1" fill="#1e4d1e"/><rect x="0" y="4" width="16" height="6" fill="#1e4d1e"/>
+      <rect x="1" y="10" width="14" height="1" fill="#1e4d1e"/><rect x="3" y="12" width="10" height="1" fill="#1e4d1e"/>
+      <rect x="5" y="14" width="6" height="1" fill="#1e4d1e"/><rect x="5" y="1" width="6" height="1" fill="#4caf50"/>
+      <rect x="3" y="2" width="10" height="1" fill="#4caf50"/><rect x="1" y="4" width="14" height="6" fill="#4caf50"/>
+      <rect x="2" y="10" width="12" height="1" fill="#4caf50"/><rect x="4" y="12" width="8" height="1" fill="#4caf50"/>
+      <rect x="6" y="2" width="4" height="1" fill="#ff4d6d"/><rect x="3" y="4" width="10" height="6" fill="#ff4d6d"/>
+      <rect x="5" y="11" width="6" height="1" fill="#ff4d6d"/><rect x="5" y="5" width="1" height="1" fill="#1a1008"/>
+      <rect x="9" y="4" width="1" height="1" fill="#1a1008"/><rect x="7" y="6" width="1" height="1" fill="#1a1008"/>
+      <rect x="10" y="7" width="1" height="1" fill="#1a1008"/><rect x="5" y="8" width="1" height="1" fill="#1a1008"/>
     </symbol>
-
-    <!-- 完整的圓形西瓜（俯視，像素風） -->
-    <symbol id="watermelon-round" viewBox="0 0 16 16">
-      <rect x="5" y="0" width="6" height="1" fill="#1e4d1e"/>
-      <rect x="3" y="1" width="10" height="1" fill="#1e4d1e"/>
-      <rect x="2" y="2" width="12" height="1" fill="#1e4d1e"/>
-      <rect x="1" y="3" width="14" height="1" fill="#1e4d1e"/>
-      <rect x="1" y="4" width="14" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="5" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="6" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="7" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="8" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="9" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="0" y="10" width="16" height="1" fill="#1e4d1e"/>
-      <rect x="1" y="11" width="14" height="1" fill="#1e4d1e"/>
-      <rect x="1" y="12" width="14" height="1" fill="#1e4d1e"/>
-      <rect x="2" y="13" width="12" height="1" fill="#1e4d1e"/>
-      <rect x="3" y="14" width="10" height="1" fill="#1e4d1e"/>
-      <rect x="5" y="15" width="6" height="1" fill="#1e4d1e"/>
-      <rect x="6" y="1" width="4" height="1" fill="#4caf50"/>
-      <rect x="4" y="2" width="8" height="1" fill="#4caf50"/>
-      <rect x="3" y="3" width="10" height="1" fill="#4caf50"/>
-      <rect x="2" y="4" width="12" height="1" fill="#4caf50"/>
-      <rect x="2" y="11" width="12" height="1" fill="#4caf50"/>
-      <rect x="3" y="12" width="10" height="1" fill="#4caf50"/>
-      <rect x="4" y="13" width="8" height="1" fill="#4caf50"/>
-      <rect x="6" y="14" width="4" height="1" fill="#4caf50"/>
-      <rect x="6" y="2" width="4" height="1" fill="#ff4d6d"/>
-      <rect x="5" y="3" width="6" height="1" fill="#ff4d6d"/>
-      <rect x="4" y="4" width="8" height="1" fill="#ff4d6d"/>
-      <rect x="3" y="5" width="10" height="1" fill="#ff4d6d"/>
-      <rect x="3" y="6" width="10" height="1" fill="#ff4d6d"/>
-      <rect x="3" y="7" width="10" height="1" fill="#ff4d6d"/>
-      <rect x="3" y="8" width="10" height="1" fill="#ff4d6d"/>
-      <rect x="3" y="9" width="10" height="1" fill="#ff4d6d"/>
-      <rect x="4" y="10" width="8" height="1" fill="#ff4d6d"/>
-      <rect x="5" y="11" width="6" height="1" fill="#ff4d6d"/>
-      <rect x="6" y="12" width="4" height="1" fill="#ff4d6d"/>
-      <rect x="5" y="5" width="1" height="1" fill="#1a1008"/>
-      <rect x="9" y="5" width="1" height="1" fill="#1a1008"/>
-      <rect x="7" y="7" width="1" height="1" fill="#1a1008"/>
-      <rect x="4" y="8" width="1" height="1" fill="#1a1008"/>
-      <rect x="10" y="8" width="1" height="1" fill="#1a1008"/>
-      <rect x="7" y="10" width="1" height="1" fill="#1a1008"/>
-      <rect x="5" y="4" width="1" height="1" fill="#1a1008"/>
-      <rect x="9" y="9" width="1" height="1" fill="#1a1008"/>
+    <symbol id="wmr" viewBox="0 0 16 16">
+      <rect x="5" y="0" width="6" height="1" fill="#1e4d1e"/><rect x="3" y="1" width="10" height="1" fill="#1e4d1e"/>
+      <rect x="1" y="3" width="14" height="10" fill="#1e4d1e"/><rect x="3" y="13" width="10" height="1" fill="#1e4d1e"/>
+      <rect x="5" y="15" width="6" height="1" fill="#1e4d1e"/><rect x="6" y="1" width="4" height="1" fill="#4caf50"/>
+      <rect x="3" y="3" width="10" height="10" fill="#4caf50"/><rect x="4" y="13" width="8" height="1" fill="#4caf50"/>
+      <rect x="5" y="2" width="6" height="1" fill="#ff4d6d"/><rect x="3" y="4" width="10" height="8" fill="#ff4d6d"/>
+      <rect x="5" y="12" width="6" height="1" fill="#ff4d6d"/><rect x="5" y="5" width="1" height="1" fill="#1a1008"/>
+      <rect x="9" y="5" width="1" height="1" fill="#1a1008"/><rect x="7" y="7" width="1" height="1" fill="#1a1008"/>
+      <rect x="4" y="8" width="1" height="1" fill="#1a1008"/><rect x="10" y="8" width="1" height="1" fill="#1a1008"/>
     </symbol>
+    <symbol id="opp" viewBox="0 0 16 16">
+      <rect x="2" y="0" width="12" height="3" fill="#4a4a4a"/><rect x="2" y="3" width="12" height="6" fill="#e8c8a8"/>
+      <rect x="3" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/><rect x="9" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/>
+      <rect x="7" y="4.8" width="2" height="0.4" fill="#1a1008"/><rect x="6" y="7.5" width="4" height="0.5" fill="#4a2a2a"/>
+      <rect x="2" y="9" width="12" height="7" fill="#2a2a3a"/><rect x="7" y="9" width="2" height="5" fill="#8b3a3a"/>
+    </symbol>
+    <symbol id="ply" viewBox="0 0 16 16">
+      <rect x="2" y="0" width="12" height="3" fill="#1e4d1e"/><rect x="2" y="3" width="12" height="6" fill="#f5d5b0"/>
+      <rect x="3" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/><rect x="9" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/>
+      <rect x="7" y="4.8" width="2" height="0.4" fill="#1a1008"/><rect x="7" y="7.5" width="2" height="0.5" fill="#8b3a3a"/>
+      <rect x="2" y="9" width="12" height="7" fill="#1a1a3a"/><rect x="7" y="9" width="2" height="5" fill="#ff4d6d"/>
+    </symbol>
+    <symbol id="i-doc" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="14" fill="#f5e6c8"/><rect x="4" y="3" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="5" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="7" width="6" height="0.6" fill="#5a4020"/></symbol>
+    <symbol id="i-book" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#8b3a3a"/><rect x="3" y="3" width="10" height="0.8" fill="#f7c948"/><rect x="3" y="12.2" width="10" height="0.8" fill="#f7c948"/><rect x="6" y="6" width="4" height="4" fill="#f7c948"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 16 16"><rect x="7.5" y="3" width="1" height="10" fill="#c8a878"/><rect x="5" y="13" width="6" height="1" fill="#c8a878"/><rect x="2" y="4" width="12" height="0.6" fill="#c8a878"/><rect x="1" y="7" width="3" height="0.6" fill="#c8a878"/><rect x="12" y="7" width="3" height="0.6" fill="#c8a878"/></symbol>
+    <symbol id="i-gavel" viewBox="0 0 16 16"><rect x="2" y="6" width="8" height="3" fill="#a87840"/><rect x="9" y="7.5" width="5" height="1" fill="#6b4f2f"/></symbol>
+    <symbol id="i-money" viewBox="0 0 16 16"><rect x="1" y="4" width="14" height="8" fill="#4c8b4c"/><circle cx="8" cy="8" r="2.2" fill="#f5e6c8"/></symbol>
+    <symbol id="h" viewBox="0 0 16 16"><rect x="2" y="3" width="2" height="1" fill="#ff3050"/><rect x="4" y="2" width="6" height="1" fill="#ff3050"/><rect x="10" y="2" width="2" height="1" fill="#ff3050"/><rect x="1" y="4" width="14" height="3" fill="#ff3050"/><rect x="2" y="7" width="12" height="3" fill="#ff3050"/><rect x="4" y="10" width="8" height="2" fill="#ff3050"/><rect x="6" y="12" width="4" height="1" fill="#ff3050"/><rect x="7" y="13" width="2" height="1" fill="#ff3050"/></symbol>
   </defs>
 </svg>
 
 <script type="module">
-/* ===================== MODEL：關卡資料 ===================== */
+const EVIDENCE = {
+  e1: { id:'e1', name:'招標須知第8條', icon:'i-book', desc:'機關終止契約條款' },
+  e2: { id:'e2', name:'準備書（一）狀', icon:'i-doc', desc:'二審才提終止主張' },
+  e3: { id:'e3', name:'參加書狀', icon:'i-gavel', desc:'水利局第一審已參加' },
+  e4: { id:'e4', name:'第1381號判決', icon:'i-scale', desc:'認定未善意受讓' },
+  e5: { id:'e5', name:'言詞辯論筆錄', icon:'i-doc', desc:'已連續參與3次' },
+  e6: { id:'e6', name:'市價自認紀錄', icon:'i-money', desc:'275元/m³' }
+};
+
 const SCENES = [
+  { type:'story', title:'第一章・開庭', paras:['臺灣高等法院臺中分院民事第四庭。','審判長：本件上訴人西瓜寮與水利局間損害賠償事件，開始言詞辯論。'], btn:'開始陳述' },
   {
-    id: 'intro', type: 'story', title: '第一章・案起',
-    paragraphs: [
-      '民國91年，經濟部水利署第三河川局公開標售大安溪河床堆置的土石堆。',
-      '西瓜寮開發股份有限公司以總價 7,760 萬元得標，並簽立土石標售契約，約定土石總數量 85 萬 9,221 立方公尺。',
-      '西瓜寮已清運 30 萬立方公尺，剩下 55 萬 9,221 立方公尺（系爭土石）卻被水利局告知暫停清運。',
-      '原來，漢臨公司主張這批土石是它的，提起返還所有物訴訟（第1381號事件），法院判命西瓜寮返還，土石最終被漢臨公司載離。',
-      '西瓜寮於是告水利局：你賣我的東西不是你的，要負債務不履行損害賠償責任！'
-    ],
-    question: '你是二審承審法官。這個案件的核心法律問題是什麼？',
-    options: [
-      { text: '水利局標售程序是否合法', correct: false, feedback: '程序合法性並非本件主爭點，標售本身有效。' },
-      { text: '水利局是否應負出賣人權利瑕疵擔保及債務不履行責任', correct: true, feedback: '正確。爭點在於出賣人（水利局）未使買受人取得所有權，是否負權利瑕疵擔保與債務不履行責任。' },
-      { text: '漢臨公司能否請求返還土石', correct: false, feedback: '那是第1381號事件已確定的問題，本件不再審理。' }
-    ]
+    type:'trial', title:'第二章・程序之門',
+    opp:'審判長，我方依招標須知第8條終止契約，屬合法行使權利。',
+    challenge:'對造突襲提出終止契約。找出證明此主張「二審才提出」的證物！',
+    ans:['e2'], success:'異議あり！本件終止主張係二審始提出，違反民訴法第447條！',
+    fbOk:'正確！水利局於108年2月19日二審才提出此主張，依民訴法447條應予駁回。',
+    fbNg:'這不能證明程序違法。要找的是「提出時間點」的證物。'
   },
   {
-    id: 'procedure', type: 'story', title: '第二章・程序之門',
-    paragraphs: [
-      '水利局在二審審理中，突然提出「民事準備書（一）狀」，主張：依系爭契約所附招標須知第8條，機關因政策需要或河防安全必要時得終止契約，所以水利局要終止系爭土石標售契約。',
-      '但這個攻擊防禦方法，水利局在第一審從未提出，是二審才提的新方法。',
-      '依民事訴訟法第447條，當事人原則上不得在二審提出新攻擊或防禦方法。'
-    ],
-    question: '水利局這個「終止契約」的新主張，法院應否准許？',
-    options: [
-      { text: '准許，因為涉及河防安全公益，顯失公平', correct: false, feedback: '判決認為：水利局於原審即委任專業律師，難認不許其提出有顯失公平，且該主張與招標須知第8條並不符合。' },
-      { text: '不准，屬二審新攻擊防禦方法，且不符合例外事由', correct: true, feedback: '正確。判決依民訴法447條駁回此新攻擊防禦方法。' },
-      { text: '准許，因為契約條款本來就可以隨時主張', correct: false, feedback: '訴訟法上有失權效，不能隨時提出新方法。' }
-    ]
+    type:'trial', title:'第三章・參加效力',
+    opp:'第1381號判決係西瓜寮撤回上訴才確定，害我方無法防禦，依民訴法63條但書不受拘束。',
+    challenge:'對造說自己沒防禦到。找出證明他們「第一審就參與」的證物！',
+    ans:['e3'], success:'異議あり！對造第一審即參加訴訟，本得獨立上訴，不得主張裁判不當！',
+    fbOk:'正確！水利局於第一審即參加訴訟，且依法可獨立上訴卻未提，應受判決拘束。',
+    fbNg:'對造說無法防禦。要找的是他們其實有參與的證據。'
   },
   {
-    id: 'intervention', type: 'story', title: '第三章・參加效力',
-    paragraphs: [
-      '水利局抗辯：第1381號事件雖然判西瓜寮敗訴，但那是西瓜寮自己撤回上訴才確定的，水利局在該案只是「輔助參加人」，因為西瓜寮撤回上訴，害它無法在二審提出攻擊防禦方法，依民事訴訟法第63條第1項但書，水利局不受該確定判決拘束。',
-      '但卷證顯示：水利局在第一審就參加訴訟，還委任律師連續參與三次言詞辯論；判決後，水利局律師於92年4月16日領取判決書；且水利局本身依法可以「獨立為被輔助人提起上訴」，卻沒有上訴。'
-    ],
-    question: '第1381號確定判決對水利局是否生參加效力？',
-    options: [
-      { text: '不生效力，因為西瓜寮撤回上訴害水利局無法防禦', correct: false, feedback: '判決認為：參加人本可獨立提起上訴，水利局捨此不為，不得反過來主張裁判不當。' },
-      { text: '生參加效力，水利局應受第1381號判決拘束', correct: true, feedback: '正確。水利局參加時得為一切訴訟行為，且本可獨立上訴，不符合民訴法63條第1項但書例外。' },
-      { text: '僅在第一審有拘束力，第二審無效', correct: false, feedback: '參加效力及於上訴審，水利局在二審仍得續為訴訟行為。' }
-    ]
+    type:'trial', title:'第四章・所有權之辯',
+    opp:'土石已交付，上訴人已善意受讓取得所有權，本件無給付不能。',
+    challenge:'對造主張善意受讓。找出已經打臉過這一點的證物！',
+    ans:['e4'], success:'異議あり！第1381號確定判決已認定未善意受讓！',
+    fbOk:'正確！第1381號判決明確認定未善意受讓，水利局受拘束。',
+    fbNg:'要找的是關於「所有權歸屬」的證據。'
   },
   {
-    id: 'ownership', type: 'story', title: '第四章・所有權之辯',
-    paragraphs: [
-      '水利局又抗辯：土石已經交付給西瓜寮管領，就算土石是漢臨公司的，西瓜寮也因「善意受讓」取得所有權，水利局不負權利瑕疵擔保責任。',
-      '但第1381號確定判決已認定：系爭土石為漢臨公司所有，西瓜寮未善意受讓取得所有權。而水利局受該判決參加效力拘束，不得再主張該判決不當。',
-      '另外，第328號事件雖認定「已載運的30萬立方公尺」非漢臨公司所有，但那是不同訴訟標的（已載運 vs 未載運），不能比附援引。'
-    ],
-    question: '西瓜寮是否已取得系爭土石（55萬9221立方公尺）所有權？',
-    options: [
-      { text: '已取得，因水利局已交付且善意受讓', correct: false, feedback: '第1381號判決已認定未善意受讓，水利局受拘束。' },
-      { text: '未取得，受第1381號確定判決拘束', correct: true, feedback: '正確。西瓜寮未取得系爭土石所有權。' },
-      { text: '依第328號事件，應認已取得', correct: false, feedback: '第328號事件標的是已載運的30萬立方公尺，與本件系爭土石不同。' }
-    ]
+    type:'trial', title:'第五章・瑕疵之責',
+    opp:'上訴人未積極應訴，惡意撤回上訴侵蝕國庫，請求屬權利濫用。',
+    challenge:'對造指控未應訴。找出證明上訴人「有在開庭」的證物！',
+    ans:['e5'], success:'異議あり！上訴人已連續參與3次言詞辯論並提抗辯！',
+    fbOk:'正確！卷證顯示上訴人已盡力應訴，撤回上訴屬合法權利行使。',
+    fbNg:'要找的是關於「法庭活動」的紀錄。'
   },
   {
-    id: 'warranty', type: 'story', title: '第五章・瑕疵之責',
-    paragraphs: [
-      '民法第348條：出賣人負交付其物並使買受人取得所有權之義務。',
-      '民法第353條：出賣人不履行第348條至第351條義務者，買受人得依債務不履行規定行使權利。',
-      '系爭土石經第1381號判決認定為漢臨公司所有，並經漢臨公司接管載離，西瓜寮確定無法取得所有權——這是出賣人「給付不能」。',
-      '水利局另抗辯西瓜寮撤回上訴是權利濫用、違反誠信。但判決認為西瓜寮已盡力應訴，撤回上訴是綜合考量後的結果，屬合法權利行使。'
-    ],
-    question: '水利局是否應負權利瑕疵擔保／債務不履行損害賠償責任？',
-    options: [
-      { text: '應負，因給付不能且可歸責', correct: true, feedback: '正確。水利局應依民法353、227、226條負賠償責任。' },
-      { text: '不負，因西瓜寮自己撤回上訴', correct: false, feedback: '判決認為撤回上訴不影響水利局的擔保責任，也非權利濫用。' },
-      { text: '不負，因土石已交付', correct: false, feedback: '交付不等於使買受人取得所有權，仍負瑕疵擔保責任。' }
-    ]
+    type:'calc', title:'第六章・金額之算',
+    q:'請計算損害賠償金額 = 市價總額 − 清運費總額',
+    fields: [ {k:'m', l:'市價總額', a:153785775, h:'275 × 559221'}, {k:'f', l:'清運費總額', a:26562998, h:'47.5 × 559221'}, {k:'t', l:'賠償金額', a:127222777, h:'市價 − 清運費'} ]
   },
-  {
-    id: 'damages', type: 'calc', title: '第六章・金額之算',
-    paragraphs: [
-      '接下來要算損害賠償金額。關鍵數據：',
-      '・系爭土石數量：559,221 立方公尺',
-      '・起訴時（99年5月27日）市價：每立方公尺 275 元（水利局已自認）',
-      '・清運費：依苗栗縣政府函文，挖方 10–15 元、運費 30–40 元，取平均 47.5 元/立方公尺',
-      '依民法第216條之1「損益相抵」：西瓜寮因未清運而省下清運費，應予扣除。'
-    ],
-    question: '請計算：損害賠償金額 = 市價總額 − 清運費總額',
-    fields: [
-      { key: 'market', label: '市價總額（元）', answer: 153785775, hint: '275 × 559221' },
-      { key: 'freight', label: '清運費總額（元）', answer: 26562998, hint: '47.5 × 559221，四捨五入' },
-      { key: 'total', label: '賠償金額（元）', answer: 127222777, hint: '市價 − 清運費' }
-    ]
-  },
-  {
-    id: 'verdict', type: 'story', title: '第七章・宣判',
-    paragraphs: [
-      '本院判斷：',
-      '一、水利局新攻擊防禦方法（終止契約）不准。',
-      '二、第1381號確定判決對水利局生參加效力，水利局應受拘束。',
-      '三、西瓜寮未取得系爭土石所有權。',
-      '四、水利局應負權利瑕疵擔保及債務不履行責任。',
-      '五、賠償金額：1 億 2,722 萬 2,777 元，及自 99 年 6 月 8 日起至清償日止，按年息 5% 計算之利息。',
-      '六、訴訟費用：被上訴人負擔 83%，上訴人負擔 17%。'
-    ],
-    question: '審判完成。你的判決是？',
-    options: [
-      { text: '水利局應給付 1 億 2,722 萬 2,777 元及法定利息', correct: true, feedback: '正確，與判決主文相符。' },
-      { text: '駁回上訴', correct: false, feedback: '原審駁回，但二審廢棄改判。' },
-      { text: '水利局應給付 1 億 5,378 萬 5,775 元', correct: false, feedback: '那是未扣除清運費的市價總額。' }
-    ]
-  }
+  { type:'end', title:'第七章・宣判' }
 ];
 
-/* ===================== 輔助：取得 SVG 圖示 ===================== */
-function melonSVG(id = 'watermelon', cls = '') {
-  return `<svg class="${cls}" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><use href="#${id}"/></svg>`;
-}
-
-/* ===================== MODEL：狀態管理 ===================== */
-class GameModel {
-  constructor(scenes) {
-    this.scenes = scenes;
-    this.index = 0;
-    this.score = 0;
-    this.maxScore = scenes.length * 10;
-    this.answers = [];
-  }
-  get current() { return this.scenes[this.index]; }
-  get isLast() { return this.index === this.scenes.length - 1; }
-  get progress() { return (this.index / this.scenes.length) * 100; }
-
-  submitChoice(optionIndex) {
-    const scene = this.current;
-    const opt = scene.options[optionIndex];
-    if (opt.correct) this.score += 10;
-    this.answers.push({ scene: scene.id, correct: opt.correct, feedback: opt.feedback });
-    return opt;
-  }
-
-  submitCalc(values) {
-    const scene = this.current;
-    let allCorrect = true;
-    const results = scene.fields.map(f => {
-      const ok = Number(values[f.key]) === f.answer;
-      if (!ok) allCorrect = false;
-      return { ...f, ok, userValue: values[f.key] };
-    });
-    if (allCorrect) this.score += 10;
-    this.answers.push({
-      scene: scene.id,
-      correct: allCorrect,
-      feedback: allCorrect ? '計算正確！' : '部分計算有誤。'
-    });
-    return results;
-  }
-
-  next() { if (!this.isLast) this.index++; }
-
-  getRating() {
-    const pct = this.score / this.maxScore;
-    if (pct === 1) return { title: '明察秋毫・承審法官', desc: '你完全掌握本件爭點與法律適用，判決精準。' };
-    if (pct >= 0.7) return { title: '穩健斷案・資深法官', desc: '大部分爭點判斷正確，少數細節可再精進。' };
-    if (pct >= 0.4) return { title: '尚需磨練・學習中', desc: '掌握部分爭點，建議重讀判決理由。' };
-    return { title: '初入法門・見習生', desc: '再讀一次判決，你會發現更多細節。' };
-  }
-}
-
-/* ===================== VIEW：渲染 ===================== */
-class GameView {
-  constructor(root) { this.root = root; }
-
-  renderTopBar(model) {
-    return `
-      <div class="top-bar">
-        ${melonSVG('watermelon', 'watermelon-icon')}
-        <div class="progress-wrap">
-          <div class="progress-bar">
-            <div class="progress-fill" style="width:${model.progress}%"></div>
-          </div>
-          <div class="hud">
-            <span>第 ${model.index + 1} / ${model.scenes.length} 章</span>
-            <span class="score">得分：${model.score} / ${model.maxScore}</span>
-          </div>
-        </div>
-      </div>`;
-  }
-
-  renderScene(model) {
-    const scene = model.current;
-    const body = scene.paragraphs.map(p => `<p>${p}</p>`).join('');
-    let interactive = '';
-
-    if (scene.type === 'story') {
-      interactive = `
-        <div class="question">${scene.question}</div>
-        <div class="options">
-          ${scene.options.map((o, i) =>
-            `<button class="option" data-index="${i}">${String.fromCharCode(65 + i)}. ${o.text}</button>`
-          ).join('')}
-        </div>
-        <div class="feedback" id="feedback"></div>`;
-    } else if (scene.type === 'calc') {
-      interactive = `
-        <div class="question">${scene.question}</div>
-        <div class="calc-fields">
-          ${scene.fields.map(f => `
-            <label class="calc-field">
-              <span>${f.label} <small>（提示：${f.hint}）</small></span>
-              <input type="number" data-key="${f.key}" placeholder="輸入金額">
-            </label>`).join('')}
-        </div>
-        <button class="submit-calc">送出計算</button>
-        <div class="feedback" id="feedback"></div>`;
+class Model {
+  constructor() { this.i=0; this.score=0; this.max=60; this.lives=3; this.bag=false; this.res=null; this.logs=[]; this.role=null; }
+  get cur() { return SCENES[this.i]; }
+  open() { this.bag=true; this.res=null; }
+  pick(id) {
+    const s=this.cur;
+    if(s.ans.includes(id)){
+      this.score+=10; this.bag=false; this.res={ok:true, fb:s.fbOk, line:s.success};
+      this.logs.push({ok:true, fb:s.fbOk});
+    } else {
+      this.lives--;
+      if(this.lives<=0){ this.bag=false; this.res={ok:false, fb:s.fbNg, rev:EVIDENCE[s.ans[0]].name}; this.logs.push({ok:false, fb:'生命耗盡'}); }
+      else { this.res={ok:false, fb:s.fbNg, retry:true}; }
     }
+    return this.res;
+  }
+  calc(vals) {
+    const s=this.cur; let allOk=true;
+    const res = s.fields.map(f=>{ const ok=Number(vals[f.k])===f.a; if(!ok)allOk=false; return {...f, ok}; });
+    if(allOk) this.score+=10;
+    this.logs.push({ok:allOk, fb:allOk?'計算正確':'計算錯誤'});
+    return {res, allOk};
+  }
+  next() { if(this.i<SCENES.length-1){ this.i++; this.lives=3; this.bag=false; this.res=null; } }
+}
 
-    return `
-      ${this.renderTopBar(model)}
-      <div class="scene">
-        <h1 class="scene-title">${melonSVG('watermelon-round', 'watermelon-mini')}${scene.title}</h1>
-        <div class="scene-body">${body}</div>
-        ${interactive}
-        <div class="next-wrap">
-          <button class="next-btn" id="nextBtn" disabled>下一章 →</button>
-        </div>
+class View {
+  constructor(r) { this.r=r; }
+  top(m) {
+    const hs=[0,1,2].map(i=>`<svg class="hp-heart ${i>=m.lives?'lost':''}" viewBox="0 0 16 16"><use href="#h"/></svg>`).join('');
+    return `<div class="top-bar"><svg class="icon-40" viewBox="0 0 16 16"><use href="#wm"/></svg>
+      <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${(m.i/SCENES.length)*100}%"></div></div>
+      <div class="hud"><span>第 ${m.i+1} 章</span><span>${hs}</span><span class="score">得分: ${m.score}</span></div></div></div>`;
+  }
+  
+  renderStart() {
+    this.r.innerHTML = `
+      <div class="scene start-screen">
+        <div class="start-title">司法的重量：西瓜寮土石案</div>
+        <div class="start-sub">請選擇你的身分，進入法庭辯論</div>
+        <button class="role-btn melon" onclick="window.selectRole('melon')">🟩 我是西瓜寮訴訟代理人<br><small style="font-size:13px;color:#aaa;">(目標：找出破綻，贏得賠償)</small></button>
+        <button class="role-btn water" onclick="window.selectRole('water')">🟥 我是水利局訴訟代理人<br><small style="font-size:13px;color:#aaa;">(目標：模擬防守，理解法官邏輯)</small></button>
       </div>`;
   }
 
-  renderEnd(model) {
-    const rating = model.getRating();
-    const log = model.answers.map((a, i) =>
-      `<li class="${a.correct ? 'ok' : 'ng'}">
-        第 ${i + 1} 關：${a.correct ? '✔ 正確' : '✘ 待改進'} — ${a.feedback}
-      </li>`).join('');
-    return `
-      <div class="scene end">
-        <h1 class="scene-title">${melonSVG('watermelon-round', 'watermelon-mini')}判決宣示</h1>
-        <p class="verdict-line">水利局應給付西瓜寮 <strong>1 億 2,722 萬 2,777 元</strong>，及自 99 年 6 月 8 日起至清償日止，按年息 5% 計算之利息。</p>
-        <h2>${melonSVG('watermelon', 'watermelon-mini')}你的評價：${rating.title}</h2>
-        <p>${rating.desc}</p>
-        <p class="score-line">總得分：${model.score} / ${model.maxScore}</p>
-        <h3>審判紀錄</h3>
-        <ul class="answer-log">${log}</ul>
-        <button class="restart-btn" onclick="location.reload()">重新審判</button>
-      </div>`;
-  }
+  render(m) {
+    if(!m.role) { this.renderStart(); return; }
+    const s=m.cur; let h=this.top(m);
+    
+    // 根據身分設定角色名字與頭像
+    const isMelon = m.role === 'melon';
+    const pName = isMelon ? '西瓜寮代理人' : '水利局代理人';
+    const oName = isMelon ? '水利局代理人' : '西瓜寮代理人';
+    const pIcon = isMelon ? 'ply' : 'opp';
+    const oIcon = isMelon ? 'opp' : 'ply';
 
-  showFeedback(html, isCorrect) {
-    const el = document.getElementById('feedback');
-    if (!el) return;
-    el.innerHTML = `
-      ${melonSVG(isCorrect ? 'watermelon' : 'watermelon-round', 'melon')}
-      <div class="feedback-text">${html}</div>`;
-    el.className = 'feedback ' + (isCorrect ? 'ok' : 'ng');
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) nextBtn.disabled = false;
+    if(s.type==='end'){
+      h+=`<div class="scene end"><h1 class="scene-title"><svg class="icon-28" viewBox="0 0 16 16"><use href="#wmr"/></svg>判決宣示</h1>
+        <p class="verdict-line">水利局應給付西瓜寮 <strong>1 億 2,722 萬 2,777 元</strong>及法定利息。</p>
+        <h2>總得分：${m.score} / ${m.max}</h2>
+        <ul class="answer-log">${m.logs.map(l=>`<li class="${l.ok?'ok':'ng'}">${l.ok?'✔':'✘'} ${l.fb}</li>`).join('')}</ul>
+        <button class="btn" onclick="location.reload()">重新審判</button></div>`;
+      this.r.innerHTML=h; return;
+    }
+    
+    h+=`<div class="scene"><h1 class="scene-title"><svg class="icon-28" viewBox="0 0 16 16"><use href="#wmr"/></svg>${s.title}</h1>`;
+    if(s.type==='story'){
+      h+=`<div class="scene-body">${s.paras.map(p=>`<p>${p}</p>`).join('')}</div><div class="next-wrap"><button class="btn" id="btnNext">${s.btn}</button></div>`;
+    } else if(s.type==='trial'){
+      if(!m.res||!m.res.ok) h+=`<div class="courtroom"><div class="avatar"><svg viewBox="0 0 16 16"><use href="#${oIcon}"/></svg></div><div class="dialog"><span class="speaker">${oName}</span>${s.opp}</div></div>`;
+      else h+=`<div class="courtroom"><div class="avatar player"><svg viewBox="0 0 16 16"><use href="#${pIcon}"/></svg></div><div class="dialog player"><span class="speaker">${pName}</span>${m.res.line}</div></div>`;
+      
+      if(!m.res&&!m.bag) h+=`<div class="challenge-box">💭 ${s.challenge}</div><button class="objection-btn" id="btnObj">異議あり！</button>`;
+      if(m.bag){
+        h+=`<div class="evidence-bag"><div class="bag-header">📁 法庭紀錄 — 選擇證物</div><div class="evidence-grid">`;
+        Object.values(EVIDENCE).forEach(e=>{ h+=`<button class="evidence-card" data-id="${e.id}"><svg class="ev-icon" viewBox="0 0 16 16"><use href="#${e.icon}"/></svg><span class="ev-name">${e.name}</span><span class="ev-desc">${e.desc}</span></button>`; });
+        h+=`</div></div>`;
+      }
+      if(m.res){
+        h+=`<div class="feedback ${m.res.ok?'ok':'ng'}"><div class="feedback-text"><strong>${m.res.ok?'✔ 反駁成功！':(m.res.rev?'✘ 生命耗盡！正確解答為「'+m.res.rev+'」':'✘ 無法推翻對造！')}</strong>${m.res.fb}</div></div>`;
+        if(m.res.ok||m.res.rev) h+=`<div class="next-wrap"><button class="btn" id="btnNext">下一章 →</button></div>`;
+      }
+    } else if(s.type==='calc'){
+      h+=`<div class="scene-body"><p>${s.q}</p></div>`;
+      if(!m.res){
+        s.fields.forEach(f=>{ h+=`<div class="calc-field"><span>${f.l} (${f.h})</span><input type="number" data-k="${f.k}"></div>`; });
+        h+=`<button class="btn" id="btnCalc">送出計算</button>`;
+      } else {
+        h+=`<div class="feedback ${m.res.allOk?'ok':'ng'}"><div class="feedback-text">`;
+        m.res.res.forEach(r=>{ h+=`<div>${r.l}：${r.ok?'✔':'✘ 正確為 '+r.a}</div>`; });
+        h+=`</div></div><div class="next-wrap"><button class="btn" id="btnNext">下一章 →</button></div>`;
+      }
+    }
+    h+=`</div>`; this.r.innerHTML=h;
   }
 }
 
-/* ===================== CONTROLLER：流程控制 ===================== */
-class GameController {
-  constructor(model, view) {
-    this.model = model;
-    this.view = view;
-  }
-  start() { this.render(); }
-
-  render() {
-    if (this.model.index >= this.model.scenes.length) {
-      this.view.root.innerHTML = this.view.renderEnd(this.model);
-      return;
-    }
-    this.view.root.innerHTML = this.view.renderScene(this.model);
-    this.bind();
-  }
-
+class Ctrl {
+  constructor(m, v) { this.m=m; this.v=v; }
+  start() { this.v.render(this.m); this.bind(); }
   bind() {
-    const scene = this.model.current;
-    const nextBtn = document.getElementById('nextBtn');
-
-    if (scene.type === 'story') {
-      document.querySelectorAll('.option').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.option').forEach(b => b.disabled = true);
-          const idx = Number(btn.dataset.index);
-          const opt = this.model.submitChoice(idx);
-          const feedback = `<strong>${opt.correct ? '✔ 正確' : '✘ 不正確'}</strong><br>${opt.feedback}`;
-          this.view.showFeedback(feedback, opt.correct);
-          btn.classList.add(opt.correct ? 'correct' : 'wrong');
-        });
-      });
-    } else if (scene.type === 'calc') {
-      document.querySelector('.submit-calc').addEventListener('click', () => {
-        const values = {};
-        document.querySelectorAll('.calc-field input').forEach(inp => {
-          values[inp.dataset.key] = inp.value;
-        });
-        const results = this.model.submitCalc(values);
-        const allOk = results.every(r => r.ok);
-        const html = results.map(r =>
-          `<div>${r.label}：${r.ok ? '✔ 正確' : `✘ 正確答案為 ${r.answer.toLocaleString()} 元`}</div>`
-        ).join('');
-        this.view.showFeedback(html, allOk);
-        document.querySelector('.submit-calc').disabled = true;
-      });
-    }
-
-    nextBtn.addEventListener('click', () => {
-      this.model.next();
-      this.render();
+    const m=this.m, s=m.cur;
+    const nBtn=document.getElementById('btnNext');
+    if(nBtn) nBtn.onclick=()=>{ m.next(); this.start(); };
+    const oBtn=document.getElementById('btnObj');
+    if(oBtn) oBtn.onclick=()=>{ m.open(); this.start(); };
+    
+    document.querySelectorAll('.evidence-card').forEach(c=>{
+      c.onclick=()=>{
+        const r=m.pick(c.dataset.id);
+        if(r.ok) this.objAnim();
+        else if(r.retry) this.shake();
+        this.start();
+      };
     });
+
+    const cBtn=document.getElementById('btnCalc');
+    if(cBtn) cBtn.onclick=()=>{
+      const vals={}; document.querySelectorAll('input').forEach(i=>vals[i.dataset.k]=i.value);
+      m.res=m.calc(vals); this.start();
+    };
+  }
+  objAnim() {
+    const ov=document.createElement('div'); ov.className='objection-overlay';
+    ov.innerHTML='<div class="objection-text">異議あり！</div>';
+    document.body.appendChild(ov); setTimeout(()=>ov.remove(), 1500);
+  }
+  shake() {
+    const a=document.getElementById('app'); a.classList.add('shake');
+    setTimeout(()=>a.classList.remove('shake'), 500);
   }
 }
 
-/* ===================== 啟動 ===================== */
-const root = document.getElementById('app');
-const model = new GameModel(SCENES);
-const view = new GameView(root);
-const controller = new GameController(model, view);
-controller.start();
+const app = new Ctrl(new Model(), new View(document.getElementById('app')));
+
+// 綁定身分選擇的全域函數
+window.selectRole = (role) => {
+  app.m.role = role;
+  app.start();
+};
+
+app.start();
 </script>
 </body>
 </html>
