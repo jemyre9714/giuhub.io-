@@ -91,13 +91,11 @@ body {
 .feedback.ng { background: rgba(255,77,109,0.2); border: 2px solid rgba(255,77,109,0.5); }
 .feedback-text strong { display: block; margin-bottom: 6px; font-size: 15px; color: var(--gold); }
 
-/* 計算題與計算機 UI */
 .calc-container { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
 .calc-inputs { flex: 1; min-width: 280px; }
 .calc-field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; margin-bottom: 14px; color: #ddd2c0; }
 .calc-field input { padding: 11px 14px; border-radius: 8px; border: 1px solid rgba(200,160,100,0.3); background: rgba(0,0,0,0.4); color: #fff; font-size: 16px; }
 
-/* 實體計算機 */
 .calculator { width: 280px; background: #2a2a2a; border-radius: 12px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.1); border: 2px solid #444; }
 .calc-display { background: #8a9a7a; color: #1a1a1a; font-family: "Courier New", monospace; font-size: 24px; text-align: right; padding: 12px; border-radius: 6px; margin-bottom: 16px; min-height: 55px; word-break: break-all; box-shadow: inset 0 2px 6px rgba(0,0,0,0.5); border: 2px solid #555; }
 .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -180,21 +178,14 @@ body {
       <rect x="2" y="9" width="12" height="7" fill="#1a1a3a"/><rect x="7" y="9" width="2" height="5" fill="#ff4d6d"/>
     </symbol>
     <symbol id="judge" viewBox="0 0 16 16">
-      <!-- 法官帽/假髮 -->
       <rect x="3" y="0" width="10" height="1" fill="#eeeeee"/><rect x="2" y="1" width="12" height="2" fill="#eeeeee"/>
       <rect x="1" y="3" width="2" height="2" fill="#eeeeee"/><rect x="13" y="3" width="2" height="2" fill="#eeeeee"/>
-      <!-- 臉部 -->
       <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
-      <!-- 眼睛 -->
       <rect x="4" y="5" width="2" height="1" fill="#1a1008"/><rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
-      <!-- 嘴巴 -->
       <rect x="7" y="7" width="2" height="1" fill="#8b3a3a"/>
-      <!-- 法袍 -->
       <rect x="1" y="9" width="14" height="7" fill="#1a1a1a"/>
       <rect x="4" y="9" width="8" height="7" fill="#2a2a2a"/>
-      <!-- 紅色領口 -->
       <rect x="7" y="9" width="2" height="3" fill="#8b3a3a"/>
-      <!-- 法槌 -->
       <rect x="2" y="11" width="4" height="2" fill="#a87840"/>
       <rect x="4" y="11" width="1" height="4" fill="#6b4f2f"/>
     </symbol>
@@ -209,65 +200,104 @@ body {
 
 <script type="module">
 const EVIDENCE = {
-  e1: { id:'e1', name:'招標須知第8條', icon:'i-book', desc:'機關終止契約條款' },
-  e2: { id:'e2', name:'準備書（一）狀', icon:'i-doc', desc:'二審才提終止主張' },
-  e3: { id:'e3', name:'參加書狀', icon:'i-gavel', desc:'水利局第一審已參加' },
-  e4: { id:'e4', name:'第1381號判決', icon:'i-scale', desc:'認定未善意受讓' },
-  e5: { id:'e5', name:'言詞辯論筆錄', icon:'i-doc', desc:'已連續參與3次' },
-  e6: { id:'e6', name:'市價自認紀錄', icon:'i-money', desc:'275元/m³' }
+  e1: { id:'e1', name:'準備書(一)狀', icon:'i-doc', desc:'二審才提終止主張' },
+  e2: { id:'e2', name:'參加書狀', icon:'i-gavel', desc:'水利局一審即參加' },
+  e3: { id:'e3', name:'第1381號判決', icon:'i-scale', desc:'認定未善意受讓' },
+  e4: { id:'e4', name:'言詞辯論筆錄', icon:'i-doc', desc:'已參與3次開庭' },
+  e5: { id:'e5', name:'招標須知第8條', icon:'i-book', desc:'機關得終止契約條款' },
+  e6: { id:'e6', name:'撤回上訴狀', icon:'i-doc', desc:'上訴人自行撤回' },
+  e7: { id:'e7', name:'土石點交證明', icon:'i-money', desc:'92年已點交管領' },
+  e8: { id:'e8', name:'權利濫用主張', icon:'i-book', desc:'主張對方侵蝕國庫' }
 };
 
-const SCENES = [
+// 西瓜寮視角（攻擊方）
+const SCENES_MELON = [
   { type:'story', title:'第一章・開庭', 
-    paras:[
-      '臺灣高等法院臺中分院民事第四庭。',
-      '審判長：本件上訴人西瓜寮與水利局間損害賠償事件，現在開始言詞辯論。',
-      '審判長：請兩造代理人就爭點進行陳述。'
-    ], btn:'開始陳述' 
+    paras:['臺灣高等法院臺中分院民事第四庭。','審判長：本件上訴人西瓜寮與水利局間損害賠償事件，現在開始言詞辯論。','審判長：請上訴人代理人就爭點進行陳述。'], btn:'開始陳述' 
   },
   {
-    type:'trial', title:'第二章・程序之門',
+    type:'trial', title:'第二章・突襲',
     opp:'審判長，我方依招標須知第8條終止契約，屬合法行使權利。',
     challenge:'對造突襲提出終止契約。請翻找證物，證明此主張「二審才提出」！',
-    ans:['e2'], success:'異議あり！本件終止主張係二審始提出，違反民訴法第447條！',
+    ans:['e1'], success:'異議あり！本件終止主張係二審始提出，違反民訴法第447條！',
     fbOk:'正確！水利局於108年2月19日二審才提出此主張，依民訴法447條應予駁回。',
     fbNg:'這不能證明程序違法。要找的是「提出時間點」的證物。'
   },
   {
-    type:'trial', title:'第三章・參加效力',
+    type:'trial', title:'第三章・效力',
     opp:'第1381號判決係西瓜寮撤回上訴才確定，害我方無法防禦，依民訴法63條但書不受拘束。',
     challenge:'對造說自己沒防禦到。找證據證明他們「第一審就參與」了！',
-    ans:['e3'], success:'異議あり！對造第一審即參加訴訟，本得獨立上訴，不得主張裁判不當！',
+    ans:['e2'], success:'異議あり！對造第一審即參加訴訟，本得獨立上訴，不得主張裁判不當！',
     fbOk:'正確！水利局於第一審即參加訴訟，且依法可獨立上訴卻未提，應受判決拘束。',
     fbNg:'對造說無法防禦。要找的是他們其實有參與的證據。'
   },
   {
-    type:'trial', title:'第四章・所有權之辯',
+    type:'trial', title:'第四章・所有權',
     opp:'土石已交付，上訴人已善意受讓取得所有權，本件無給付不能。',
     challenge:'對造主張善意受讓。找出已經在另案打臉過這一點的證物！',
-    ans:['e4'], success:'異議あり！第1381號確定判決已認定未善意受讓！',
+    ans:['e3'], success:'異議あり！第1381號確定判決已認定未善意受讓！',
     fbOk:'正確！第1381號判決明確認定未善意受讓，水利局受拘束。',
     fbNg:'要找的是關於「所有權歸屬」的證據。'
   },
   {
-    type:'trial', title:'第五章・瑕疵之責',
+    type:'trial', title:'第五章・惡意',
     opp:'上訴人未積極應訴，惡意撤回上訴侵蝕國庫，請求屬權利濫用。',
     challenge:'對造指控未應訴。找出證明上訴人「有在開庭」的證物！',
-    ans:['e5'], success:'異議あり！上訴人已連續參與3次言詞辯論並提抗辯！',
+    ans:['e4'], success:'異議あり！上訴人已連續參與3次言詞辯論並提抗辯！',
     fbOk:'正確！卷證顯示上訴人已盡力應訴，撤回上訴屬合法權利行使。',
     fbNg:'要找的是關於「法庭活動」的紀錄。'
-  },
-  {
-    type:'calc', title:'第六章・金額之算',
-    q:'請利用右側計算機算出金額，並填入下方空格。\n(提示：市價總額 = 275 × 559221；清運費總額 = 47.5 × 559221，四捨五入)',
-    fields: [ {k:'m', l:'市價總額', a:153785775}, {k:'f', l:'清運費總額', a:26562998}, {k:'t', l:'賠償金額', a:127222777} ]
-  },
-  { type:'end', title:'第七章・宣判' }
+  }
 ];
 
+// 水利局視角（防守方，體驗歷史上的節節敗退）
+const SCENES_WATER = [
+  { type:'story', title:'第一章・開庭', 
+    paras:['臺灣高等法院臺中分院民事第四庭。','審判長：本件上訴人西瓜寮與水利局間損害賠償事件，現在開始言詞辯論。','審判長：請被上訴人代理人就爭點進行陳述。'], btn:'開始陳述' 
+  },
+  {
+    type:'trial', title:'第二章・突襲',
+    opp:'審判長，對造於二審始提出「終止契約」之主張，屬新攻擊方法，應予駁回！',
+    challenge:'對造指控你突襲。請拿出契約證據，主張你有權終止！',
+    ans:['e5'], success:'審判長，我方依招標須知第8條行使終止權，事關河防安全，顯非無憑！',
+    fbOk:'你提出了招標須知。但法官認為：該主張與原條款不符，且原審已委任律師，難認顯失公平，仍予駁回。',
+    fbNg:'這不是證明你有權終止的證據。請找契約條款。'
+  },
+  {
+    type:'trial', title:'第三章・效力',
+    opp:'你水利局在第一審就參加訴訟了，依法可以獨立上訴，憑什麼說不受拘束？',
+    challenge:'對造指控你本可上訴。拿出證據主張「是他們撤回害你的」！',
+    ans:['e6'], success:'審判長，是對造自行撤回上訴，導致我方無法於二審續為訴訟行為，符合民訴法63條但書！',
+    fbOk:'你提出了撤回狀。但法官認為：參加人本得獨立上訴，你捨此不為，仍應受1381判決拘束。',
+    fbNg:'要找的是關於「對方撤回」的證明。'
+  },
+  {
+    type:'trial', title:'第四章・所有權',
+    opp:'土石被漢臨公司拿走，我們根本沒拿到所有權，你們賣的東西有瑕疵！',
+    challenge:'對造主張沒拿到土石。拿出你們已經「交付」的證明！',
+    ans:['e7'], success:'審判長，系爭土石於92年10月1日已由苗栗地院點交予對造接管，對造已取得管領力！',
+    fbOk:'你提出了點交證明。但法官認為：依1381判決，對造未善意受讓，交付不等於取得所有權，仍屬給付不能。',
+    fbNg:'要找的是證明「已經把東西交給對方」的文件。'
+  },
+  {
+    type:'trial', title:'第五章・責任',
+    opp:'你們賣的土石有瑕疵，就應該依民法353條賠償我們的損失！',
+    challenge:'對造要求賠償。試圖主張對造「權利濫用」來減輕責任！',
+    ans:['e8'], success:'審判長，對造於前案未盡力防禦，現反將責任推給國庫，顯屬權利濫用！',
+    fbOk:'你提出了權利濫用主張。但法官認為：對造已盡力應訴，撤回上訴屬正當權利行使，不構成濫用。',
+    fbNg:'要找的是關於「對造行為不當」的論述。'
+  }
+];
+
+const SCENE_CALC = {
+  type:'calc', title:'第六章・金額之算',
+  q:'請利用右側計算機算出金額，並填入下方空格。\n(提示：市價總額 = 275 × 559221；清運費總額 = 47.5 × 559221，四捨五入)',
+  fields: [ {k:'m', l:'市價總額', a:153785775}, {k:'f', l:'清運費總額', a:26562998}, {k:'t', l:'賠償金額', a:127222777} ]
+};
+const SCENE_END = { type:'end', title:'第七章・宣判' };
+
 class Model {
-  constructor() { this.i=0; this.score=0; this.max=60; this.lives=3; this.bag=false; this.res=null; this.logs=[]; this.role=null; }
-  get cur() { return SCENES[this.i]; }
+  constructor() { this.i=0; this.score=0; this.max=60; this.lives=3; this.bag=false; this.res=null; this.logs=[]; this.role=null; this.scenes=[]; }
+  get cur() { return this.scenes[this.i]; }
   open() { this.bag=true; this.res=null; }
   pick(id) {
     const s=this.cur;
@@ -288,7 +318,7 @@ class Model {
     this.logs.push({ok:allOk, fb:allOk?'計算正確':'計算錯誤'});
     return {res, allOk};
   }
-  next() { if(this.i<SCENES.length-1){ this.i++; this.lives=3; this.bag=false; this.res=null; } }
+  next() { if(this.i<this.scenes.length-1){ this.i++; this.lives=3; this.bag=false; this.res=null; } }
 }
 
 class View {
@@ -296,7 +326,7 @@ class View {
   top(m) {
     const hs=[0,1,2].map(i=>`<svg class="hp-heart ${i>=m.lives?'lost':''}" viewBox="0 0 16 16"><use href="#h"/></svg>`).join('');
     return `<div class="top-bar"><svg class="icon-40" viewBox="0 0 16 16"><use href="#wm"/></svg>
-      <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${(m.i/SCENES.length)*100}%"></div></div>
+      <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${(m.i/m.scenes.length)*100}%"></div></div>
       <div class="hud"><span>第 ${m.i+1} 章</span><span>${hs}</span><span class="score">得分: ${m.score}</span></div></div></div>`;
   }
   
@@ -304,17 +334,17 @@ class View {
     this.r.innerHTML = `
       <div class="scene start-screen">
         <div class="start-title">司法的重量：西瓜寮土石案</div>
-        <div class="start-sub">請選擇你的法庭身分，開始這場證據對決</div>
+        <div class="start-sub">請選擇你的法庭身分，體驗不同陣營的攻防視角</div>
         <div class="roles-container">
           <div class="role-card melon" onclick="window.selectRole('melon')">
             <svg class="role-icon" viewBox="0 0 16 16"><use href="#ply"/></svg>
-            <h3>西瓜寮訴訟代理人</h3>
-            <p>目標：找出破綻，用證據逆轉戰局，為當事人贏得賠償</p>
+            <h3>西瓜寮訴訟代理人 (原告)</h3>
+            <p>目標：攻擊水利局的抗辯，用證據逆轉戰局，為當事人贏得1.2億賠償</p>
           </div>
           <div class="role-card water" onclick="window.selectRole('water')">
             <svg class="role-icon" viewBox="0 0 16 16"><use href="#opp"/></svg>
-            <h3>水利局訴訟代理人</h3>
-            <p>目標：模擬防守，理解法官邏輯，看看對造如何擊潰你</p>
+            <h3>水利局訴訟代理人 (被告)</h3>
+            <p>目標：防守西瓜寮的指控，拿出契約與程序證據，力挽狂瀾保護國庫</p>
           </div>
         </div>
       </div>`;
@@ -372,7 +402,7 @@ class View {
       }
       
       if(m.res){
-        h+=`<div class="feedback ${m.res.ok?'ok':'ng'}"><div class="feedback-text"><strong>${m.res.ok?'✔ 反駁成功！':(m.res.rev?'✘ 生命耗盡！正確解答為「'+m.res.rev+'」':'✘ 無法推翻對造！')}</strong>${m.res.fb}</div></div>`;
+        h+=`<div class="feedback ${m.res.ok?'ok':'ng'}"><div class="feedback-text"><strong>${m.res.ok?'✔ 提出成功！':(m.res.rev?'✘ 生命耗盡！正確解答為「'+m.res.rev+'」':'✘ 無法說服法官！')}</strong>${m.res.fb}</div></div>`;
         if(m.res.ok||m.res.rev) {
           h+=`<div class="next-wrap"><button class="btn" id="btnNext">下一章 →</button></div>`;
         } else if (m.res.retry) {
@@ -393,7 +423,6 @@ class View {
       }
       h+=`</div>`;
       
-      // 計算機 UI
       if(!m.res) {
         h+=`
           <div class="calculator">
@@ -452,7 +481,6 @@ class Ctrl {
       };
     });
 
-    // 計算機事件綁定
     const display = document.getElementById('calcDisplay');
     if (display) {
       display.innerText = this.calcStr;
@@ -463,10 +491,9 @@ class Ctrl {
             this.calcStr = '0';
           } else if (val === '=') {
             try {
-              // 簡易安全運算
               let evalStr = this.calcStr.replace(/×/g, '*').replace(/÷/g, '/');
               let ans = eval(evalStr);
-              this.calcStr = String(Math.round(ans * 100000) / 100000); // 避免浮點數誤差
+              this.calcStr = String(Math.round(ans * 100000) / 100000);
             } catch { this.calcStr = 'Error'; }
           } else {
             if (this.calcStr === '0' || this.calcStr === 'Error') this.calcStr = val;
@@ -477,7 +504,6 @@ class Ctrl {
       });
     }
 
-    // 送出計算
     const cBtn=document.getElementById('btnCalc');
     if(cBtn) cBtn.onclick=()=>{
       const vals={}; 
@@ -504,6 +530,7 @@ const app = new Ctrl(new Model(), new View(document.getElementById('app')));
 
 window.selectRole = (role) => {
   app.m.role = role;
+  app.m.scenes = (role === 'melon') ? [...SCENES_MELON, SCENE_CALC, SCENE_END] : [...SCENES_WATER, SCENE_CALC, SCENE_END];
   app.start();
 };
 
