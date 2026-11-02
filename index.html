@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>西瓜寮裁判</title>
+<title>司法的重量：西瓜寮土石案</title>
 <style>
-:root { --gold: #f0a500; --red: #ff4d6d; --green: #4caf50; --wood: #8b6f47; }
+:root { --gold: #f0a500; --red: #ff4d6d; --green: #4caf50; --wood: #8b6f47; --bg: #120a06; }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
 body {
   color: #e8e8e8; min-height: 100vh; padding: 24px;
-  background-color: #1a1008;
+  background-color: var(--bg);
   background-image: 
-    repeating-linear-gradient(0deg, rgba(60,35,15,0.5) 0px, rgba(40,22,8,0.4) 8px, rgba(55,30,12,0.5) 16px),
-    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(240,165,0,0.15), transparent 70%),
-    linear-gradient(180deg, #2a1a0e 0%, #1a1008 50%, #0f0805 100%);
+    radial-gradient(circle at 50% 0%, rgba(139, 58, 58, 0.3) 0%, transparent 60%),
+    repeating-linear-gradient(0deg, rgba(30,15,8,0.8) 0px, rgba(20,10,5,0.8) 10px, rgba(25,12,6,0.8) 20px);
   background-attachment: fixed;
 }
 .bg-decor { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-.bg-decor svg { position: absolute; opacity: 0.2; }
-.lamp { top: 0; left: 50%; transform: translateX(-50%); opacity: 0.5 !important; }
+.bg-decor svg { position: absolute; opacity: 0.15; }
+.lamp { top: 0; left: 50%; transform: translateX(-50%); opacity: 0.4 !important; }
 .scale { bottom: 40px; right: 40px; }
 .gavel { bottom: 40px; left: 40px; }
+.emblem { top: 40px; right: 40px; width: 120px; }
 
 #app { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
 .top-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
@@ -34,9 +34,9 @@ body {
 .hp-heart.lost { filter: grayscale(1) brightness(0.3); }
 
 .scene {
-  background: linear-gradient(135deg, rgba(60,40,20,0.85), rgba(35,22,12,0.9));
+  background: linear-gradient(135deg, rgba(50,30,15,0.9), rgba(25,15,8,0.95));
   border: 2px solid var(--wood); border-radius: 16px; padding: 32px;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,220,150,0.1);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,220,150,0.1);
   animation: fadeIn .4s ease; position: relative;
 }
 .scene::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(240,165,0,0.15); border-radius: 10px; pointer-events: none; }
@@ -46,35 +46,37 @@ body {
 .icon-28 { width: 28px; height: 28px; }
 .scene-body p { line-height: 1.95; margin-bottom: 12px; color: #ddd2c0; font-size: 15px; }
 
-/* 身分選擇畫面 */
-.start-screen { text-align: center; padding: 40px 20px; }
+.start-screen { text-align: center; padding: 20px 0; }
 .start-title { font-size: 32px; color: var(--gold); font-weight: 900; margin-bottom: 10px; text-shadow: 0 4px 12px rgba(240,165,0,0.4); }
-.start-sub { color: #b8a080; margin-bottom: 40px; }
-.role-btn {
-  display: block; width: 100%; max-width: 400px; margin: 16px auto; padding: 20px;
-  background: rgba(255,240,220,0.05); border: 2px solid rgba(200,160,100,0.3); border-radius: 12px;
-  color: #e8dcc8; cursor: pointer; transition: .2s; font-size: 18px; font-weight: bold;
-}
-.role-btn:hover { background: rgba(240,165,0,0.15); border-color: var(--gold); transform: scale(1.02); }
-.role-btn.melon { border-color: var(--green); }
-.role-btn.melon:hover { background: rgba(76,175,80,0.15); }
-.role-btn.water { border-color: var(--red); }
-.role-btn.water:hover { background: rgba(255,77,109,0.15); }
+.start-sub { color: #b8a080; margin-bottom: 40px; font-size: 16px; }
+.roles-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+.role-card { flex: 1; min-width: 240px; padding: 30px 20px; cursor: pointer; background: rgba(255,240,220,0.05); border: 2px solid rgba(200,160,100,0.3); border-radius: 16px; text-align: center; transition: .2s; user-select: none; }
+.role-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.role-card.melon { border-color: rgba(76,175,80,0.6); }
+.role-card.melon:hover { background: rgba(76,175,80,0.15); border-color: #4caf50; }
+.role-card.water { border-color: rgba(255,77,109,0.6); }
+.role-card.water:hover { background: rgba(255,77,109,0.15); border-color: #ff4d6d; }
+.role-icon { width: 72px; height: 72px; margin: 0 auto 16px; }
+.role-card h3 { font-size: 20px; margin-bottom: 8px; color: #f7c948; }
+.role-card p { font-size: 13px; color: #aaa; line-height: 1.5; }
 
 .courtroom { display: flex; gap: 16px; margin: 24px 0; align-items: flex-start; }
 .avatar { width: 88px; height: 88px; flex-shrink: 0; border-radius: 12px; padding: 6px; background: rgba(60,20,30,0.8); border: 2px solid rgba(255,77,109,0.5); }
 .avatar.player { background: rgba(30,77,30,0.8); border-color: rgba(76,175,80,0.6); }
+.avatar.judge { background: rgba(20,20,20,0.9); border-color: #f0a500; width: 100px; height: 100px; }
 .avatar svg { width: 100%; height: 100%; }
-.dialog { flex: 1; padding: 16px 20px; background: rgba(40,15,20,0.92); border: 2px solid rgba(255,77,109,0.4); border-radius: 12px; font-size: 15px; line-height: 1.8; color: #f0e8dd; position: relative; min-height: 72px; }
-.dialog.player { background: rgba(20,45,20,0.92); border-color: rgba(76,175,80,0.5); }
-.speaker { display: block; font-size: 12px; color: #ff8899; font-weight: 700; margin-bottom: 6px; }
+.dialog { flex: 1; padding: 16px 20px; background: rgba(30,10,15,0.95); border: 2px solid rgba(255,77,109,0.4); border-radius: 12px; font-size: 15px; line-height: 1.8; color: #f0e8dd; position: relative; min-height: 72px; }
+.dialog.player { background: rgba(15,35,15,0.95); border-color: rgba(76,175,80,0.5); }
+.dialog.judge { background: rgba(20,15,10,0.95); border-color: #8b6f47; }
+.speaker { display: block; font-size: 13px; color: #ff8899; font-weight: 700; margin-bottom: 6px; }
 .dialog.player .speaker { color: #8fd9a8; }
+.dialog.judge .speaker { color: #f7c948; }
 
 .challenge-box { padding: 18px; margin: 20px 0; background: rgba(240,165,0,0.1); border-left: 4px solid var(--gold); border-radius: 8px; font-size: 15px; color: var(--gold); font-weight: 600; }
 .objection-btn { display: block; margin: 20px auto; padding: 18px 48px; background: linear-gradient(135deg, #ff3050, #ff4d6d); color: #fff; border: 3px solid #fff; border-radius: 14px; font-size: 20px; font-weight: 900; cursor: pointer; box-shadow: 0 8px 24px rgba(255,48,80,0.5); transition: .15s; letter-spacing: 3px; }
 .objection-btn:hover { transform: translateY(-3px) scale(1.03); }
 
-.evidence-bag { margin-top: 20px; padding: 18px; background: rgba(25,15,10,0.95); border: 2px solid rgba(240,165,0,0.4); border-radius: 12px; animation: slideUp .3s ease; }
+.evidence-bag { margin-top: 20px; padding: 18px; background: rgba(20,10,5,0.95); border: 2px solid rgba(240,165,0,0.4); border-radius: 12px; animation: slideUp .3s ease; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .bag-header { font-size: 14px; color: var(--gold); font-weight: 700; margin-bottom: 14px; }
 .evidence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
@@ -89,12 +91,26 @@ body {
 .feedback.ng { background: rgba(255,77,109,0.2); border: 2px solid rgba(255,77,109,0.5); }
 .feedback-text strong { display: block; margin-bottom: 6px; font-size: 15px; color: var(--gold); }
 
+/* 計算題與計算機 UI */
+.calc-container { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+.calc-inputs { flex: 1; min-width: 280px; }
 .calc-field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; margin-bottom: 14px; color: #ddd2c0; }
-.calc-field input { padding: 11px 14px; border-radius: 8px; border: 1px solid rgba(200,160,100,0.3); background: rgba(0,0,0,0.4); color: #fff; font-size: 15px; }
+.calc-field input { padding: 11px 14px; border-radius: 8px; border: 1px solid rgba(200,160,100,0.3); background: rgba(0,0,0,0.4); color: #fff; font-size: 16px; }
+
+/* 實體計算機 */
+.calculator { width: 280px; background: #2a2a2a; border-radius: 12px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.1); border: 2px solid #444; }
+.calc-display { background: #8a9a7a; color: #1a1a1a; font-family: "Courier New", monospace; font-size: 24px; text-align: right; padding: 12px; border-radius: 6px; margin-bottom: 16px; min-height: 55px; word-break: break-all; box-shadow: inset 0 2px 6px rgba(0,0,0,0.5); border: 2px solid #555; }
+.calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.calc-btn { padding: 14px 0; font-size: 18px; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; background: #555; color: #fff; box-shadow: 0 3px 0 #111; transition: .1s; }
+.calc-btn:active { transform: translateY(3px); box-shadow: none; }
+.calc-btn.op { background: #d88; color: #fff; box-shadow: 0 3px 0 #811; }
+.calc-btn.eq { background: var(--gold); color: #111; box-shadow: 0 3px 0 #a60; }
+.calc-btn.clr { background: #f55; color: #fff; box-shadow: 0 3px 0 #a00; }
+.calc-btn.span-2 { grid-column: span 2; }
 
 .btn { padding: 13px 28px; border-radius: 10px; border: none; cursor: pointer; background: linear-gradient(135deg, var(--gold), #f7c948); color: #1a1008; font-weight: 700; font-size: 15px; transition: .15s; }
 .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(240,165,0,0.5); }
-.next-wrap { text-align: right; margin-top: 20px; }
+.next-wrap { text-align: right; margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
 
 .objection-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; pointer-events: none; }
 .objection-text { font-size: clamp(60px, 15vw, 140px); font-weight: 900; color: #fff; text-shadow: 6px 6px 0 #ff3050, 12px 12px 0 #1a1008; transform: rotate(-8deg); animation: boom .8s cubic-bezier(0.2, 1.4, 0.4, 1); }
@@ -117,6 +133,11 @@ body {
   <svg class="lamp" width="120" height="140" viewBox="0 0 120 140"><path d="M30 40 L90 40 L100 70 L20 70 Z" fill="#3d2810"/><ellipse cx="60" cy="72" rx="40" ry="4" fill="#f0a500"/><circle cx="60" cy="85" r="20" fill="#f7c948" opacity="0.2"/></svg>
   <svg class="scale" width="180" height="180" viewBox="0 0 180 180"><line x1="90" y1="40" x2="90" y2="150" stroke="#8b6f47" stroke-width="4"/><rect x="60" y="148" width="60" height="8" fill="#8b6f47"/><line x1="30" y1="55" x2="150" y2="55" stroke="#8b6f47" stroke-width="3"/><circle cx="90" cy="40" r="6" fill="#8b6f47"/><path d="M10 90 L50 90 Q45 105 30 105 Q15 105 10 90" fill="none" stroke="#8b6f47" stroke-width="2"/><path d="M130 90 L170 90 Q165 105 150 105 Q135 105 130 90" fill="none" stroke="#8b6f47" stroke-width="2"/></svg>
   <svg class="gavel" width="160" height="160" viewBox="0 0 160 160"><rect x="30" y="50" width="80" height="30" rx="3" fill="#8b6f47" transform="rotate(-30 70 65)"/><rect x="90" y="100" width="12" height="50" fill="#6b4f2f" transform="rotate(-30 96 125)"/></svg>
+  <svg class="emblem" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="45" fill="none" stroke="#8b3a3a" stroke-width="4"/>
+    <path d="M50 20 L75 80 L25 80 Z" fill="none" stroke="#8b3a3a" stroke-width="3"/>
+    <circle cx="50" cy="50" r="10" fill="#8b3a3a"/>
+  </svg>
 </div>
 
 <div id="app"></div>
@@ -158,6 +179,25 @@ body {
       <rect x="7" y="4.8" width="2" height="0.4" fill="#1a1008"/><rect x="7" y="7.5" width="2" height="0.5" fill="#8b3a3a"/>
       <rect x="2" y="9" width="12" height="7" fill="#1a1a3a"/><rect x="7" y="9" width="2" height="5" fill="#ff4d6d"/>
     </symbol>
+    <symbol id="judge" viewBox="0 0 16 16">
+      <!-- 法官帽/假髮 -->
+      <rect x="3" y="0" width="10" height="1" fill="#eeeeee"/><rect x="2" y="1" width="12" height="2" fill="#eeeeee"/>
+      <rect x="1" y="3" width="2" height="2" fill="#eeeeee"/><rect x="13" y="3" width="2" height="2" fill="#eeeeee"/>
+      <!-- 臉部 -->
+      <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
+      <!-- 眼睛 -->
+      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/><rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
+      <!-- 嘴巴 -->
+      <rect x="7" y="7" width="2" height="1" fill="#8b3a3a"/>
+      <!-- 法袍 -->
+      <rect x="1" y="9" width="14" height="7" fill="#1a1a1a"/>
+      <rect x="4" y="9" width="8" height="7" fill="#2a2a2a"/>
+      <!-- 紅色領口 -->
+      <rect x="7" y="9" width="2" height="3" fill="#8b3a3a"/>
+      <!-- 法槌 -->
+      <rect x="2" y="11" width="4" height="2" fill="#a87840"/>
+      <rect x="4" y="11" width="1" height="4" fill="#6b4f2f"/>
+    </symbol>
     <symbol id="i-doc" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="14" fill="#f5e6c8"/><rect x="4" y="3" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="5" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="7" width="6" height="0.6" fill="#5a4020"/></symbol>
     <symbol id="i-book" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#8b3a3a"/><rect x="3" y="3" width="10" height="0.8" fill="#f7c948"/><rect x="3" y="12.2" width="10" height="0.8" fill="#f7c948"/><rect x="6" y="6" width="4" height="4" fill="#f7c948"/></symbol>
     <symbol id="i-scale" viewBox="0 0 16 16"><rect x="7.5" y="3" width="1" height="10" fill="#c8a878"/><rect x="5" y="13" width="6" height="1" fill="#c8a878"/><rect x="2" y="4" width="12" height="0.6" fill="#c8a878"/><rect x="1" y="7" width="3" height="0.6" fill="#c8a878"/><rect x="12" y="7" width="3" height="0.6" fill="#c8a878"/></symbol>
@@ -178,11 +218,17 @@ const EVIDENCE = {
 };
 
 const SCENES = [
-  { type:'story', title:'第一章・開庭', paras:['臺灣高等法院臺中分院民事第四庭。','審判長：本件上訴人西瓜寮與水利局間損害賠償事件，開始言詞辯論。'], btn:'開始陳述' },
+  { type:'story', title:'第一章・開庭', 
+    paras:[
+      '臺灣高等法院臺中分院民事第四庭。',
+      '審判長：本件上訴人西瓜寮與水利局間損害賠償事件，現在開始言詞辯論。',
+      '審判長：請兩造代理人就爭點進行陳述。'
+    ], btn:'開始陳述' 
+  },
   {
     type:'trial', title:'第二章・程序之門',
     opp:'審判長，我方依招標須知第8條終止契約，屬合法行使權利。',
-    challenge:'對造突襲提出終止契約。找出證明此主張「二審才提出」的證物！',
+    challenge:'對造突襲提出終止契約。請翻找證物，證明此主張「二審才提出」！',
     ans:['e2'], success:'異議あり！本件終止主張係二審始提出，違反民訴法第447條！',
     fbOk:'正確！水利局於108年2月19日二審才提出此主張，依民訴法447條應予駁回。',
     fbNg:'這不能證明程序違法。要找的是「提出時間點」的證物。'
@@ -190,7 +236,7 @@ const SCENES = [
   {
     type:'trial', title:'第三章・參加效力',
     opp:'第1381號判決係西瓜寮撤回上訴才確定，害我方無法防禦，依民訴法63條但書不受拘束。',
-    challenge:'對造說自己沒防禦到。找出證明他們「第一審就參與」的證物！',
+    challenge:'對造說自己沒防禦到。找證據證明他們「第一審就參與」了！',
     ans:['e3'], success:'異議あり！對造第一審即參加訴訟，本得獨立上訴，不得主張裁判不當！',
     fbOk:'正確！水利局於第一審即參加訴訟，且依法可獨立上訴卻未提，應受判決拘束。',
     fbNg:'對造說無法防禦。要找的是他們其實有參與的證據。'
@@ -198,7 +244,7 @@ const SCENES = [
   {
     type:'trial', title:'第四章・所有權之辯',
     opp:'土石已交付，上訴人已善意受讓取得所有權，本件無給付不能。',
-    challenge:'對造主張善意受讓。找出已經打臉過這一點的證物！',
+    challenge:'對造主張善意受讓。找出已經在另案打臉過這一點的證物！',
     ans:['e4'], success:'異議あり！第1381號確定判決已認定未善意受讓！',
     fbOk:'正確！第1381號判決明確認定未善意受讓，水利局受拘束。',
     fbNg:'要找的是關於「所有權歸屬」的證據。'
@@ -213,8 +259,8 @@ const SCENES = [
   },
   {
     type:'calc', title:'第六章・金額之算',
-    q:'請計算損害賠償金額 = 市價總額 − 清運費總額',
-    fields: [ {k:'m', l:'市價總額', a:153785775, h:'275 × 559221'}, {k:'f', l:'清運費總額', a:26562998, h:'47.5 × 559221'}, {k:'t', l:'賠償金額', a:127222777, h:'市價 − 清運費'} ]
+    q:'請利用右側計算機算出金額，並填入下方空格。\n(提示：市價總額 = 275 × 559221；清運費總額 = 47.5 × 559221，四捨五入)',
+    fields: [ {k:'m', l:'市價總額', a:153785775}, {k:'f', l:'清運費總額', a:26562998}, {k:'t', l:'賠償金額', a:127222777} ]
   },
   { type:'end', title:'第七章・宣判' }
 ];
@@ -258,9 +304,19 @@ class View {
     this.r.innerHTML = `
       <div class="scene start-screen">
         <div class="start-title">司法的重量：西瓜寮土石案</div>
-        <div class="start-sub">請選擇你的身分，進入法庭辯論</div>
-        <button class="role-btn melon" onclick="window.selectRole('melon')">🟩 我是西瓜寮訴訟代理人<br><small style="font-size:13px;color:#aaa;">(目標：找出破綻，贏得賠償)</small></button>
-        <button class="role-btn water" onclick="window.selectRole('water')">🟥 我是水利局訴訟代理人<br><small style="font-size:13px;color:#aaa;">(目標：模擬防守，理解法官邏輯)</small></button>
+        <div class="start-sub">請選擇你的法庭身分，開始這場證據對決</div>
+        <div class="roles-container">
+          <div class="role-card melon" onclick="window.selectRole('melon')">
+            <svg class="role-icon" viewBox="0 0 16 16"><use href="#ply"/></svg>
+            <h3>西瓜寮訴訟代理人</h3>
+            <p>目標：找出破綻，用證據逆轉戰局，為當事人贏得賠償</p>
+          </div>
+          <div class="role-card water" onclick="window.selectRole('water')">
+            <svg class="role-icon" viewBox="0 0 16 16"><use href="#opp"/></svg>
+            <h3>水利局訴訟代理人</h3>
+            <p>目標：模擬防守，理解法官邏輯，看看對造如何擊潰你</p>
+          </div>
+        </div>
       </div>`;
   }
 
@@ -268,7 +324,6 @@ class View {
     if(!m.role) { this.renderStart(); return; }
     const s=m.cur; let h=this.top(m);
     
-    // 根據身分設定角色名字與頭像
     const isMelon = m.role === 'melon';
     const pName = isMelon ? '西瓜寮代理人' : '水利局代理人';
     const oName = isMelon ? '水利局代理人' : '西瓜寮代理人';
@@ -276,8 +331,15 @@ class View {
     const oIcon = isMelon ? 'opp' : 'ply';
 
     if(s.type==='end'){
-      h+=`<div class="scene end"><h1 class="scene-title"><svg class="icon-28" viewBox="0 0 16 16"><use href="#wmr"/></svg>判決宣示</h1>
-        <p class="verdict-line">水利局應給付西瓜寮 <strong>1 億 2,722 萬 2,777 元</strong>及法定利息。</p>
+      h+=`<div class="scene end">
+        <h1 class="scene-title"><svg class="icon-28" viewBox="0 0 16 16"><use href="#wmr"/></svg>判決宣示</h1>
+        <div class="courtroom">
+          <div class="avatar judge"><svg viewBox="0 0 16 16"><use href="#judge"/></svg></div>
+          <div class="dialog judge">
+            <span class="speaker">審判長</span>
+            本院判斷如下：水利局應給付西瓜寮 <strong>1 億 2,722 萬 2,777 元</strong>，及自 99 年 6 月 8 日起至清償日止，按年息 5% 計算之利息。
+          </div>
+        </div>
         <h2>總得分：${m.score} / ${m.max}</h2>
         <ul class="answer-log">${m.logs.map(l=>`<li class="${l.ok?'ok':'ng'}">${l.ok?'✔':'✘'} ${l.fb}</li>`).join('')}</ul>
         <button class="btn" onclick="location.reload()">重新審判</button></div>`;
@@ -285,46 +347,101 @@ class View {
     }
     
     h+=`<div class="scene"><h1 class="scene-title"><svg class="icon-28" viewBox="0 0 16 16"><use href="#wmr"/></svg>${s.title}</h1>`;
+    
     if(s.type==='story'){
-      h+=`<div class="scene-body">${s.paras.map(p=>`<p>${p}</p>`).join('')}</div><div class="next-wrap"><button class="btn" id="btnNext">${s.btn}</button></div>`;
+      h+=`
+        <div class="courtroom">
+          <div class="avatar judge"><svg viewBox="0 0 16 16"><use href="#judge"/></svg></div>
+          <div class="dialog judge">
+            <span class="speaker">審判長</span>
+            ${s.paras[1] || s.paras[0]}
+          </div>
+        </div>
+        <div class="scene-body">${s.paras.slice(2).map(p=>`<p>${p}</p>`).join('')}</div>
+        <div class="next-wrap"><button class="btn" id="btnNext">${s.btn}</button></div>`;
     } else if(s.type==='trial'){
       if(!m.res||!m.res.ok) h+=`<div class="courtroom"><div class="avatar"><svg viewBox="0 0 16 16"><use href="#${oIcon}"/></svg></div><div class="dialog"><span class="speaker">${oName}</span>${s.opp}</div></div>`;
       else h+=`<div class="courtroom"><div class="avatar player"><svg viewBox="0 0 16 16"><use href="#${pIcon}"/></svg></div><div class="dialog player"><span class="speaker">${pName}</span>${m.res.line}</div></div>`;
       
       if(!m.res&&!m.bag) h+=`<div class="challenge-box">💭 ${s.challenge}</div><button class="objection-btn" id="btnObj">異議あり！</button>`;
+      
       if(m.bag){
-        h+=`<div class="evidence-bag"><div class="bag-header">📁 法庭紀錄 — 選擇證物</div><div class="evidence-grid">`;
+        h+=`<div class="evidence-bag"><div class="bag-header">📁 法庭紀錄 — 請點擊證物提出</div><div class="evidence-grid">`;
         Object.values(EVIDENCE).forEach(e=>{ h+=`<button class="evidence-card" data-id="${e.id}"><svg class="ev-icon" viewBox="0 0 16 16"><use href="#${e.icon}"/></svg><span class="ev-name">${e.name}</span><span class="ev-desc">${e.desc}</span></button>`; });
         h+=`</div></div>`;
       }
+      
       if(m.res){
         h+=`<div class="feedback ${m.res.ok?'ok':'ng'}"><div class="feedback-text"><strong>${m.res.ok?'✔ 反駁成功！':(m.res.rev?'✘ 生命耗盡！正確解答為「'+m.res.rev+'」':'✘ 無法推翻對造！')}</strong>${m.res.fb}</div></div>`;
-        if(m.res.ok||m.res.rev) h+=`<div class="next-wrap"><button class="btn" id="btnNext">下一章 →</button></div>`;
+        if(m.res.ok||m.res.rev) {
+          h+=`<div class="next-wrap"><button class="btn" id="btnNext">下一章 →</button></div>`;
+        } else if (m.res.retry) {
+          h+=`<div class="next-wrap"><button class="btn" id="btnRetry" style="background:#ff4d6d; color:#fff;">重新選擇證物</button></div>`;
+        }
       }
     } else if(s.type==='calc'){
-      h+=`<div class="scene-body"><p>${s.q}</p></div>`;
+      h+=`<div class="scene-body"><p style="white-space: pre-wrap;">${s.q}</p></div>
+        <div class="calc-container">
+          <div class="calc-inputs">`;
       if(!m.res){
-        s.fields.forEach(f=>{ h+=`<div class="calc-field"><span>${f.l} (${f.h})</span><input type="number" data-k="${f.k}"></div>`; });
-        h+=`<button class="btn" id="btnCalc">送出計算</button>`;
+        s.fields.forEach(f=>{ h+=`<div class="calc-field"><span>${f.l}</span><input type="number" id="input-${f.k}" data-k="${f.k}" placeholder="輸入計算結果"></div>`; });
+        h+=`<button class="btn" id="btnCalc" style="width:100%;">送出計算</button>`;
       } else {
         h+=`<div class="feedback ${m.res.allOk?'ok':'ng'}"><div class="feedback-text">`;
-        m.res.res.forEach(r=>{ h+=`<div>${r.l}：${r.ok?'✔':'✘ 正確為 '+r.a}</div>`; });
+        m.res.res.forEach(r=>{ h+=`<div>${r.l}：${r.ok?'✔ 正確':'✘ 正確為 '+r.a.toLocaleString()}</div>`; });
         h+=`</div></div><div class="next-wrap"><button class="btn" id="btnNext">下一章 →</button></div>`;
       }
+      h+=`</div>`;
+      
+      // 計算機 UI
+      if(!m.res) {
+        h+=`
+          <div class="calculator">
+            <div class="calc-display" id="calcDisplay">0</div>
+            <div class="calc-grid">
+              <button class="calc-btn clr" data-val="C">C</button>
+              <button class="calc-btn op" data-val="(">(</button>
+              <button class="calc-btn op" data-val=")">)</button>
+              <button class="calc-btn op" data-val="/">÷</button>
+              <button class="calc-btn" data-val="7">7</button>
+              <button class="calc-btn" data-val="8">8</button>
+              <button class="calc-btn" data-val="9">9</button>
+              <button class="calc-btn op" data-val="*">×</button>
+              <button class="calc-btn" data-val="4">4</button>
+              <button class="calc-btn" data-val="5">5</button>
+              <button class="calc-btn" data-val="6">6</button>
+              <button class="calc-btn op" data-val="-">-</button>
+              <button class="calc-btn" data-val="1">1</button>
+              <button class="calc-btn" data-val="2">2</button>
+              <button class="calc-btn" data-val="3">3</button>
+              <button class="calc-btn op" data-val="+">+</button>
+              <button class="calc-btn span-2" data-val="0">0</button>
+              <button class="calc-btn" data-val=".">.</button>
+              <button class="calc-btn eq" data-val="=">=</button>
+            </div>
+          </div>`;
+      }
+      h+=`</div>`;
     }
     h+=`</div>`; this.r.innerHTML=h;
   }
 }
 
 class Ctrl {
-  constructor(m, v) { this.m=m; this.v=v; }
+  constructor(m, v) { this.m=m; this.v=v; this.calcStr = '0'; }
   start() { this.v.render(this.m); this.bind(); }
+  
   bind() {
-    const m=this.m, s=m.cur;
+    const m=this.m;
+    
     const nBtn=document.getElementById('btnNext');
     if(nBtn) nBtn.onclick=()=>{ m.next(); this.start(); };
+    
     const oBtn=document.getElementById('btnObj');
     if(oBtn) oBtn.onclick=()=>{ m.open(); this.start(); };
+    
+    const rBtn=document.getElementById('btnRetry');
+    if(rBtn) rBtn.onclick=()=>{ m.res=null; m.open(); this.start(); };
     
     document.querySelectorAll('.evidence-card').forEach(c=>{
       c.onclick=()=>{
@@ -335,17 +452,48 @@ class Ctrl {
       };
     });
 
+    // 計算機事件綁定
+    const display = document.getElementById('calcDisplay');
+    if (display) {
+      display.innerText = this.calcStr;
+      document.querySelectorAll('.calc-btn').forEach(btn => {
+        btn.onclick = () => {
+          const val = btn.dataset.val;
+          if (val === 'C') {
+            this.calcStr = '0';
+          } else if (val === '=') {
+            try {
+              // 簡易安全運算
+              let evalStr = this.calcStr.replace(/×/g, '*').replace(/÷/g, '/');
+              let ans = eval(evalStr);
+              this.calcStr = String(Math.round(ans * 100000) / 100000); // 避免浮點數誤差
+            } catch { this.calcStr = 'Error'; }
+          } else {
+            if (this.calcStr === '0' || this.calcStr === 'Error') this.calcStr = val;
+            else this.calcStr += val;
+          }
+          display.innerText = this.calcStr;
+        };
+      });
+    }
+
+    // 送出計算
     const cBtn=document.getElementById('btnCalc');
     if(cBtn) cBtn.onclick=()=>{
-      const vals={}; document.querySelectorAll('input').forEach(i=>vals[i.dataset.k]=i.value);
-      m.res=m.calc(vals); this.start();
+      const vals={}; 
+      document.querySelectorAll('input').forEach(i=>vals[i.dataset.k]=i.value);
+      m.res=m.calc(vals); 
+      this.calcStr = '0';
+      this.start();
     };
   }
+  
   objAnim() {
     const ov=document.createElement('div'); ov.className='objection-overlay';
     ov.innerHTML='<div class="objection-text">異議あり！</div>';
     document.body.appendChild(ov); setTimeout(()=>ov.remove(), 1500);
   }
+  
   shake() {
     const a=document.getElementById('app'); a.classList.add('shake');
     setTimeout(()=>a.classList.remove('shake'), 500);
@@ -354,7 +502,6 @@ class Ctrl {
 
 const app = new Ctrl(new Model(), new View(document.getElementById('app')));
 
-// 綁定身分選擇的全域函數
 window.selectRole = (role) => {
   app.m.role = role;
   app.start();
