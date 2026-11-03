@@ -46,7 +46,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .press-start:hover { border-color: var(--gold); color: var(--gold); text-shadow: 2px 2px 0 #000; background: rgba(255, 204, 0, 0.1); border-radius: 8px; }
 @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.05); } }
 
-/* 角色選擇（格鬥遊戲選人畫面） */
+/* 角色選擇畫面 */
 .roles-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px; width: 100%; max-width: 900px; }
 .role-card { flex: 1; min-width: 200px; padding: 30px 20px; cursor: pointer; background: #111; border: 4px solid #444; text-align: center; transition: .2s; position: relative; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); box-shadow: 0 10px 20px rgba(0,0,0,0.8); }
 .role-card:hover { transform: translateY(-10px) scale(1.05); z-index: 10; }
@@ -54,12 +54,12 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .role-card.melon { border-color: var(--green); box-shadow: 0 0 30px rgba(0,255,102,0.4); }
 .role-card.water { border-color: var(--red); box-shadow: 0 0 30px rgba(255,0,51,0.4); }
 .role-card.judge { border-color: var(--gold); box-shadow: 0 0 30px rgba(255,204,0,0.4); }
-.role-icon { width: 100px; height: 100px; margin: 0 auto 15px; filter: drop-shadow(4px 4px 0 #000); transition: .2s; }
+.role-icon { width: 100px; height: 100px; margin: 0 auto 15px; filter: drop-shadow(4px 4px 0 #000); transition: .2s; overflow: hidden; border-radius: 50%; }
 .role-card:hover .role-icon { transform: scale(1.1); }
 .role-card h3 { font-size: clamp(18px, 4vw, 22px); margin-bottom: 8px; color: #fff; text-shadow: 2px 2px 0 #000; line-height: 1.4; }
 .role-card p { font-size: 14px; color: #aaa; }
 
-/* 法庭全景（木紋與精緻光影） */
+/* 法庭全景 */
 .courtroom-scene { 
   background: linear-gradient(to bottom, #2a1a0e, #1a1008);
   border: 4px solid #333; border-radius: 4px; margin-bottom: 15px; position: relative; height: clamp(320px, 50vh, 450px); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9); transition: filter 0.3s; 
@@ -81,9 +81,8 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .main-judge { width: clamp(60px, 12vw, 100px); height: clamp(60px, 12vw, 100px); z-index: 2; }
 .judge-side { width: clamp(40px, 8vw, 70px); height: clamp(40px, 8vw, 70px); opacity: 0.7; }
 .judge-avatar.active { filter: drop-shadow(0 0 20px var(--gold)); transform: translateY(-5px); }
-.main-judge.active.danger { filter: drop-shadow(0 0 30px var(--red)); }
 
-/* 惡搞特效層 */
+/* 特效層 */
 .effect-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; overflow: hidden; }
 .falling-wig { position: absolute; top: 5%; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; animation: wigDrop 2s forwards cubic-bezier(0.5, 0, 1, 1); z-index: 10; }
 @keyframes wigDrop { 0% { top: 5%; opacity: 1; } 80% { top: 80%; opacity: 1; } 100% { top: 100%; opacity: 0; } }
@@ -94,7 +93,6 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .tumbleweed { position: absolute; font-size: 40px; animation: blowAcross 4s linear forwards; }
 @keyframes blowAcross { 0% { transform: translateX(-100px) rotate(0deg); } 100% { transform: translateX(100vw) rotate(720deg); } }
 
-/* 桌上食物特效 */
 .desk-item { position: absolute; font-size: 40px; z-index: 10; animation: dropOnDesk 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 @keyframes dropOnDesk { 0% { transform: translateY(-50px) scale(2); opacity: 0; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
 
@@ -108,23 +106,21 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .bailiff-shock { animation: shock 0.15s infinite alternate; }
 @keyframes shock { from { transform: translateY(0) scale(1); } to { transform: translateY(-20px) scale(1.3) rotate(5deg); filter: drop-shadow(0 0 20px var(--red)); } }
 
-/* 雙方代理人與桌子（修復遮擋） */
+/* 雙方代理人與桌子 */
 .players-area { position: relative; z-index: 2; display: flex; justify-content: space-between; padding: 0 5%; width: 100%; height: 60%; align-items: flex-end; padding-bottom: 20px;}
 .player-side { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 5px; width: 45%; position: relative; height: 100%; }
-.player-side .avatar { width: clamp(60px, 12vw, 100px); height: clamp(60px, 12vw, 100px); background: #111; border: 3px solid #555; transition: .2s; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); z-index: 3; }
+.player-side .avatar { width: clamp(70px, 14vw, 110px); height: clamp(70px, 14vw, 110px); background: #111; border: 3px solid #555; transition: .2s; z-index: 3; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; }
 .player-side.left .avatar { border-color: var(--green); }
 .player-side.right .avatar { border-color: var(--red); }
 .player-side .avatar.active { transform: translateY(-10px); }
 .player-side.left .avatar.active { box-shadow: 0 0 20px var(--green); }
 .player-side.right .avatar.active { box-shadow: 0 0 20px var(--red); }
-.player-side .avatar svg { width: 100%; height: 100%; }
+.player-side .avatar img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
 
-/* 名字標籤 */
 .name-tag { font-size: clamp(10px, 2.5vw, 14px); font-weight: 900; color: #fff; background: #000; padding: 4px 10px; border: 2px solid #555; text-transform: uppercase; text-align: center; line-height: 1.2; z-index: 4; box-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 .player-side.left .name-tag { color: var(--green); border-color: var(--green); }
 .player-side.right .name-tag { color: var(--red); border-color: var(--red); }
 
-/* 桌子在最下方 */
 .lawyer-desk { 
   position: absolute; bottom: 0; width: 90%; height: 50px; 
   background: linear-gradient(to bottom, #6b4423, #3b2210);
@@ -136,23 +132,20 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .player-side.right .lawyer-desk { right: 5%; }
 .desk-item-container { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 5; }
 
-/* 說話彈跳動畫 */
 .speaking { animation: speakBounce 0.3s infinite alternate; }
 @keyframes speakBounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-12px) scale(1.05); filter: drop-shadow(0 0 15px currentColor); } }
 
-/* 對話與 UI（逆轉裁判風格） */
+/* 對話框 */
 .dialog-box { background: #111; border: 4px solid #fff; border-radius: 4px; padding: 20px; min-height: 120px; position: relative; box-shadow: inset 0 0 0 2px #000, 0 10px 20px rgba(0,0,0,0.8); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
 .speaker-name { position: absolute; top: -16px; left: 15px; background: var(--gold); color: #000; font-size: clamp(12px, 3vw, 14px); font-weight: 900; padding: 4px 15px; border: 2px solid #000; transform: skewX(-10deg); box-shadow: 2px 2px 0 rgba(0,0,0,0.8); }
 .dialog-content { font-size: clamp(14px, 3.5vw, 18px); line-height: 1.6; color: #fff; margin-top: 8px; font-family: "Noto Sans TC", sans-serif; font-weight: bold; white-space: pre-wrap; }
 
 @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-/* 提示框 */
 .hint-box { background: rgba(0, 50, 150, 0.9); border: 3px solid var(--blue); border-radius: 4px; padding: 12px; margin-top: 15px; text-align: center; font-size: clamp(12px, 3vw, 16px); color: #fff; box-shadow: 0 0 15px rgba(0,102,255,0.6); animation: pulse 2s infinite; }
 .hint-box::before { content: '等等！'; display: block; color: var(--gold); font-size: 1.2em; font-style: italic; margin-bottom: 5px; text-shadow: 2px 2px 0 #000; }
 @keyframes pulse { 0%, 100% { box-shadow: 0 0 10px rgba(0,102,255,0.5); } 50% { box-shadow: 0 0 25px rgba(0,102,255,1); } }
 
-/* 按鈕（3D 街機感） */
 .objection-btn { display: block; margin: 15px auto; padding: 12px 40px; background: var(--red); color: #fff; border: 4px solid #fff; border-radius: 8px; font-size: clamp(20px, 5vw, 32px); font-weight: 900; cursor: pointer; transition: .1s; text-transform: uppercase; text-shadow: 3px 3px 0 #000; box-shadow: 0 8px 0 #800, 0 15px 20px rgba(0,0,0,0.8); font-style: italic; width: 90%; max-width: 350px; }
 .objection-btn:active { transform: translateY(8px); box-shadow: 0 0 0 #800, 0 5px 10px rgba(0,0,0,0.8); }
 .btn { padding: 12px 20px; border: 3px solid #fff; border-radius: 4px; cursor: pointer; background: var(--gold); color: #000; font-weight: 900; font-size: clamp(14px, 3.5vw, 18px); transition: .1s; display: block; margin: 10px auto; width: 100%; max-width: 300px; text-transform: uppercase; box-shadow: 0 6px 0 #a00, 0 10px 10px rgba(0,0,0,0.5); text-shadow: 1px 1px 0 #fff; }
@@ -161,7 +154,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .btn.red { background: var(--red); color: #fff; box-shadow: 0 6px 0 #800; text-shadow: 1px 1px 0 #000; }
 .next-wrap { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
 
-/* 法庭紀錄（證物袋） */
+/* 證物袋 */
 .evidence-bag { margin-top: 15px; padding: 20px 15px 15px; background: #112; border: 4px solid var(--gold); border-radius: 4px; animation: slideUp .2s ease; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
 .evidence-bag::after { content: 'COURT RECORD'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; font-weight: 900; padding: 2px 20px; border: 2px solid #000; font-size: 14px; letter-spacing: 2px; }
 .evidence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(80px, 20vw, 110px), 1fr)); gap: 10px; margin-top: 15px; }
@@ -170,7 +163,6 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .ev-icon { width: 32px; height: 32px; margin: 0 auto 5px; display: block; filter: drop-shadow(2px 2px 0 #000); }
 .ev-name { font-size: 12px; font-weight: bold; font-family: "Noto Sans TC", sans-serif; text-shadow: 1px 1px 0 #000; }
 
-/* 審判長 UI */
 .judge-ui { background: #222; border: 4px solid var(--gold); border-radius: 4px; padding: 15px; margin-top: 15px; text-align: center; animation: popIn .3s ease; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
 .judge-ui h3 { color: var(--gold); margin-bottom: 15px; font-size: clamp(14px, 4vw, 18px); line-height: 1.4; text-shadow: 1px 1px 0 #000; }
 .judge-choice { display: flex; flex-direction: column; gap: 10px; }
@@ -181,17 +173,17 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .btn-object { background: var(--red); color: #fff; text-shadow: 1px 1px 0 #000; }
 .btn-ask { background: var(--gold); color: #000; }
 
-/* 回饋 */
 .feedback { margin-top: 15px; padding: 15px; border: 4px solid; font-size: clamp(13px, 3vw, 16px); font-family: "Noto Sans TC", sans-serif; font-weight: bold; border-radius: 4px; animation: popIn 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
 .feedback.ok { background: rgba(0,255,102,0.2); border-color: var(--green); color: #ccffdd; }
 .feedback.ng { background: rgba(255,0,51,0.2); border-color: var(--red); color: #ffccdd; }
 .feedback.neutral { background: rgba(255,204,0,0.2); border-color: var(--gold); color: #ffefb3; }
 .feedback strong { display: block; margin-bottom: 8px; font-size: clamp(16px, 4vw, 20px); font-family: "Arial Black", sans-serif; text-transform: uppercase; }
 
-/* 真正的角色彈出視窗 (Character Popup) */
+/* 角色彈出視窗 */
 .character-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: flex-end; justify-content: center; z-index: 2000; padding: 20px; overflow: hidden; }
 .character-popup { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 600px; animation: popOutFromBottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .character-portrait { width: clamp(150px, 35vw, 280px); height: clamp(150px, 35vw, 280px); filter: drop-shadow(0 0 40px rgba(0,0,0,1)); z-index: 2; margin-bottom: -20px; position: relative; animation: speakBounce 0.3s infinite alternate; }
+.character-portrait img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; border-radius: 12px; }
 .character-dialog { background: #000; border: 5px solid var(--gold); border-radius: 8px; padding: 25px; width: 100%; position: relative; z-index: 1; box-shadow: 0 15px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,0,0,1); text-align: center; }
 .character-dialog .dialog-content { font-size: clamp(16px, 4vw, 24px); text-align: left; padding: 10px; text-shadow: 1px 1px 0 #000; }
 @keyframes popOutFromBottom { 0% { transform: translateY(100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
@@ -200,16 +192,14 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .bailiff-scene { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .bailiff-drag { display: flex; align-items: flex-end; gap: 10px; animation: dragAway 2s forwards cubic-bezier(0.7, 0, 1, 1); }
 .bailiff-svg-large { width: clamp(80px, 20vw, 150px); height: clamp(80px, 20vw, 150px); animation: walk 0.3s infinite alternate; }
-.player-svg-large { width: clamp(60px, 15vw, 120px); height: clamp(60px, 15vw, 120px); transform: rotate(30deg); filter: drop-shadow(0 0 10px rgba(255,0,0,0.8)); }
+.player-img-large { width: clamp(70px, 16vw, 120px); height: clamp(70px, 16vw, 120px); transform: rotate(30deg); filter: drop-shadow(0 0 10px rgba(255,0,0,0.8)); object-fit: cover; image-rendering: pixelated; }
 .bailiff-text { position: absolute; top: 20%; width: 100%; text-align: center; font-size: clamp(24px, 8vw, 50px); color: var(--red); font-weight: 900; text-shadow: 3px 3px 0 #fff; animation: blink .3s infinite; font-style: italic; padding: 0 10px; }
 @keyframes dragAway { 0% { transform: translateX(0); } 20% { transform: translateX(-50px) rotate(-5deg); } 100% { transform: translateX(100vw); opacity: 0; } }
 @keyframes walk { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
-/* 獨立 Game Over 畫面 */
 .gameover-scene { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 4000; display: flex; flex-direction: column; align-items: center; justify-content: center; animation: fadeIn 0.5s ease; text-align: center; padding: 20px; }
 .gameover-title { font-size: clamp(60px, 15vw, 100px); color: var(--red); font-weight: 900; text-shadow: 4px 4px 0 #fff; font-style: italic; margin-bottom: 20px; transform: rotate(-5deg); }
 .gameover-sub { font-size: clamp(18px, 4vw, 24px); color: #fff; margin-bottom: 40px; font-weight: bold; }
-.gameover-scene .btn { max-width: 250px; }
 
 #flash-overlay { position: fixed; inset: 0; background: #fff; z-index: 5000; pointer-events: none; opacity: 0; }
 .flash-active { animation: flashAnim 0.4s ease-out; }
@@ -231,7 +221,6 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .shake { animation: shake .4s ease; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-15px); } 40%, 80% { transform: translateX(15px); } }
 
-/* 第六章算帳 UI */
 .calc-facts { background: #222; border: 3px solid var(--gold); padding: 15px; border-radius: 4px; margin-bottom: 15px; animation: popIn .3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
 .fact-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #555; font-family: "Noto Sans TC", sans-serif; font-size: 15px; }
 .fact-row:last-child { border-bottom: none; }
@@ -244,12 +233,9 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .opt-btn { flex: 1; padding: 12px; background: #333; color: #fff; border: 2px solid #555; border-radius: 4px; cursor: pointer; font-size: 14px; transition: .1s; box-shadow: 0 4px 0 #111; }
 .opt-btn:active { transform: translateY(4px); box-shadow: none; }
 .opt-btn.selected { background: var(--blue); border-color: #fff; box-shadow: 0 4px 0 #002; }
-.opt-btn.wrong { background: var(--red); border-color: #fff; }
-.opt-btn.correct { background: var(--green); color: #000; border-color: #fff; }
 .calc-result { margin-top: 20px; text-align: center; font-size: 20px; color: var(--gold); font-weight: bold; display: none; }
 .calc-result.show { display: block; animation: popIn .3s forwards; }
 
-/* 平局選擇 UI */
 .tie-ui { background: #111; border: 4px solid #fff; border-radius: 8px; padding: 25px; margin-top: 20px; text-align: center; animation: popIn .5s; box-shadow: 0 0 40px rgba(255,255,255,0.5); }
 .tie-ui h2 { color: #fff; margin-bottom: 20px; font-size: 24px; text-shadow: 2px 2px 0 #000; }
 .tie-btns { display: flex; flex-direction: column; gap: 15px; }
@@ -262,7 +248,6 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 <div id="flash-overlay"></div>
 <div id="decisive-text"><div class="decisive-text-inner">異議あり！</div></div>
 
-<!-- 勝訴特效層 -->
 <div id="victory-overlay">
   <div class="victory-title">勝訴！</div>
   <div class="victory-sub">水利局應給付西瓜寮 1 億 2,722 萬 2,777 元</div>
@@ -270,61 +255,18 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <!-- 上訴人：西瓜寮代表（律師裝扮） -->
-    <symbol id="ply" viewBox="0 0 16 16">
-      <!-- 頭髮 -->
-      <rect x="3" y="0" width="10" height="1" fill="#1e4d1e"/>
-      <rect x="2" y="1" width="12" height="2" fill="#1e4d1e"/>
-      <rect x="1" y="3" width="2" height="2" fill="#1e4d1e"/>
-      <!-- 臉 -->
-      <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
-      <!-- 眼鏡 -->
-      <rect x="3" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/>
-      <rect x="9" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/>
-      <rect x="7" y="4.8" width="2" height="0.4" fill="#1a1008"/>
-      <!-- 嘴巴 -->
-      <rect x="7" y="7.5" width="2" height="0.5" fill="#8b3a3a"/>
-      <!-- 西裝與紅領帶 -->
-      <rect x="2" y="9" width="12" height="7" fill="#1a1a3a"/>
-      <rect x="5" y="9" width="6" height="7" fill="#ffffff"/>
-      <rect x="7" y="9" width="2" height="5" fill="#ff4d6d"/>
-    </symbol>
-
-    <!-- 被上訴人：水利局代表（律師裝扮，灰色系） -->
-    <symbol id="opp" viewBox="0 0 16 16">
-      <!-- 頭髮 -->
-      <rect x="2" y="0" width="12" height="3" fill="#4a4a4a"/>
-      <rect x="3" y="1" width="10" height="2" fill="#333333"/>
-      <!-- 臉 -->
-      <rect x="2" y="3" width="12" height="6" fill="#e8c8a8"/>
-      <!-- 眼鏡 -->
-      <rect x="3" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/>
-      <rect x="9" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/>
-      <rect x="7" y="4.8" width="2" height="0.4" fill="#1a1008"/>
-      <!-- 嘴巴 -->
-      <rect x="6" y="7.5" width="4" height="0.5" fill="#4a2a2a"/>
-      <!-- 西裝與藍領帶 -->
-      <rect x="2" y="9" width="12" height="7" fill="#2a2a3a"/>
-      <rect x="5" y="9" width="6" height="7" fill="#dddddd"/>
-      <rect x="7" y="9" width="2" height="5" fill="#3a5a8b"/>
-    </symbol>
-
     <!-- 審判長 -->
     <symbol id="judge-main" viewBox="0 0 16 16">
-      <!-- 白髮假髮 -->
       <rect x="3" y="0" width="10" height="1" fill="#eeeeee"/>
       <rect x="2" y="1" width="12" height="2" fill="#eeeeee"/>
       <rect x="1" y="3" width="2" height="2" fill="#eeeeee"/>
       <rect x="13" y="3" width="2" height="2" fill="#eeeeee"/>
-      <!-- 臉與皺紋 -->
       <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
       <rect x="4" y="5" width="2" height="1" fill="#1a1008"/>
       <rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
       <rect x="7" y="7" width="2" height="1" fill="#8b3a3a"/>
-      <!-- 法袍 -->
       <rect x="1" y="9" width="14" height="7" fill="#1a1a1a"/>
       <rect x="4" y="9" width="8" height="7" fill="#2a2a2a"/>
-      <!-- 紅色領口與法槌 -->
       <rect x="7" y="9" width="2" height="3" fill="#8b3a3a"/>
       <rect x="2" y="11" width="4" height="2" fill="#a87840"/>
       <rect x="4" y="11" width="1" height="4" fill="#6b4f2f"/>
@@ -359,7 +301,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
       <rect x="13" y="6" width="2" height="6" fill="#111" rx="1"/>
     </symbol>
 
-    <!-- 證物 -->
+    <!-- 證物圖示 -->
     <symbol id="i-doc" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="14" fill="#f5e6c8"/><rect x="4" y="3" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="5" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="7" width="6" height="0.6" fill="#5a4020"/></symbol>
     <symbol id="i-book" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#8b3a3a"/><rect x="3" y="3" width="10" height="0.8" fill="#f7c948"/><rect x="3" y="12.2" width="10" height="0.8" fill="#f7c948"/><rect x="6" y="6" width="4" height="4" fill="#f7c948"/></symbol>
     <symbol id="i-scale" viewBox="0 0 16 16"><rect x="7.5" y="3" width="1" height="10" fill="#c8a878"/><rect x="5" y="13" width="6" height="1" fill="#c8a878"/><rect x="2" y="4" width="12" height="0.6" fill="#c8a878"/><rect x="1" y="7" width="3" height="0.6" fill="#c8a878"/><rect x="12" y="7" width="3" height="0.6" fill="#c8a878"/></symbol>
@@ -378,6 +320,9 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 </svg>
 
 <script type="module">
+const MELON_AVATAR = "lawyer_melon.png"; 
+const WATER_AVATAR = "lawyer_water.png"; 
+
 const ALL_EVIDENCE = {
   e_prep: { id:'e_prep', name:'準備書(一)狀', icon:'i-doc' },
   e_join: { id:'e_join', name:'參加書狀', icon:'i-gavel' },
@@ -390,7 +335,7 @@ const ALL_EVIDENCE = {
   
   j_gun: { id:'j_gun', name:'法警的手槍', icon:'i-gun', joke:'法警（驚恐）：等、等等！我的槍怎麼會在你那裡？！（全場法警掏槍對準你）', effect: 'gun', danger: true, fatal: true },
   j_badge: { id:'j_badge', name:'律師執照', icon:'i-badge', joke:'審判長：代理人，你拿自己的執照給我看，是想證明你考過國考嗎？', effect: 'shake' },
-  j_wig: { id:'j_wig', name:'法官假髮', icon:'i-wig', joke:'審判長（摸頭）：大膽！竟敢拿假髮調侃本官？法警！', effect: 'wig_fall', fatal: true },
+  j_wig: { id:'j_wig', name:'法官假髮', icon:'i-wig', joke:'審判長（摸頭）：大膽！竟簡拿假髮調侃本官？法警！', effect: 'wig_fall', fatal: true },
   j_pineapple: { id:'j_pineapple', name:'鳳梨', icon:'i-pineapple', joke:'審判長：帶鳳梨來法院？你是在詛咒本件「旺」到無法結案嗎？', effect: 'desk_item', isFood: true, foodIcon: '🍍' },
   j_chicken: { id:'j_chicken', name:'鹹酥雞', icon:'i-chicken', joke:'審判長：現在是言詞辯論，不是宵夜時間！你當這裡是熱炒店？', effect: 'desk_item', isFood: true, foodIcon: '🍗' },
   j_pokeball: { id:'j_pokeball', name:'寶貝球', icon:'i-pokeball', joke:'審判長：你想用這個收服本官嗎？本官可不是寶可夢！', effect: 'shake' },
@@ -540,7 +485,7 @@ const SCENES_JUDGE = [
       { label: '採信水利局（不受拘束）', type: 'p', trustM: -20, trustW: 20, fb: '你認為水利局的防禦權受損，心證偏向水利局。' },
       { label: '採信西瓜寮（受拘束）', type: 'd', trustM: 20, trustW: -20, fb: '你認為參加人本可上訴，水利局應受拘束，心證偏向西瓜寮。' },
       { label: '追問水利局', type: 'ask_p', trustM: 10, trustW: -10, fb: '你追問水利局為何不獨立上訴，水利局無法自圓其說，心證偏向西瓜寮。' },
-      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向水利局。' }
+      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向西瓜寮。' }
     ]
   },
   {
@@ -548,13 +493,13 @@ const SCENES_JUDGE = [
     p_claim:'我們已經把土石交付給西瓜寮管領了，他們已經取得所有權，本件根本沒有給付不能的問題！',
     d_claim:'第1381號判決已經明確認定，土石是漢臨公司的，我們沒有善意受讓取得所有權，你們賣的東西根本有瑕疵！',
     p_ask:'水利局：交付就代表移轉了啊，這在民法上是常識吧！',
-    d_ask:'西瓜寮：1381號判決白紙黑字寫著「未善意受讓」，水利局是在睜眼說瞎話嗎？',
+    d_claim:'西瓜寮：1381號判決白紙黑字寫著「未善意受讓」，水利局是在睜眼說瞎話嗎？',
     question:'兩造爭執土石所有權歸屬。請問審判長，該如何處理？',
     options: [
       { label: '採信水利局（已取得所有權）', type: 'p', trustM: -20, trustW: 20, fb: '你採信了交付即移轉的觀點，心證偏向水利局。' },
       { label: '採信西瓜寮（未取得所有權）', type: 'd', trustM: 20, trustW: -20, fb: '你認為1381號判決已認定清楚，心證偏向西瓜寮。' },
       { label: '追問水利局', type: 'ask_p', trustM: 10, trustW: -10, fb: '你追問水利局關於1381判決的認定，水利局啞口無言，心證偏向西瓜寮。' },
-      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向水利局。' }
+      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向西瓜寮。' }
     ]
   },
   {
@@ -562,13 +507,13 @@ const SCENES_JUDGE = [
     p_claim:'西瓜寮在前案沒有積極應訴，還故意撤回上訴，現在反過來要求我們賠償，這根本是權利濫用、侵蝕國庫！',
     d_claim:'我們在前案已經連續參與3次言詞辯論，也提出了抗辯，撤回上訴是綜合考量後的結果，屬於合法權利行使，絕非濫用！',
     p_ask:'水利局：他們就是看準國庫有錢，想趁機敲詐一筆！',
-    d_ask:'西瓜寮：我們是依法請求，一切都是為了當事人的權益，何錯之有？',
+    d_claim:'西瓜寮：我們是依法請求，一切都是為了當事人的權益，何錯之有？',
     question:'兩造爭執西瓜寮的請求是否為權利濫用。請問審判長，該如何處理？',
     options: [
       { label: '採信水利局（構成濫用）', type: 'p', trustM: -20, trustW: 20, fb: '你認為西瓜寮別有用心，心證偏向水利局。' },
       { label: '採信西瓜寮（不構成濫用）', type: 'd', trustM: 20, trustW: -20, fb: '你認為西瓜寮是合法行使權利，心證偏向西瓜寮。' },
       { label: '追問水利局', type: 'ask_p', trustM: 10, trustW: -10, fb: '你追問水利局有何證據證明濫用，水利局提不出來，心證偏向西瓜寮。' },
-      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向水利局。' }
+      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向西瓜寮。' }
     ]
   }
 ];
@@ -631,13 +576,13 @@ class Model {
         this.bailiffShock = true;
         this.isDanger = true;
         this.shakeScreen();
-        this.charPopup = { speaker: '法警', text: ev.joke, icon: 'bailiff', color: 'var(--red)' };
+        this.charPopup = { speaker: '法警', text: ev.joke, icon: 'bailiff', color: 'var(--red)', isImg: false };
       } else if (id === 'j_wig') {
-        this.charPopup = { speaker: '審判長', text: ev.joke, icon: 'judge-main', color: 'var(--gold)' };
+        this.charPopup = { speaker: '審判長', text: ev.joke, icon: 'judge-main', color: 'var(--gold)', isImg: false };
       } else if (id === 'j_earbuds') {
-        this.charPopup = { speaker: '陪席法官', text: ev.joke, icon: 'judge-side', color: 'var(--blue)' };
+        this.charPopup = { speaker: '陪席法官', text: ev.joke, icon: 'judge-side', color: 'var(--blue)', isImg: false };
       } else {
-        this.charPopup = { speaker: '審判長', text: ev.joke, icon: 'judge-main', color: 'var(--gold)' };
+        this.charPopup = { speaker: '審判長', text: ev.joke, icon: 'judge-main', color: 'var(--gold)', isImg: false };
       }
 
       if (this.role === 'melon') {
@@ -679,11 +624,11 @@ class Model {
       
       if (this.role === 'melon') { 
         this.trustMelon += 20; this.trustWater -= 20; this.trustChange = '+20%'; this.trustChangeColor = 'var(--green)';
-        this.charPopup = { speaker: '上訴人訴訟代理人', text: s.success, icon: 'ply', color: 'var(--green)' };
+        this.charPopup = { speaker: '上訴人訴訟代理人', text: s.success, icon: MELON_AVATAR, color: 'var(--green)', isImg: true };
       } 
       else if (this.role === 'water') {
         this.trustWater += 20; this.trustMelon -= 20; this.trustChange = '+20%'; this.trustChangeColor = 'var(--green)';
-        this.charPopup = { speaker: '被上訴人訴訟代理人', text: s.success, icon: 'opp', color: 'var(--red)' }; 
+        this.charPopup = { speaker: '被上訴人水利局訴訟代理人', text: s.success, icon: WATER_AVATAR, color: 'var(--red)', isImg: true }; 
       }
       
       setTimeout(() => this.decisiveEffect(), 100);
@@ -700,11 +645,7 @@ class Model {
 
   closeCharPopup() {
     this.charPopup = null;
-    if(this.res && this.res.rev === 'GameOver') {
-      // 保持 gameover 處理
-    } else {
-      app.start();
-    }
+    if(this.res && this.res.rev === 'GameOver') {} else { app.start(); }
   }
 
   judgeNextStep() { if (this.judgeStep < 2) { this.judgeStep++; this.typingDone = false; } }
@@ -728,11 +669,8 @@ class Model {
 
   storyPick(isCorrect) {
     const s=this.cur;
-    if (isCorrect) {
-      this.res = { ok:true, fb: s.fbOk };
-    } else {
-      this.res = { ok:false, fb: s.fbNg };
-    }
+    if (isCorrect) { this.res = { ok:true, fb: s.fbOk }; } 
+    else { this.res = { ok:false, fb: s.fbNg }; }
   }
 
   setCalcOption(type, val) { this.calcSel[type] = val; }
@@ -789,7 +727,6 @@ class View {
     
     let melPct = (mel / total) * 100;
     let waterPct = (w / total) * 100;
-    
     let rotate = (Math.round(melPct) === Math.round(waterPct)) ? 0 : (melPct - 50) * 0.6; 
 
     return `
@@ -813,7 +750,6 @@ class View {
   renderEffects(m) {
     if (!m.effect) return '';
     let html = '<div class="effect-layer">';
-    
     if (m.effect === 'wig_fall') {
       html += `<svg class="falling-wig" viewBox="0 0 16 16"><use href="#i-wig"/></svg>`;
     } else if (m.effect === 'notes') {
@@ -827,7 +763,6 @@ class View {
     } else if (m.effect === 'tumbleweed') {
       html += `<div class="tumbleweed" style="top:50%;">🌿</div>`;
     }
-    
     html += '</div>';
     return html;
   }
@@ -858,13 +793,13 @@ class View {
         </div>
         <div class="players-area">
           <div class="player-side left">
-            <div class="avatar ${isMelon?'active speaking':''}"><svg viewBox="0 0 16 16"><use href="#ply"/></svg></div>
+            <div class="avatar ${isMelon?'active speaking':''}"><img src="${MELON_AVATAR}" alt="西瓜寮代理人"></div>
             <div class="name-tag">上訴人<br>西瓜寮訴訟代理人</div>
             <div class="lawyer-desk"></div>
             ${deskLeft ? `<div class="desk-item-container"><div class="desk-item">${deskLeft}</div></div>` : ''}
           </div>
           <div class="player-side right">
-            <div class="avatar ${isWater?'active speaking':''}"><svg viewBox="0 0 16 16"><use href="#opp"/></svg></div>
+            <div class="avatar ${isWater?'active speaking':''}"><img src="${WATER_AVATAR}" alt="水利局代理人"></div>
             <div class="name-tag">被上訴人<br>水利局訴訟代理人</div>
             <div class="lawyer-desk"></div>
             ${deskRight ? `<div class="desk-item-container"><div class="desk-item">${deskRight}</div></div>` : ''}
@@ -891,12 +826,12 @@ class View {
               <p>跟著判決書一步步審理</p>
             </div>
             <div class="role-card melon" onclick="window.selectRole('melon')">
-              <svg class="role-icon" viewBox="0 0 16 16"><use href="#ply"/></svg>
+              <div class="role-icon"><img src="${MELON_AVATAR}" style="width:100%;height:100%;object-fit:cover;image-rendering:pixelated;"></div>
               <h3>上訴人<br>西瓜寮訴訟代理人</h3>
               <p>推翻偏見，逆轉心證！</p>
             </div>
             <div class="role-card water" onclick="window.selectRole('water')">
-              <svg class="role-icon" viewBox="0 0 16 16"><use href="#opp"/></svg>
+              <div class="role-icon"><img src="${WATER_AVATAR}" style="width:100%;height:100%;object-fit:cover;image-rendering:pixelated;"></div>
               <h3>被上訴人<br>水利局訴訟代理人</h3>
               <p>守住優勢，駁回原告！</p>
             </div>
@@ -928,7 +863,7 @@ class View {
           <div class="bailiff-text">法警！將這位訴訟代理人帶出去！</div>
           <div class="bailiff-drag">
             <svg class="bailiff-svg-large" viewBox="0 0 16 16"><use href="#bailiff"/></svg>
-            <svg class="player-svg-large" viewBox="0 0 16 16"><use href="${m.role==='melon'?'#ply':'#opp'}"/></svg>
+            <img src="${m.role==='melon' ? MELON_AVATAR : WATER_AVATAR}" class="player-img-large">
             <svg class="bailiff-svg-large" viewBox="0 0 16 16"><use href="#bailiff"/></svg>
           </div>
         </div>`;
@@ -937,7 +872,6 @@ class View {
 
     if(s.type==='end' || s.type==='end_story'){
       h+=this.renderCourt(m, '審判長');
-      
       let isTie = Math.round(m.trustMelon) === Math.round(m.trustWater);
       let isMelonWin = m.trustMelon > m.trustWater;
 
@@ -967,12 +901,9 @@ class View {
       } else if (s.type === 'story_choice') {
         h+=this.renderCourt(m, s.speaker);
         h+=`<div class="dialog-box" id="typewriter-box"><span class="speaker-name">${s.speaker}</span><div class="dialog-content" data-text="${s.text}"></div></div>`;
-        
         if (!m.res) {
           h+=`<div class="judge-ui"><h3>💭 請做出裁決</h3><div class="judge-choice">`;
-          s.opts.forEach((opt, idx) => {
-             h+=`<button class="${idx===1?'btn-object':'btn-pass'}" onclick="window.storyDecide(${opt.correct})">${opt.label}</button>`;
-          });
+          s.opts.forEach((opt, idx) => { h+=`<button class="${idx===1?'btn-object':'btn-pass'}" onclick="window.storyDecide(${opt.correct})">${opt.label}</button>`; });
           h+=`</div></div>`;
         } else {
           h+=`<div class="feedback ${m.res.ok?'ok':'ng'}"><strong>${m.res.ok?'✔ 裁決正確！':'✘ 裁決錯誤！'}</strong>${m.res.fb}</div>`;
@@ -1056,17 +987,14 @@ class View {
     }
 
     if (m.charPopup) {
-      let popupIcon = m.charPopup.icon;
-      if (m.charPopup.icon === 'judge-main' && m.effect === 'wig_fall') {
-        popupIcon = 'judge-main'; 
-      }
-      
       h += `
         <div class="character-popup-overlay" onclick="window.closePopup()">
           <div class="character-popup">
-            <svg class="character-portrait ${m.effect === 'wig_fall' ? 'bald-judge' : ''}" viewBox="0 0 16 16" style="color: ${m.charPopup.color}; filter: drop-shadow(0 0 30px ${m.charPopup.color});">
-              <use href="#${popupIcon}"/>
-            </svg>
+            <div class="character-portrait" style="color: ${m.charPopup.color}; filter: drop-shadow(0 0 30px ${m.charPopup.color});">
+              ${m.charPopup.isImg 
+                ? `<img src="${m.charPopup.icon}" style="width:100%;height:100%;object-fit:cover;image-rendering:pixelated;border-radius:12px;">` 
+                : `<svg viewBox="0 0 16 16" style="width:100%;height:100%;"><use href="#${m.charPopup.icon}"/></svg>`}
+            </div>
             <div class="character-dialog" style="border-color: ${m.charPopup.color}; box-shadow: 0 15px 40px rgba(0,0,0,0.9), inset 0 0 20px ${m.charPopup.color};">
               <span class="speaker-name" style="background:${m.charPopup.color}; color:#000;">${m.charPopup.speaker}</span>
               <div class="dialog-content" data-text="${m.charPopup.text}"></div>
@@ -1114,7 +1042,6 @@ class View {
       }
       h += `<div class="next-wrap" style="margin-top:20px;"><button class="btn" id="btnNext">下一章 →</button></div>`;
     }
-    
     h += `</div>`;
     return h;
   }
@@ -1138,9 +1065,7 @@ class Ctrl {
     document.querySelectorAll('.evidence-card').forEach(c=>{
       c.onclick=()=>{
         const r=m.pick(c.dataset.id);
-        if(r.ok) {
-          m.decisiveEffect(); 
-        }
+        if(r.ok) { m.decisiveEffect(); }
         else if(r.retry || r.rev) this.shake();
         this.start();
       };
@@ -1190,16 +1115,9 @@ window.showRoleSelect = () => { app.m.role = 'select'; app.start(); };
 window.selectRole = (role) => {
   app.m.role = role; app.m.i = 0; app.m.typingDone = false;
   
-  if (role === 'melon') {
-    app.m.trustMelon = 20;
-    app.m.trustWater = 80;
-  } else if (role === 'water') {
-    app.m.trustMelon = 60;
-    app.m.trustWater = 40;
-  } else if (role === 'judge') {
-    app.m.trustMelon = 50;
-    app.m.trustWater = 50;
-  }
+  if (role === 'melon') { app.m.trustMelon = 20; app.m.trustWater = 80; } 
+  else if (role === 'water') { app.m.trustMelon = 60; app.m.trustWater = 40; } 
+  else if (role === 'judge') { app.m.trustMelon = 50; app.m.trustWater = 50; }
 
   if (role === 'story') app.m.scenes = [...SCENES_STORY];
   else if (role === 'melon') app.m.scenes = [...SCENES_MELON, SCENE_CALC, SCENE_END];
@@ -1210,11 +1128,7 @@ window.selectRole = (role) => {
   app.start();
 };
 
-window.judgeDecide = (type, trustM, trustW, fb) => { 
-  app.m.judgePick(type, trustM, trustW, fb); 
-  app.start(); 
-};
-
+window.judgeDecide = (type, trustM, trustW, fb) => { app.m.judgePick(type, trustM, trustW, fb); app.start(); };
 window.storyDecide = (isCorrect) => { app.m.storyPick(isCorrect); app.start(); };
 window.closePopup = () => { app.m.closeCharPopup(); };
 window.setCalc = (type, val) => { app.m.setCalcOption(type, val); app.start(); };
