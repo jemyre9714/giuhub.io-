@@ -5,92 +5,100 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>西瓜寮裁判所</title>
 <style>
-:root { --gold: #ffcc00; --red: #ff0033; --green: #00ff66; --blue: #0066ff; --bg: #0a0a1a; }
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: "Arial Black", "Impact", "Noto Sans TC", sans-serif; -webkit-tap-highlight-color: transparent; }
+:root { --gold: #ffcc00; --red: #ff3344; --green: #00ff88; --blue: #3399ff; --bg: #0f111a; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; -webkit-tap-highlight-color: transparent; }
+
+/* 降低背景的對比度，讓眼睛更舒服 */
 body {
-  color: #fff; min-height: 100vh; padding: 10px; overflow-x: hidden;
-  background-color: #050510;
+  color: #e0e0e0; min-height: 100vh; padding: 10px; overflow-x: hidden;
+  background-color: #05060a;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(255, 0, 50, 0.15) 0%, transparent 60%),
-    linear-gradient(rgba(0, 50, 100, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 50, 100, 0.1) 1px, transparent 1px);
+    radial-gradient(circle at 50% 0%, rgba(255, 50, 50, 0.1) 0%, transparent 60%),
+    linear-gradient(rgba(0, 50, 100, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 50, 100, 0.05) 1px, transparent 1px);
   background-size: 100% 100%, 30px 30px, 30px 30px;
   background-attachment: fixed;
+  font-size: 16px;
+  line-height: 1.6;
 }
-/* 復古掃描線 */
-body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.25) 50%); background-size: 100% 4px; }
+/* 柔和一點的掃描線 */
+body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.15) 50%); background-size: 100% 4px; }
 
-#app { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; border: 6px solid #111; border-radius: 8px; box-shadow: 0 0 0 4px #444, 0 0 60px rgba(0,0,0,0.9), inset 0 0 100px rgba(0,0,0,0.9); background: #000; padding: 15px; overflow: hidden; }
+#app { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; border: 4px solid #222; border-radius: 12px; box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(0,0,0,0.8); background: #0a0a0f; padding: 20px; overflow: hidden; }
 
 /* 頂部心證天秤 */
-.top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 0 10px; position: relative; }
-.trust-meter { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: bold; width: 100%; }
-.trust-left { color: var(--green); width: 80px; text-align: right; line-height: 1.2; text-shadow: 1px 1px 0 #000; }
-.trust-right { color: var(--red); width: 80px; text-align: left; line-height: 1.2; text-shadow: 1px 1px 0 #000; }
+.top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding: 0 10px; position: relative; }
+.trust-meter { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 700; width: 100%; }
+.trust-left { color: var(--green); width: 90px; text-align: right; line-height: 1.3; text-shadow: 0 0 5px rgba(0,255,136,0.3); }
+.trust-right { color: var(--red); width: 90px; text-align: left; line-height: 1.3; text-shadow: 0 0 5px rgba(255,51,68,0.3); }
 .balance-container { flex: 1; height: 30px; position: relative; display: flex; justify-content: center; }
-.balance-bar { width: 90%; height: 14px; background: #222; border-radius: 7px; display: flex; overflow: hidden; border: 2px solid #555; position: relative; margin-top: 8px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); }
-.bar-melon { height: 100%; background: linear-gradient(90deg, #008800, #00ff66); transition: width 0.5s ease; }
-.bar-water { height: 100%; background: linear-gradient(90deg, #ff0033, #aa0022); transition: width 0.5s ease; }
-.scale-icon { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 32px; transition: transform 0.5s ease; z-index: 2; filter: drop-shadow(0 0 5px #fff); }
+.balance-bar { width: 90%; height: 12px; background: #1a1a24; border-radius: 6px; display: flex; overflow: hidden; border: 1px solid #333; position: relative; margin-top: 9px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); }
+.bar-melon { height: 100%; background: linear-gradient(90deg, #006633, var(--green)); transition: width 0.5s ease; }
+.bar-water { height: 100%; background: linear-gradient(90deg, var(--red), #990022); transition: width 0.5s ease; }
+.scale-icon { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 32px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
 
 /* 心證浮動提示 */
-.trust-float { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-size: 24px; font-weight: 900; text-shadow: 2px 2px 0 #000; animation: floatUp 1s ease-out forwards; pointer-events: none; z-index: 100; font-style: italic; }
-@keyframes floatUp { 0% { opacity: 0; top: 20px; } 20% { opacity: 1; top: 10px; } 100% { opacity: 0; top: -20px; } }
+.trust-float { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-size: 24px; font-weight: 900; text-shadow: 0 2px 4px rgba(0,0,0,0.8); animation: floatUp 1.2s ease-out forwards; pointer-events: none; z-index: 100; font-style: italic; letter-spacing: 1px; }
+@keyframes floatUp { 0% { opacity: 0; top: 30px; } 20% { opacity: 1; top: 20px; } 100% { opacity: 0; top: 0px; } }
 
 /* 封面（街機風格） */
 .cover-screen { text-align: center; padding: 80px 20px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; }
-.cover-title { font-size: clamp(40px, 10vw, 80px); color: var(--gold); font-weight: 900; letter-spacing: 6px; text-shadow: 4px 4px 0 #a00, 8px 8px 0 #000, 0 0 20px rgba(255, 204, 0, 0.5); margin-bottom: 10px; font-style: italic; animation: titlePulse 2s infinite alternate; }
-@keyframes titlePulse { from { filter: brightness(1); } to { filter: brightness(1.3); } }
-.cover-sub { color: #fff; font-size: clamp(16px, 4vw, 24px); letter-spacing: 8px; margin-bottom: 60px; text-shadow: 2px 2px 0 var(--blue); }
-.press-start { font-size: clamp(20px, 5vw, 32px); color: #fff; font-weight: 900; animation: blink 1s infinite; cursor: pointer; padding: 20px 40px; text-shadow: 2px 2px 0 var(--red); border: 2px dashed transparent; transition: .2s; }
+.cover-title { font-family: "Impact", "Noto Sans TC", sans-serif; font-size: clamp(40px, 10vw, 80px); color: var(--gold); font-weight: 900; letter-spacing: 6px; text-shadow: 3px 3px 0 #800, 0 0 20px rgba(255, 204, 0, 0.4); margin-bottom: 15px; font-style: italic; animation: titlePulse 2s infinite alternate; }
+@keyframes titlePulse { from { filter: brightness(1); } to { filter: brightness(1.2); } }
+.cover-sub { color: #fff; font-size: clamp(16px, 4vw, 20px); letter-spacing: 8px; margin-bottom: 60px; text-shadow: 1px 1px 0 var(--blue); font-weight: 700;}
+.press-start { font-family: "Impact", "Noto Sans TC", sans-serif; font-size: clamp(20px, 5vw, 32px); color: #fff; font-weight: 900; animation: blink 1.2s infinite; cursor: pointer; padding: 20px 40px; text-shadow: 2px 2px 0 var(--red); border: 2px dashed transparent; transition: .2s; letter-spacing: 2px;}
 .press-start:hover { border-color: var(--gold); color: var(--gold); text-shadow: 2px 2px 0 #000; background: rgba(255, 204, 0, 0.1); border-radius: 8px; }
-@keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.05); } }
+@keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.02); } }
 
-/* 角色選擇（格鬥遊戲選人畫面） */
-.roles-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 30px; width: 100%; max-width: 900px; }
-.role-card { flex: 1; min-width: 180px; padding: 20px 10px; cursor: pointer; background: #111; border: 4px solid #444; text-align: center; transition: .2s; position: relative; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); box-shadow: 0 10px 20px rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center;}
-.role-card:hover { transform: translateY(-10px) scale(1.05); z-index: 10; }
-.role-card.story { border-color: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.4); }
-.role-card.melon { border-color: var(--green); box-shadow: 0 0 30px rgba(0,255,102,0.4); }
-.role-card.water { border-color: var(--red); box-shadow: 0 0 30px rgba(255,0,51,0.4); }
-.role-card.judge { border-color: var(--gold); box-shadow: 0 0 30px rgba(255,204,0,0.4); }
-.role-icon { width: 100px; height: 100px; margin: 0 auto 15px; filter: drop-shadow(4px 4px 0 #000); transition: .2s; image-rendering: pixelated; }
-.role-card:hover .role-icon { transform: scale(1.1); }
-.role-card h3 { font-size: clamp(16px, 3vw, 20px); margin-bottom: 8px; color: #fff; text-shadow: 2px 2px 0 #000; line-height: 1.4; }
-.role-card p { font-size: 13px; color: #aaa; }
+/* 角色選擇（精緻卡牌） */
+.roles-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px; width: 100%; max-width: 900px; }
+.role-card { flex: 1; min-width: 180px; padding: 25px 15px; cursor: pointer; background: #151520; border: 2px solid #333; border-radius: 12px; text-align: center; transition: .25s; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.6); display: flex; flex-direction: column; align-items: center;}
+.role-card:hover { transform: translateY(-8px); }
+.role-card.story { border-color: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+.role-card.story:hover { background: #202025; }
+.role-card.melon { border-color: var(--green); box-shadow: 0 0 20px rgba(0,255,136,0.2); }
+.role-card.melon:hover { background: #0a2015; }
+.role-card.water { border-color: var(--red); box-shadow: 0 0 20px rgba(255,51,68,0.2); }
+.role-card.water:hover { background: #201015; }
+.role-card.judge { border-color: var(--gold); box-shadow: 0 0 20px rgba(255,204,0,0.2); }
+.role-card.judge:hover { background: #201a10; }
 
-/* 法庭全景（木紋與精緻光影） */
+.role-icon { width: 90px; height: 90px; margin: 0 auto 15px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6)); transition: .25s; image-rendering: pixelated; }
+.role-card:hover .role-icon { transform: scale(1.1) translateY(-2px); }
+.role-card h3 { font-size: clamp(16px, 3vw, 20px); margin-bottom: 8px; color: #f0f0f0; text-shadow: 1px 1px 0 #000; line-height: 1.4; font-weight: 700;}
+.role-card p { font-size: 13px; color: #888; line-height: 1.5;}
+
+/* 法庭全景 */
 .courtroom-scene { 
-  background: linear-gradient(to bottom, #2a1a0e, #1a1008);
-  border: 4px solid #333; border-radius: 4px; margin-bottom: 15px; position: relative; height: clamp(320px, 50vh, 450px); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9); transition: filter 0.3s; 
+  background: linear-gradient(to bottom, #1a1510, #0a0805);
+  border: 2px solid #333; border-radius: 8px; margin-bottom: 15px; position: relative; height: clamp(320px, 50vh, 450px); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: inset 0 0 40px rgba(0,0,0,0.8); transition: filter 0.3s; 
 }
-.courtroom-scene.danger { filter: drop-shadow(0 0 30px var(--red)) brightness(1.2) contrast(1.5); }
+.courtroom-scene.danger { filter: drop-shadow(0 0 20px var(--red)) brightness(1.1); }
 .courtroom-scene::before { 
   content: ''; position: absolute; inset: 0; 
   background: 
-    radial-gradient(circle at 50% 10%, rgba(255, 204, 0, 0.1) 0%, transparent 50%),
-    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 42px),
-    linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.9) 100%);
+    radial-gradient(circle at 50% 10%, rgba(255, 204, 0, 0.05) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.9) 100%);
   pointer-events: none; z-index: 0; 
 }
 
 /* 審判長席 */
-.judge-stand { position: relative; z-index: 2; width: 100%; height: 40%; background: linear-gradient(to bottom, #3a2515, #1a1008); border-bottom: 8px solid #4a2e15; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.8); }
-.judge-bench { display: flex; justify-content: center; align-items: flex-end; gap: clamp(10px, 3vw, 40px); }
-.judge-avatar { filter: drop-shadow(0 0 10px #000); transition: .3s; position: relative; image-rendering: pixelated;}
+.judge-stand { position: relative; z-index: 2; width: 100%; height: 40%; background: linear-gradient(to bottom, #2a1e14, #150f0a); border-bottom: 4px solid #3a2515; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.7); }
+.judge-bench { display: flex; justify-content: center; align-items: flex-end; gap: clamp(10px, 4vw, 50px); }
+.judge-avatar { filter: drop-shadow(0 4px 6px #000); transition: .3s; position: relative; image-rendering: pixelated;}
 .main-judge { width: clamp(60px, 12vw, 100px); height: clamp(60px, 12vw, 100px); z-index: 2; }
 .judge-side { width: clamp(40px, 8vw, 70px); height: clamp(40px, 8vw, 70px); opacity: 0.7; }
-.judge-avatar.active { filter: drop-shadow(0 0 20px var(--gold)); transform: translateY(-5px); }
-.main-judge.active.danger { filter: drop-shadow(0 0 30px var(--red)); }
+.judge-avatar.active { filter: drop-shadow(0 0 15px var(--gold)) drop-shadow(0 0 5px #fff); transform: translateY(-5px); }
+.main-judge.active.danger { filter: drop-shadow(0 0 20px var(--red)); }
 
 /* 惡搞特效層 */
 .effect-layer { position: absolute; inset: 0; pointer-events: none; z-index: 10; overflow: hidden; }
 .falling-wig { position: absolute; top: 5%; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; animation: wigDrop 2s forwards cubic-bezier(0.5, 0, 1, 1); z-index: 10; }
 @keyframes wigDrop { 0% { top: 5%; opacity: 1; } 80% { top: 80%; opacity: 1; } 100% { top: 100%; opacity: 0; } }
-.bald-judge { filter: grayscale(0.5) contrast(1.2); }
+.bald-judge { filter: grayscale(0.5) contrast(1.1); }
 .note-bounce { position: absolute; font-size: 24px; animation: noteUp 1.5s ease-out forwards; }
 @keyframes noteUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100px) scale(1.5); opacity: 0; } }
-.bullet-hole { position: absolute; width: 40px; height: 40px; background: radial-gradient(circle, #000 20%, #555 40%, transparent 60%); border-radius: 50%; animation: popIn 0.2s; }
+.bullet-hole { position: absolute; width: 30px; height: 30px; background: radial-gradient(circle, #000 20%, #333 40%, transparent 60%); border-radius: 50%; animation: popIn 0.2s; }
 .tumbleweed { position: absolute; font-size: 40px; animation: blowAcross 4s linear forwards; }
 @keyframes blowAcross { 0% { transform: translateX(-100px) rotate(0deg); } 100% { transform: translateX(100vw) rotate(720deg); } }
 
@@ -102,98 +110,98 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .bailiff-stand { position: absolute; bottom: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s; }
 .bailiff-stand.left { left: 2%; }
 .bailiff-stand.right { right: 2%; }
-.bailiff-avatar { width: clamp(40px, 8vw, 70px); height: clamp(40px, 8vw, 70px); filter: drop-shadow(0 0 5px #000); image-rendering: pixelated;}
-.bailiff-label { font-size: 10px; color: #ffcc00; background: #000; padding: 2px 6px; border-radius: 4px; margin-top: 2px; display: none; }
+.bailiff-avatar { width: clamp(40px, 8vw, 70px); height: clamp(40px, 8vw, 70px); filter: drop-shadow(0 4px 6px #000); image-rendering: pixelated;}
+.bailiff-label { font-size: 11px; color: #ccc; background: #111; padding: 2px 8px; border-radius: 4px; margin-top: 4px; display: none; border: 1px solid #333;}
 @media (min-width: 600px) { .bailiff-label { display: block; } }
 .bailiff-shock { animation: shock 0.15s infinite alternate; }
-@keyframes shock { from { transform: translateY(0) scale(1); } to { transform: translateY(-20px) scale(1.3) rotate(5deg); filter: drop-shadow(0 0 20px var(--red)); } }
+@keyframes shock { from { transform: translateY(0) scale(1); } to { transform: translateY(-15px) scale(1.2) rotate(3deg); filter: drop-shadow(0 0 15px var(--red)); } }
 
-/* 雙方代理人與桌子（修復遮擋） */
+/* 雙方代理人與桌子 */
 .players-area { position: relative; z-index: 2; display: flex; justify-content: space-between; padding: 0 5%; width: 100%; height: 60%; align-items: flex-end; padding-bottom: 20px;}
 .player-side { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 5px; width: 45%; position: relative; height: 100%; }
-.player-side .avatar { width: clamp(60px, 12vw, 100px); height: clamp(60px, 12vw, 100px); background: #111; border: 3px solid #555; transition: .2s; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); z-index: 3; image-rendering: pixelated; }
+.player-side .avatar { width: clamp(60px, 12vw, 100px); height: clamp(60px, 12vw, 100px); background: #111; border: 2px solid #444; border-radius: 8px; transition: .2s; z-index: 3; image-rendering: pixelated; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
 .player-side.left .avatar { border-color: var(--green); }
 .player-side.right .avatar { border-color: var(--red); }
-.player-side .avatar.active { transform: translateY(-10px); }
-.player-side.left .avatar.active { box-shadow: 0 0 20px var(--green); }
-.player-side.right .avatar.active { box-shadow: 0 0 20px var(--red); }
+.player-side .avatar.active { transform: translateY(-8px); }
+.player-side.left .avatar.active { box-shadow: 0 0 15px rgba(0,255,136,0.5); }
+.player-side.right .avatar.active { box-shadow: 0 0 15px rgba(255,51,68,0.5); }
 .player-side .avatar svg { width: 100%; height: 100%; }
 
 /* 名字標籤 */
-.name-tag { font-size: clamp(10px, 2.5vw, 14px); font-weight: 900; color: #fff; background: #000; padding: 4px 10px; border: 2px solid #555; text-transform: uppercase; text-align: center; line-height: 1.2; z-index: 4; box-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+.name-tag { font-size: clamp(10px, 2.5vw, 13px); font-weight: 700; color: #fff; background: #111; padding: 4px 12px; border: 1px solid #444; border-radius: 20px; text-align: center; line-height: 1.3; z-index: 4; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 .player-side.left .name-tag { color: var(--green); border-color: var(--green); }
 .player-side.right .name-tag { color: var(--red); border-color: var(--red); }
 
-/* 桌子在最下方 */
+/* 桌子 */
 .lawyer-desk { 
-  position: absolute; bottom: 0; width: 90%; height: 50px; 
-  background: linear-gradient(to bottom, #6b4423, #3b2210);
-  border: 3px solid #222; border-radius: 4px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.8), inset 0 2px 5px rgba(255,255,255,0.1);
+  position: absolute; bottom: 0; width: 90%; height: 40px; 
+  background: linear-gradient(to bottom, #3a2515, #1f1309);
+  border: 2px solid #222; border-radius: 4px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.8);
   z-index: 2;
 }
 .player-side.left .lawyer-desk { left: 5%; }
 .player-side.right .lawyer-desk { right: 5%; }
-.desk-item-container { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 5; }
+.desk-item-container { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 5; }
 
 /* 說話彈跳動畫 */
 .speaking { animation: speakBounce 0.3s infinite alternate; }
-@keyframes speakBounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-12px) scale(1.05); filter: drop-shadow(0 0 15px currentColor); } }
+@keyframes speakBounce { from { transform: translateY(0); } to { transform: translateY(-8px); } }
 
-/* 對話與 UI（逆轉裁判風格） */
-.dialog-box { background: #111; border: 4px solid #fff; border-radius: 4px; padding: 20px; min-height: 120px; position: relative; box-shadow: inset 0 0 0 2px #000, 0 10px 20px rgba(0,0,0,0.8); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
-.speaker-name { position: absolute; top: -16px; left: 15px; background: var(--gold); color: #000; font-size: clamp(12px, 3vw, 14px); font-weight: 900; padding: 4px 15px; border: 2px solid #000; transform: skewX(-10deg); box-shadow: 2px 2px 0 rgba(0,0,0,0.8); }
-.dialog-content { font-size: clamp(14px, 3.5vw, 18px); line-height: 1.6; color: #fff; margin-top: 8px; font-family: "Noto Sans TC", sans-serif; font-weight: bold; white-space: pre-wrap; }
+/* 對話 UI（降低對比度，改為乾淨好讀的風格） */
+.dialog-box { background: rgba(15, 15, 20, 0.95); border: 2px solid #555; border-radius: 8px; padding: 20px 25px; min-height: 120px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.6); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
+.speaker-name { position: absolute; top: -14px; left: 20px; background: #222; color: #fff; font-size: clamp(13px, 3vw, 15px); font-weight: 700; padding: 4px 16px; border: 2px solid #555; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.dialog-content { font-size: clamp(15px, 3.5vw, 18px); line-height: 1.8; color: #f0f0f0; margin-top: 8px; font-weight: 500; white-space: pre-wrap; letter-spacing: 0.5px; }
 
-@keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes popIn { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
 /* 提示框 */
-.hint-box { background: rgba(0, 50, 150, 0.9); border: 3px solid var(--blue); border-radius: 4px; padding: 12px; margin-top: 15px; text-align: center; font-size: clamp(12px, 3vw, 16px); color: #fff; box-shadow: 0 0 15px rgba(0,102,255,0.6); animation: pulse 2s infinite; }
-.hint-box::before { content: '等等！'; display: block; color: var(--gold); font-size: 1.2em; font-style: italic; margin-bottom: 5px; text-shadow: 2px 2px 0 #000; }
-@keyframes pulse { 0%, 100% { box-shadow: 0 0 10px rgba(0,102,255,0.5); } 50% { box-shadow: 0 0 25px rgba(0,102,255,1); } }
+.hint-box { background: rgba(20, 40, 80, 0.8); border: 1px solid var(--blue); border-radius: 6px; padding: 12px 15px; margin-top: 15px; text-align: center; font-size: clamp(13px, 3vw, 15px); color: #fff; box-shadow: 0 0 10px rgba(51, 153, 255, 0.2); animation: pulse 2s infinite; font-weight: 500; }
+.hint-box::before { content: '等等！'; display: block; color: var(--gold); font-size: 1.1em; font-style: italic; margin-bottom: 4px; font-weight: 700; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 10px rgba(51, 153, 255, 0.2); } 50% { box-shadow: 0 0 20px rgba(51, 153, 255, 0.5); } }
 
-/* 按鈕（3D 街機感） */
-.objection-btn { display: block; margin: 15px auto; padding: 12px 40px; background: var(--red); color: #fff; border: 4px solid #fff; border-radius: 8px; font-size: clamp(20px, 5vw, 32px); font-weight: 900; cursor: pointer; transition: .1s; text-transform: uppercase; text-shadow: 3px 3px 0 #000; box-shadow: 0 8px 0 #800, 0 15px 20px rgba(0,0,0,0.8); font-style: italic; width: 90%; max-width: 350px; }
-.objection-btn:active { transform: translateY(8px); box-shadow: 0 0 0 #800, 0 5px 10px rgba(0,0,0,0.8); }
-.btn { padding: 12px 20px; border: 3px solid #fff; border-radius: 4px; cursor: pointer; background: var(--gold); color: #000; font-weight: 900; font-size: clamp(14px, 3.5vw, 18px); transition: .1s; display: block; margin: 10px auto; width: 100%; max-width: 300px; text-transform: uppercase; box-shadow: 0 6px 0 #a00, 0 10px 10px rgba(0,0,0,0.5); text-shadow: 1px 1px 0 #fff; }
-.btn:active { transform: translateY(6px); box-shadow: 0 0 0 #a00; }
-.btn.green { background: var(--green); box-shadow: 0 6px 0 #080; text-shadow: none; }
-.btn.red { background: var(--red); color: #fff; box-shadow: 0 6px 0 #800; text-shadow: 1px 1px 0 #000; }
+/* 按鈕（稍微圓潤化，移除過度生硬的黑影） */
+.objection-btn { display: block; margin: 15px auto; padding: 12px 40px; background: var(--red); color: #fff; border: 2px solid #ff8888; border-radius: 8px; font-size: clamp(20px, 5vw, 28px); font-weight: 900; cursor: pointer; transition: .15s; text-transform: uppercase; box-shadow: 0 4px 0 #800, 0 8px 15px rgba(0,0,0,0.6); font-style: italic; width: 90%; max-width: 350px; }
+.objection-btn:active { transform: translateY(4px); box-shadow: 0 0 0 #800; }
+.btn { padding: 12px 20px; border: 2px solid #fff; border-radius: 6px; cursor: pointer; background: var(--gold); color: #000; font-weight: 700; font-size: clamp(15px, 3.5vw, 18px); transition: .15s; display: block; margin: 10px auto; width: 100%; max-width: 300px; box-shadow: 0 4px 0 #a00, 0 6px 10px rgba(0,0,0,0.4); }
+.btn:active { transform: translateY(4px); box-shadow: 0 0 0 #a00; }
+.btn.green { background: var(--green); box-shadow: 0 4px 0 #080; border-color: #fff; }
+.btn.red { background: var(--red); color: #fff; box-shadow: 0 4px 0 #800; border-color: #fff; }
 .next-wrap { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
 
-/* 法庭紀錄（證物袋） */
-.evidence-bag { margin-top: 15px; padding: 20px 15px 15px; background: #112; border: 4px solid var(--gold); border-radius: 4px; animation: slideUp .2s ease; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-.evidence-bag::after { content: 'COURT RECORD'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; font-weight: 900; padding: 2px 20px; border: 2px solid #000; font-size: 14px; letter-spacing: 2px; }
-.evidence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(80px, 20vw, 110px), 1fr)); gap: 10px; margin-top: 15px; }
-.evidence-card { padding: 10px 5px; text-align: center; background: #222; border: 3px solid #555; border-radius: 4px; cursor: pointer; transition: .1s; color: #fff; position: relative; }
+/* 證物袋 */
+.evidence-bag { margin-top: 15px; padding: 25px 15px 15px; background: #111; border: 2px solid var(--gold); border-radius: 8px; animation: slideUp .2s ease; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
+.evidence-bag::after { content: 'COURT RECORD'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; font-weight: 900; padding: 2px 20px; border-radius: 4px; font-size: 13px; letter-spacing: 2px; }
+.evidence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(80px, 20vw, 110px), 1fr)); gap: 12px; margin-top: 15px; }
+.evidence-card { padding: 12px 6px; text-align: center; background: #1a1a24; border: 2px solid #444; border-radius: 8px; cursor: pointer; transition: .15s; color: #fff; position: relative; }
 .evidence-card:active { background: var(--blue); border-color: #fff; }
-.ev-icon { width: 32px; height: 32px; margin: 0 auto 5px; display: block; filter: drop-shadow(2px 2px 0 #000); }
-.ev-name { font-size: 12px; font-weight: bold; font-family: "Noto Sans TC", sans-serif; text-shadow: 1px 1px 0 #000; }
+.ev-icon { width: 36px; height: 36px; margin: 0 auto 8px; display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+.ev-name { font-size: 13px; font-weight: 700; color: #ccc; }
 
 /* 審判長 UI */
-.judge-ui { background: #222; border: 4px solid var(--gold); border-radius: 4px; padding: 15px; margin-top: 15px; text-align: center; animation: popIn .3s ease; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
-.judge-ui h3 { color: var(--gold); margin-bottom: 15px; font-size: clamp(14px, 4vw, 18px); line-height: 1.4; text-shadow: 1px 1px 0 #000; }
+.judge-ui { background: #151520; border: 2px solid var(--gold); border-radius: 8px; padding: 20px; margin-top: 15px; text-align: center; animation: popIn .3s ease; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
+.judge-ui h3 { color: var(--gold); margin-bottom: 20px; font-size: clamp(15px, 4vw, 18px); line-height: 1.5; font-weight: 700; }
 .judge-choice { display: flex; flex-direction: column; gap: 10px; }
 @media (min-width: 600px) { .judge-choice { flex-direction: row; justify-content: center; flex-wrap: wrap;} }
-.judge-choice button { flex: 1; min-width: 45%; padding: 15px; font-size: clamp(14px, 3.5vw, 16px); font-weight: 900; border: 3px solid #fff; border-radius: 4px; cursor: pointer; transition: .1s; text-transform: uppercase; line-height: 1.4; box-shadow: 0 5px 0 rgba(0,0,0,0.5); }
-.judge-choice button:active { transform: translateY(5px); box-shadow: none; }
-.btn-pass { background: var(--blue); color: #fff; text-shadow: 1px 1px 0 #000; }
-.btn-object { background: var(--red); color: #fff; text-shadow: 1px 1px 0 #000; }
+.judge-choice button { flex: 1; min-width: 45%; padding: 15px; font-size: clamp(14px, 3.5vw, 16px); font-weight: 700; border: 2px solid #fff; border-radius: 6px; cursor: pointer; transition: .15s; line-height: 1.4; box-shadow: 0 4px 0 rgba(0,0,0,0.5); }
+.judge-choice button:active { transform: translateY(4px); box-shadow: none; }
+.btn-pass { background: var(--blue); color: #fff; }
+.btn-object { background: var(--red); color: #fff; }
 .btn-ask { background: var(--gold); color: #000; }
 
 /* 回饋 */
-.feedback { margin-top: 15px; padding: 15px; border: 4px solid; font-size: clamp(13px, 3vw, 16px); font-family: "Noto Sans TC", sans-serif; font-weight: bold; border-radius: 4px; animation: popIn 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-.feedback.ok { background: rgba(0,255,102,0.2); border-color: var(--green); color: #ccffdd; }
-.feedback.ng { background: rgba(255,0,51,0.2); border-color: var(--red); color: #ffccdd; }
-.feedback.neutral { background: rgba(255,204,0,0.2); border-color: var(--gold); color: #ffefb3; }
-.feedback strong { display: block; margin-bottom: 8px; font-size: clamp(16px, 4vw, 20px); font-family: "Arial Black", sans-serif; text-transform: uppercase; }
+.feedback { margin-top: 15px; padding: 18px; border: 2px solid; font-size: clamp(14px, 3vw, 16px); font-weight: 500; border-radius: 8px; animation: popIn 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.4); line-height: 1.6;}
+.feedback.ok { background: rgba(0,255,136,0.1); border-color: var(--green); color: #ccffdd; }
+.feedback.ng { background: rgba(255,51,68,0.1); border-color: var(--red); color: #ffccdd; }
+.feedback.neutral { background: rgba(255,204,0,0.1); border-color: var(--gold); color: #ffefb3; }
+.feedback strong { display: block; margin-bottom: 8px; font-size: clamp(16px, 4vw, 19px); font-weight: 900; }
 
-/* 真正的角色彈出視窗 (Character Popup) */
-.character-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: flex-end; justify-content: center; z-index: 2000; padding: 20px; overflow: hidden; }
+/* 彈出視窗 */
+.character-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: flex-end; justify-content: center; z-index: 2000; padding: 20px; overflow: hidden; backdrop-filter: blur(2px); }
 .character-popup { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 600px; animation: popOutFromBottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-.character-portrait { width: clamp(150px, 35vw, 280px); height: clamp(150px, 35vw, 280px); filter: drop-shadow(0 0 40px rgba(0,0,0,1)); z-index: 2; margin-bottom: -20px; position: relative; animation: speakBounce 0.3s infinite alternate; image-rendering: pixelated; }
-.character-dialog { background: #000; border: 5px solid var(--gold); border-radius: 8px; padding: 25px; width: 100%; position: relative; z-index: 1; box-shadow: 0 15px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,0,0,1); text-align: center; }
-.character-dialog .dialog-content { font-size: clamp(16px, 4vw, 24px); text-align: left; padding: 10px; text-shadow: 1px 1px 0 #000; }
+.character-portrait { width: clamp(150px, 35vw, 250px); height: clamp(150px, 35vw, 250px); filter: drop-shadow(0 0 30px rgba(0,0,0,0.8)); z-index: 2; margin-bottom: -20px; position: relative; animation: speakBounce 0.3s infinite alternate; image-rendering: pixelated; }
+.character-dialog { background: #111; border: 3px solid var(--gold); border-radius: 8px; padding: 25px; width: 100%; position: relative; z-index: 1; box-shadow: 0 15px 40px rgba(0,0,0,0.9); text-align: center; }
+.character-dialog .dialog-content { font-size: clamp(16px, 4vw, 22px); text-align: left; padding: 10px; color: #fff; font-weight: 700;}
 @keyframes popOutFromBottom { 0% { transform: translateY(100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
 
 /* 法警帶走動畫 */
@@ -201,14 +209,14 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .bailiff-drag { display: flex; align-items: flex-end; gap: 10px; animation: dragAway 2s forwards cubic-bezier(0.7, 0, 1, 1); }
 .bailiff-svg-large { width: clamp(80px, 20vw, 150px); height: clamp(80px, 20vw, 150px); animation: walk 0.3s infinite alternate; image-rendering: pixelated; }
 .player-svg-large { width: clamp(60px, 15vw, 120px); height: clamp(60px, 15vw, 120px); transform: rotate(30deg); filter: drop-shadow(0 0 10px rgba(255,0,0,0.8)); image-rendering: pixelated; }
-.bailiff-text { position: absolute; top: 20%; width: 100%; text-align: center; font-size: clamp(24px, 8vw, 50px); color: var(--red); font-weight: 900; text-shadow: 3px 3px 0 #fff; animation: blink .3s infinite; font-style: italic; padding: 0 10px; }
+.bailiff-text { position: absolute; top: 20%; width: 100%; text-align: center; font-size: clamp(24px, 8vw, 50px); color: var(--red); font-weight: 900; animation: blink .3s infinite; font-style: italic; padding: 0 10px; }
 @keyframes dragAway { 0% { transform: translateX(0); } 20% { transform: translateX(-50px) rotate(-5deg); } 100% { transform: translateX(100vw); opacity: 0; } }
 @keyframes walk { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
 /* 獨立 Game Over 畫面 */
 .gameover-scene { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 4000; display: flex; flex-direction: column; align-items: center; justify-content: center; animation: fadeIn 0.5s ease; text-align: center; padding: 20px; }
-.gameover-title { font-size: clamp(60px, 15vw, 100px); color: var(--red); font-weight: 900; text-shadow: 4px 4px 0 #fff; font-style: italic; margin-bottom: 20px; transform: rotate(-5deg); }
-.gameover-sub { font-size: clamp(18px, 4vw, 24px); color: #fff; margin-bottom: 40px; font-weight: bold; }
+.gameover-title { font-size: clamp(60px, 15vw, 100px); color: var(--red); font-weight: 900; margin-bottom: 20px; transform: rotate(-5deg); font-family: "Impact", sans-serif;}
+.gameover-sub { font-size: clamp(18px, 4vw, 24px); color: #fff; margin-bottom: 40px; font-weight: 700; }
 .gameover-scene .btn { max-width: 250px; }
 
 #flash-overlay { position: fixed; inset: 0; background: #fff; z-index: 5000; pointer-events: none; opacity: 0; }
@@ -217,41 +225,41 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 #decisive-text { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5001; pointer-events: none; opacity: 0; padding: 20px; }
 .decisive-active { animation: decisiveAnim 1.5s ease-out forwards; }
 @keyframes decisiveAnim { 0% { opacity: 0; transform: scale(0.5) rotate(-10deg); } 20% { opacity: 1; transform: scale(1.1) rotate(5deg); } 40% { transform: scale(1) rotate(-2deg); } 80% { opacity: 1; transform: scale(1) rotate(0deg); } 100% { opacity: 0; transform: scale(1.5) rotate(0deg); } }
-.decisive-text-inner { font-size: clamp(40px, 15vw, 100px); font-weight: 900; color: var(--gold); text-shadow: 6px 6px 0 var(--red), 12px 12px 0 #000; font-style: italic; letter-spacing: 6px; text-align: center; line-height: 1.2; transform: rotate(-10deg); }
+.decisive-text-inner { font-size: clamp(40px, 15vw, 100px); font-weight: 900; color: var(--gold); text-shadow: 4px 4px 0 var(--red), 8px 8px 0 #000; font-style: italic; letter-spacing: 4px; text-align: center; line-height: 1.2; transform: rotate(-10deg); }
 
 /* 勝訴動畫 */
-#victory-overlay { position: fixed; inset: 0; z-index: 6000; background: radial-gradient(circle, rgba(255,204,0,0.2) 0%, rgba(0,0,0,0.95) 70%); display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+#victory-overlay { position: fixed; inset: 0; z-index: 6000; background: radial-gradient(circle, rgba(255,204,0,0.15) 0%, rgba(0,0,0,0.95) 70%); display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
 #victory-overlay.show { display: flex; animation: fadeIn .5s ease; }
-.victory-title { font-size: clamp(60px, 15vw, 120px); color: var(--gold); font-weight: 900; text-shadow: 8px 8px 0 var(--red), 16px 16px 0 #000; transform: rotate(-10deg); animation: popIn .5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2; font-style: italic; letter-spacing: 8px; }
-.victory-sub { font-size: clamp(20px, 5vw, 36px); color: #fff; margin-top: 30px; z-index: 2; animation: slideUp .5s .2s forwards; opacity: 0; text-align: center; font-weight: bold; text-shadow: 2px 2px 0 #000; }
+.victory-title { font-size: clamp(60px, 15vw, 120px); font-weight: 900; transform: rotate(-10deg); animation: popIn .5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2; font-style: italic; letter-spacing: 6px; text-shadow: 4px 4px 0 #000, 8px 8px 0 rgba(0,0,0,0.5); }
+.victory-sub { font-size: clamp(20px, 5vw, 36px); color: #fff; margin-top: 30px; z-index: 2; animation: slideUp .5s .2s forwards; opacity: 0; text-align: center; font-weight: 700; text-shadow: 2px 2px 0 #000; }
 .confetti { position: absolute; width: 10px; height: 10px; background: #f00; animation: fall linear forwards; z-index: 1; }
 @keyframes fall { to { transform: translateY(100vh) rotate(720deg); } }
 
 @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .shake { animation: shake .4s ease; }
-@keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-15px); } 40%, 80% { transform: translateX(15px); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-10px); } 40%, 80% { transform: translateX(10px); } }
 
 /* 第六章算帳 UI */
-.calc-facts { background: #222; border: 3px solid var(--gold); padding: 15px; border-radius: 4px; margin-bottom: 15px; animation: popIn .3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
-.fact-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #555; font-family: "Noto Sans TC", sans-serif; font-size: 15px; }
+.calc-facts { background: #1a1a24; border: 2px solid var(--gold); padding: 20px; border-radius: 8px; margin-bottom: 20px; animation: popIn .3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+.fact-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #444; font-size: 15px; }
 .fact-row:last-child { border-bottom: none; }
 .fact-label { color: #aaa; }
-.fact-val { color: var(--gold); font-weight: bold; text-shadow: 1px 1px 0 #000; }
-.calc-options { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
-.option-group { background: #111; border: 3px solid #444; padding: 15px; border-radius: 4px; }
-.option-title { font-size: 14px; color: var(--blue); margin-bottom: 10px; font-weight: bold; text-shadow: 1px 1px 0 #000; }
+.fact-val { color: var(--gold); font-weight: 700; }
+.calc-options { display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
+.option-group { background: #151520; border: 2px solid #333; padding: 15px; border-radius: 8px; }
+.option-title { font-size: 15px; color: var(--blue); margin-bottom: 12px; font-weight: 700; }
 .option-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-.opt-btn { flex: 1; padding: 12px; background: #333; color: #fff; border: 2px solid #555; border-radius: 4px; cursor: pointer; font-size: 14px; transition: .1s; box-shadow: 0 4px 0 #111; }
-.opt-btn:active { transform: translateY(4px); box-shadow: none; }
-.opt-btn.selected { background: var(--blue); border-color: #fff; box-shadow: 0 4px 0 #002; }
+.opt-btn { flex: 1; padding: 12px; background: #222; color: #fff; border: 2px solid #444; border-radius: 6px; cursor: pointer; font-size: 15px; transition: .15s; font-weight: 700; }
+.opt-btn:active { transform: scale(0.95); }
+.opt-btn.selected { background: var(--blue); border-color: #fff; box-shadow: 0 0 10px rgba(51,153,255,0.5); }
 .opt-btn.wrong { background: var(--red); border-color: #fff; }
 .opt-btn.correct { background: var(--green); color: #000; border-color: #fff; }
-.calc-result { margin-top: 20px; text-align: center; font-size: 20px; color: var(--gold); font-weight: bold; display: none; }
+.calc-result { margin-top: 20px; text-align: center; font-size: 20px; color: var(--gold); font-weight: 700; display: none; }
 .calc-result.show { display: block; animation: popIn .3s forwards; }
 
 /* 平局選擇 UI */
-.tie-ui { background: #111; border: 4px solid #fff; border-radius: 8px; padding: 25px; margin-top: 20px; text-align: center; animation: popIn .5s; box-shadow: 0 0 40px rgba(255,255,255,0.5); }
-.tie-ui h2 { color: #fff; margin-bottom: 20px; font-size: 24px; text-shadow: 2px 2px 0 #000; }
+.tie-ui { background: #151520; border: 2px solid #fff; border-radius: 8px; padding: 25px; margin-top: 20px; text-align: center; animation: popIn .5s; box-shadow: 0 0 30px rgba(255,255,255,0.3); }
+.tie-ui h2 { color: #fff; margin-bottom: 20px; font-size: 22px; font-weight: 700; }
 .tie-btns { display: flex; flex-direction: column; gap: 15px; }
 @media (min-width: 600px) { .tie-btns { flex-direction: row; justify-content: center; } }
 </style>
@@ -270,1020 +278,20 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <!-- 上訴人：西瓜寮代表（律師裝扮，紅領帶） -->
+    <!-- 上訴人：西瓜寮代表（律師裝扮，深綠髮，大眼，腮紅） -->
     <symbol id="ply" viewBox="0 0 16 16">
-      <!-- 頭髮與陰影 -->
-      <rect x="4" y="0" width="8" height="1" fill="#1a1a1a"/>
-      <rect x="2" y="1" width="12" height="1" fill="#1a1a1a"/>
-      <rect x="1" y="2" width="2" height="4" fill="#1a1a1a"/>
-      <rect x="13" y="2" width="2" height="4" fill="#1a1a1a"/>
-      <rect x="3" y="2" width="1" height="1" fill="#333"/>
-      <rect x="12" y="2" width="1" height="1" fill="#333"/>
+      <!-- 後髮陰影 -->
+      <rect x="3" y="1" width="10" height="2" fill="#113311"/>
+      <!-- 瀏海與前髮 -->
+      <rect x="4" y="2" width="8" height="1" fill="#2a5a2a"/>
+      <rect x="3" y="3" width="2" height="2" fill="#2a5a2a"/>
+      <rect x="11" y="3" width="2" height="2" fill="#2a5a2a"/>
       <!-- 臉部 -->
-      <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
-      <!-- 眼睛 -->
-      <rect x="4" y="4" width="3" height="2" fill="#fff"/>
-      <rect x="5" y="5" width="1" height="1" fill="#1a1008"/>
-      <rect x="9" y="4" width="3" height="2" fill="#fff"/>
-      <rect x="10" y="5" width="1" height="1" fill="#1a1008"/>
-      <!-- 眉毛 -->
-      <rect x="4" y="3" width="2" height="1" fill="#1a1a1a"/>
-      <rect x="10" y="3" width="2" height="1" fill="#1a1a1a"/>
-      <!-- 嘴巴 -->
-      <rect x="7" y="7" width="2" height="1" fill="#8b3a3a"/>
-      <!-- 西裝與襯衫 -->
-      <rect x="2" y="9" width="12" height="7" fill="#1a1a3a"/>
-      <rect x="4" y="9" width="8" height="7" fill="#2a2a5a"/>
-      <rect x="5" y="9" width="6" height="4" fill="#f0f0f0"/>
-      <!-- 紅領帶 -->
-      <rect x="7" y="9" width="2" height="5" fill="#ff4d6d"/>
-      <rect x="6" y="9" width="1" height="1" fill="#ff4d6d"/>
-      <rect x="9" y="9" width="1" height="1" fill="#ff4d6d"/>
-    </symbol>
-
-    <!-- 被上訴人：水利局代表（律師裝扮，藍領帶，灰髮） -->
-    <symbol id="opp" viewBox="0 0 16 16">
-      <!-- 頭髮與陰影 -->
-      <rect x="4" y="0" width="8" height="1" fill="#4a4a4a"/>
-      <rect x="2" y="1" width="12" height="1" fill="#4a4a4a"/>
-      <rect x="1" y="2" width="2" height="4" fill="#4a4a4a"/>
-      <rect x="13" y="2" width="2" height="4" fill="#4a4a4a"/>
-      <rect x="3" y="2" width="1" height="1" fill="#666"/>
-      <rect x="12" y="2" width="1" height="1" fill="#666"/>
-      <!-- 臉部 -->
-      <rect x="2" y="3" width="12" height="6" fill="#e8c8a8"/>
-      <!-- 眼睛（稍微銳利） -->
-      <rect x="3" y="4" width="3" height="2" fill="#fff"/>
-      <rect x="4" y="5" width="1" height="1" fill="#1a1008"/>
-      <rect x="10" y="4" width="3" height="2" fill="#fff"/>
-      <rect x="11" y="5" width="1" height="1" fill="#1a1008"/>
-      <!-- 眉毛 -->
-      <rect x="3" y="3" width="3" height="1" fill="#4a4a4a"/>
-      <rect x="10" y="3" width="3" height="1" fill="#4a4a4a"/>
-      <!-- 嘴巴 -->
-      <rect x="6" y="7.5" width="4" height="0.5" fill="#4a2a2a"/>
-      <!-- 西裝與襯衫 -->
-      <rect x="2" y="9" width="12" height="7" fill="#2a2a3a"/>
-      <rect x="4" y="9" width="8" height="7" fill="#3a3a4a"/>
-      <rect x="5" y="9" width="6" height="4" fill="#dddddd"/>
-      <!-- 藍領帶 -->
-      <rect x="7" y="9" width="2" height="5" fill="#3a5a8b"/>
-      <rect x="6" y="9" width="1" height="1" fill="#3a5a8b"/>
-      <rect x="9" y="9" width="1" height="1" fill="#3a5a8b"/>
-    </symbol>
-
-    <!-- 審判長（極度莊嚴） -->
-    <symbol id="judge-main" viewBox="0 0 16 16">
-      <!-- 白髮假髮 -->
-      <rect x="3" y="0" width="10" height="1" fill="#eeeeee"/>
-      <rect x="2" y="1" width="12" height="2" fill="#eeeeee"/>
-      <rect x="1" y="3" width="2" height="2" fill="#eeeeee"/>
-      <rect x="13" y="3" width="2" height="2" fill="#eeeeee"/>
-      <rect x="3" y="2" width="1" height="1" fill="#cccccc"/>
-      <rect x="12" y="2" width="1" height="1" fill="#cccccc"/>
-      <!-- 臉部與皺紋 -->
-      <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
-      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="4" y="4" width="2" height="0.5" fill="#fff"/>
-      <rect x="10" y="4" width="2" height="0.5" fill="#fff"/>
-      <!-- 鬍子與嘴巴 -->
-      <rect x="7" y="6" width="2" height="1" fill="#8b3a3a"/>
-      <rect x="6" y="7" width="4" height="1" fill="#ddd"/>
-      <!-- 法袍與紅領口 -->
-      <rect x="1" y="9" width="14" height="7" fill="#1a1a1a"/>
-      <rect x="4" y="9" width="8" height="7" fill="#2a2a2a"/>
-      <rect x="7" y="9" width="2" height="3" fill="#8b3a3a"/>
-      <!-- 法槌 -->
-      <rect x="2" y="11" width="4" height="2" fill="#a87840"/>
-      <rect x="4" y="11" width="1" height="4" fill="#6b4f2f"/>
-    </symbol>
-
-    <!-- 陪席法官 -->
-    <symbol id="judge-side" viewBox="0 0 16 16">
-      <rect x="3" y="1" width="10" height="2" fill="#dddddd"/>
-      <rect x="2" y="3" width="12" height="1" fill="#dddddd"/>
-      <rect x="3" y="4" width="10" height="6" fill="#f5d5b0"/>
-      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="6" y="7.5" width="4" height="0.5" fill="#1a1008"/>
-      <rect x="1" y="10" width="14" height="6" fill="#222"/>
-      <rect x="5" y="10" width="6" height="6" fill="#333"/>
-      <rect x="7" y="10" width="2" height="4" fill="#003366"/>
-    </symbol>
-
-    <!-- 法警 -->
-    <symbol id="bailiff" viewBox="0 0 16 16">
-      <rect x="4" y="0" width="8" height="2" fill="#1a1a1a"/>
-      <rect x="2" y="2" width="12" height="1" fill="#000"/>
-      <rect x="7" y="0" width="2" height="2" fill="#f7c948"/>
-      <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
-      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="6" y="7" width="4" height="0.5" fill="#1a1008"/>
-      <rect x="2" y="9" width="12" height="7" fill="#2a2a3a"/>
-      <rect x="7" y="9" width="2" height="4" fill="#111"/>
-      <rect x="4" y="9" width="2" height="2" fill="#f7c948"/>
-      <rect x="10" y="9" width="2" height="2" fill="#f7c948"/>
-      <rect x="13" y="6" width="2" height="6" fill="#111" rx="1"/>
-    </symbol>
-
-    <!-- 證物 -->
-    <symbol id="i-doc" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="14" fill="#f5e6c8"/><rect x="4" y="3" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="5" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="7" width="6" height="0.6" fill="#5a4020"/></symbol>
-    <symbol id="i-book" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#8b3a3a"/><rect x="3" y="3" width="10" height="0.8" fill="#f7c948"/><rect x="3" y="12.2" width="10" height="0.8" fill="#f7c948"/><rect x="6" y="6" width="4" height="4" fill="#f7c948"/></symbol>
-    <symbol id="i-scale" viewBox="0 0 16 16"><rect x="7.5" y="3" width="1" height="10" fill="#c8a878"/><rect x="5" y="13" width="6" height="1" fill="#c8a878"/><rect x="2" y="4" width="12" height="0.6" fill="#c8a878"/><rect x="1" y="7" width="3" height="0.6" fill="#c8a878"/><rect x="12" y="7" width="3" height="0.6" fill="#c8a878"/></symbol>
-    <symbol id="i-gavel" viewBox="0 0 16 16"><rect x="2" y="6" width="8" height="3" fill="#a87840"/><rect x="9" y="7.5" width="5" height="1" fill="#6b4f2f"/></symbol>
-    <symbol id="i-money" viewBox="0 0 16 16"><rect x="1" y="4" width="14" height="8" fill="#4c8b4c"/><circle cx="8" cy="8" r="2.2" fill="#f5e6c8"/></symbol>
-    <symbol id="i-badge" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="13" rx="1" fill="#fff"/><rect x="4" y="3" width="8" height="2" fill="#3a5a8b"/><circle cx="8" cy="8" r="2" fill="#ff4d6d"/><rect x="5" y="12" width="6" height="1" fill="#888"/></symbol>
-    <symbol id="i-wig" viewBox="0 0 16 16"><rect x="4" y="1" width="8" height="3" fill="#eee"/><rect x="2" y="4" width="12" height="4" fill="#eee"/><rect x="1" y="8" width="3" height="4" fill="#eee"/><rect x="12" y="8" width="3" height="4" fill="#eee"/></symbol>
-    <symbol id="i-pineapple" viewBox="0 0 16 16"><rect x="5" y="5" width="6" height="10" fill="#f7c948"/><rect x="6" y="2" width="1" height="3" fill="#2d6a2d"/><rect x="8" y="1" width="1" height="4" fill="#2d6a2d"/><rect x="10" y="2" width="1" height="3" fill="#2d6a2d"/></symbol>
-    <symbol id="i-chicken" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#d88"/><circle cx="6" cy="6" r="1.5" fill="#fff"/><circle cx="10" cy="10" r="1" fill="#fff"/><rect x="11" y="2" width="1" height="5" fill="#fff" transform="rotate(45 11 2)"/></symbol>
-    <symbol id="i-pokeball" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#fff"/><path d="M2 8 A6 6 0 0 1 14 8" fill="#ff3050"/><rect x="2" y="7.5" width="12" height="1" fill="#111"/><circle cx="8" cy="8" r="2" fill="#fff" stroke="#111" stroke-width="0.5"/></symbol>
-    <symbol id="i-gun" viewBox="0 0 16 16"><rect x="2" y="5" width="10" height="3" fill="#333"/><rect x="12" y="6" width="3" height="1" fill="#111"/><rect x="4" y="8" width="3" height="4" fill="#222"/><rect x="5" y="8" width="1" height="3" fill="#555"/></symbol>
-    <symbol id="i-popcorn" viewBox="0 0 16 16"><rect x="3" y="6" width="10" height="9" fill="#fff"/><rect x="3" y="6" width="10" height="2" fill="#f00"/><circle cx="6" cy="4" r="2" fill="#ff0"/><circle cx="10" cy="3" r="2.5" fill="#ff0"/><circle cx="8" cy="5" r="1.5" fill="#ff0"/></symbol>
-    <symbol id="i-earbuds" viewBox="0 0 16 16"><circle cx="5" cy="8" r="2" fill="#fff"/><circle cx="11" cy="8" r="2" fill="#fff"/><rect x="5" y="10" width="1" height="3" fill="#fff"/><rect x="10" y="10" width="1" height="3" fill="#fff"/></symbol>
-    <symbol id="i-leaf" viewBox="0 0 16 16"><path d="M8 1 Q14 8 8 15 Q2 8 8 1 Z" fill="#4caf50"/><rect x="7.5" y="1" width="1" height="14" fill="#2d6a2d"/></symbol>
-  </defs>
-</svg>
-
-<script type="module">
-const ALL_EVIDENCE = {
-  e_prep: { id:'e_prep', name:'準備書(一)狀', icon:'i-doc' },
-  e_join: { id:'e_join', name:'參加書狀', icon:'i-gavel' },
-  e_1381: { id:'e_1381', name:'第1381號判決', icon:'i-scale' },
-  e_min: { id:'e_min', name:'言詞辯論筆錄', icon:'i-doc' },
-  e_tender: { id:'e_tender', name:'招標須知第8條', icon:'i-book' },
-  e_withdraw: { id:'e_withdraw', name:'撤回上訴狀', icon:'i-doc' },
-  e_deliver: { id:'e_deliver', name:'土石點交證明', icon:'i-money' },
-  e_abuse: { id:'e_abuse', name:'歷審判決書', icon:'i-book' },
-  
-  j_gun: { id:'j_gun', name:'法警的手槍', icon:'i-gun', joke:'法警（驚恐）：等、等等！我的槍怎麼會在你那裡？！（全場法警掏槍對準你）', effect: 'gun', danger: true, fatal: true },
-  j_badge: { id:'j_badge', name:'律師執照', icon:'i-badge', joke:'審判長：代理人，你拿自己的執照給我看，是想證明你考過國考嗎？', effect: 'shake' },
-  j_wig: { id:'j_wig', name:'法官假髮', icon:'i-wig', joke:'審判長（摸頭）：大膽！竟敢拿假髮調侃本官？法警！', effect: 'wig_fall', fatal: true },
-  j_pineapple: { id:'j_pineapple', name:'鳳梨', icon:'i-pineapple', joke:'審判長：帶鳳梨來法院？你是在詛咒本件「旺」到無法結案嗎？', effect: 'desk_item', isFood: true, foodIcon: '🍍' },
-  j_chicken: { id:'j_chicken', name:'鹹酥雞', icon:'i-chicken', joke:'審判長：現在是言詞辯論，不是宵夜時間！你當這裡是熱炒店？', effect: 'desk_item', isFood: true, foodIcon: '🍗' },
-  j_pokeball: { id:'j_pokeball', name:'寶貝球', icon:'i-pokeball', joke:'審判長：你想用這個收服本官嗎？本官可不是寶可夢！', effect: 'shake' },
-  j_popcorn: { id:'j_popcorn', name:'爆米花', icon:'i-popcorn', joke:'審判長：你是來看法庭電影的嗎？要不要順便來杯可樂？', effect: 'desk_item', isFood: true, foodIcon: '🍿' },
-  j_earbuds: { id:'j_earbuds', name:'陪席法官耳機', icon:'i-earbuds', joke:'陪席法官（臉紅）：咳...那是...助聽器...', effect: 'notes' },
-  j_leaf: { id:'j_leaf', name:'法院盆栽', icon:'i-leaf', joke:'審判長：你連法院的盆栽都不放過嗎？你到底是來幹嘛的！', effect: 'tumbleweed' }
-};
-
-const SCENES_STORY = [
-  { type:'story', title:'第一章：案件起因', speaker:'旁白', text:'民國91年8月，經濟部水利署第三河川局辦理「大安溪河川區域內土石堆(一)標售計畫」，公開標售河床上的土石堆。西瓜寮開發股份有限公司以總價 7,760 萬元得標，並簽立土石標售契約。契約約定土石總數量為 85 萬 9,221 立方公尺。', btn:'下一頁' },
-  { type:'story', title:'第二章：所有權爭議', speaker:'旁白', text:'西瓜寮繳清價金並清運 30 萬立方公尺後，水利局告知暫停清運剩下的 55 萬 9,221 立方公尺（系爭土石）。原來，訴外人「漢臨公司」主張這批土石是他們的，提起返還所有物訴訟（第1381號事件）。法院最終判命西瓜寮應返還系爭土石給漢臨公司確定，土石遭漢臨公司載離。', btn:'下一頁' },
-  { type:'story', title:'第三章：提起訴訟', speaker:'旁白', text:'西瓜寮認為，水利局賣給它的東西根本不是自己的，導致它無法取得所有權，因此提起本件訴訟，依民法第353條、第227條、第226條規定，請求水利局負債務不履行損害賠償責任。案件歷經多次發回更審，最終來到臺灣高等法院臺中分院 107 年度重上更三字第 17 號。', btn:'進入審理' },
-  { type:'story_choice', title:'第四章：程序之門', speaker:'審判長', text:'審理開始後，水利局在二審突然提出「依招標須知第8條終止契約」的新主張。依民事訴訟法第447條，當事人原則上不得在二審提出新攻擊或防禦方法。身為法官，你該如何裁定？',
-    opts: [ { label: '准許（為了公益）', correct: false }, { label: '駁回（違反447條）', correct: true } ],
-    fbOk: '正確！水利局於原審即委任專業律師，難認不許其提出有顯失公平，且該主張與招標須知第8條並不符合，依民訴法447條應予駁回。',
-    fbNg: '錯誤！這是二審才提出的新攻擊方法，且不符合例外事由，法院應駁回水利局的主張。'
-  },
-  { type:'story_choice', title:'第五章：參加效力', speaker:'審判長', text:'水利局抗辯：第1381號判決是西瓜寮自己撤回上訴才確定的，害它無法防禦，所以依民訴法63條但書，不受拘束。但水利局在第一審就參加訴訟，依法其實可以「獨立提起上訴」，卻沒有上訴。你該如何裁定？',
-    opts: [ { label: '不受拘束（水利局有理）', correct: false }, { label: '受拘束（水利局敗訴）', correct: true } ],
-    fbOk: '正確！水利局第一審即參加訴訟，本得獨立上訴，不得主張裁判不當，應受第1381號判決拘束。',
-    fbNg: '錯誤！參加人本可獨立上訴，水利局捨此不為，不得反過來主張裁判不當。'
-  },
-  { type:'story_choice', title:'第六章：所有權與瑕疵', speaker:'審判長', text:'水利局抗辯：系爭土石已經交付給西瓜寮，西瓜寮已善意受讓取得所有權，且指控西瓜寮在前案未積極應訴，請求權屬濫用。你該如何裁定？',
-    opts: [ { label: '水利局有理，無給付不能', correct: false }, { label: '水利局無理，應負賠償責任', correct: true } ],
-    fbOk: '正確！第1381號判決已認定西瓜寮未善意受讓，水利局受拘束。西瓜寮已盡力應訴，撤回上訴屬合法權利行使，水利局應負給付不能之損害賠償責任。',
-    fbNg: '錯誤！第1381號判決已認定未善意受讓，水利局應受拘束，且西瓜寮並無權利濫用。'
-  },
-  { type:'calc', title:'第七章：金額之算',
-    facts: [
-      { label: '系爭土石數量', value: '559,221 立方公尺' },
-      { label: '起訴時市價', value: '每立方公尺 275 元' },
-      { label: '清運費 (函文平均)', value: '47.5 元' }
-    ],
-    options: {
-      qty: [ {label:'300,000 m³', val:300000}, {label:'559,221 m³', val:559221, correct:true}, {label:'859,221 m³', val:859221} ],
-      price: [ {label:'100 元', val:100}, {label:'275 元', val:275, correct:true}, {label:'300 元', val:300} ],
-      cost: [ {label:'40 元', val:40}, {label:'47.5 元', val:47.5, correct:true}, {label:'55 元', val:55} ]
-    }
-  },
-  { type:'end_story', title:'第八章：宣判' }
-];
-
-const SCENES_MELON = [
-  { type:'story', title:'第一章・開庭', speaker:'審判長', text:'本件上訴人西瓜寮與被上訴人水利局間請求給付不能損害賠償事件，現在開始言詞辯論。請上訴人訴訟代理人陳述上訴要旨。', btn:'開始陳述' },
-  {
-    type:'trial', title:'第二章・程序之門', speaker:'被上訴人水利局訴訟代理人', opp:'審判長，我方主張依招標須知第8條終止契約，這是基於河防安全，屬合法權利行使。',
-    hint:'對造突襲提出「終止契約」。請翻找證物，動搖法官心證！',
-    ans:['e_prep'], bag:['e_prep', 'e_tender', 'j_badge', 'j_wig', 'j_gun'],
-    success:'異議あり！本件終止契約之主張，係於二審始提出之新攻擊防禦方法，違反民事訴訟法第447條！',
-    fbOk:'你提出了準備書狀，法官心證大幅偏向西瓜寮。',
-    fbNg:'這份證物雖然有部分關聯，但無法直接說服法官。'
-  },
-  {
-    type:'trial', title:'第三章・參加效力', speaker:'被上訴人水利局訴訟代理人', opp:'第1381號判決判西瓜寮敗訴，是他們自己撤回上訴才確定的。我方在該案只是輔助參加人，依民訴法63條但書，不受拘束！',
-    hint:'對造說自己沒防禦到。請翻找證物，動搖法官心證！',
-    ans:['e_join'], bag:['e_join', 'e_withdraw', 'j_pineapple', 'j_chicken', 'j_popcorn'],
-    success:'異議あり！對造於第1381號事件第一審即參加訴訟，本得獨立提起上訴，自不得主張裁判不當！',
-    fbOk:'你提出了參加書狀，法官心證大幅偏向西瓜寮。',
-    fbNg:'這份證物雖然有部分關聯，但無法直接說服法官。'
-  },
-  {
-    type:'trial', title:'第四章・所有權之辯', speaker:'被上訴人水利局訴訟代理人', opp:'系爭土石業經我方交付上訴人管領，上訴人已因善意受讓取得所有權，本件並無給付不能！',
-    hint:'對造主張善意受讓。請翻找證物，動搖法官心證！',
-    ans:['e_1381'], bag:['e_1381', 'e_deliver', 'j_pokeball', 'j_earbuds', 'j_gun'],
-    success:'異議あり！第1381號確定判決已明確認定：系爭土石為漢臨公司所有，上訴人未善意受讓取得所有權！',
-    fbOk:'你提出了1381號判決，法官心證大幅偏向西瓜寮。',
-    fbNg:'這份證物雖然有部分關聯，但無法直接說服法官。'
-  },
-  {
-    type:'trial', title:'第五章・瑕疵之責', speaker:'被上訴人水利局訴訟代理人', opp:'上訴人於前案未積極應訴，復於上訴後故意撤回，其目的顯在侵蝕國庫。本件請求屬權利濫用且違反誠信！',
-    hint:'對造指控上訴人未應訴。請翻找證物，動搖法官心證！',
-    ans:['e_min'], bag:['e_min', 'e_abuse', 'j_badge', 'j_leaf', 'j_gun'],
-    success:'異議あり！上訴人已連續參與3次言詞辯論並提抗辯，撤回上訴屬綜合考量後之合法權利行使，絕非濫用！',
-    fbOk:'你提出了言詞辯論筆錄，法官心證大幅偏向西瓜寮。',
-    fbNg:'這份證物雖然有部分關聯，但無法直接說服法官。'
-  }
-];
-
-const SCENES_WATER = [
-  { type:'story', title:'第一章・開庭', speaker:'審判長', text:'本件上訴人西瓜寮與被上訴人水利局間請求給付不能損害賠償事件，現在開始言詞辯論。請被上訴人訴訟代理人陳述答辯要旨。', btn:'開始陳述' },
-  {
-    type:'trial', title:'第二章・程序反擊', speaker:'上訴人西瓜寮訴訟代理人', 
-    opp:'審判長，對造於二審才提出終止契約，明顯是突襲，違反民事訴訟法第447條，應予駁回！',
-    hint:'對造指控你程序突襲。拿出證據主張你「有權終止」且「未違反程序」！',
-    ans:['e_tender'], 
-    bag:['e_prep', 'e_tender', 'e_withdraw', 'j_wig', 'j_gun', 'j_popcorn'],
-    success:'審判長，我方依招標須知第8條行使終止權，這是基於河防安全之公益考量，絕非惡意突襲！',
-    fbOk:'你提出了招標須知，主張基於公益有權終止，法官心證大幅偏向水利局。',
-    fbNg:'這份證物無法證明你有權終止契約，法官心證微幅偏向西瓜寮。'
-  },
-  {
-    type:'trial', title:'第三章・參加效力反擊', speaker:'上訴人西瓜寮訴訟代理人', 
-    opp:'你水利局在1381號事件第一審就參加訴訟了，依法可以獨立上訴，憑什麼說不受拘束？',
-    hint:'對造指控你本可上訴。拿出證據主張「是他們撤回上訴」導致你無法防禦！',
-    ans:['e_withdraw'], 
-    bag:['e_withdraw', 'e_join', 'e_min', 'j_chicken', 'j_earbuds', 'j_gun'],
-    success:'審判長，是對造自行撤回上訴，導致我方無法於二審續為訴訟行為，我方防禦權受損，自不受拘束！',
-    fbOk:'你提出了撤回狀，證明是對方撤回導致你無法防禦，法官心證大幅偏向水利局。',
-    fbNg:'這份證物無法證明對方撤回上訴，法官心證微幅偏向西瓜寮。'
-  },
-  {
-    type:'trial', title:'第四章・所有權反擊', speaker:'上訴人西瓜寮訴訟代理人', 
-    opp:'土石被漢臨公司拿走，我們根本沒拿到所有權。你們賣的東西有權利瑕疵，應負給付不能責任！',
-    hint:'對造主張沒拿到土石。拿出證據主張你「已交付」且「不可歸責於你」！',
-    ans:['e_deliver'], 
-    bag:['e_deliver', 'e_1381', 'e_tender', 'j_badge', 'j_leaf', 'j_gun'],
-    success:'審判長，系爭土石於92年10月1日已由苗栗地院點交予對造接管，我方已完成交付義務！',
-    fbOk:'你提出了點交證明，證明已履行交付義務，法官心證大幅偏向水利局。',
-    fbNg:'這份證物無法證明你已交付土石，法官心證微幅偏向西瓜寮。'
-  },
-  {
-    type:'trial', title:'第五章・責任反擊', speaker:'上訴人西瓜寮訴訟代理人', 
-    opp:'你們賣的土石有瑕疵，就應該依民法353條賠償我們1.5億的損失！',
-    hint:'對造要求巨額賠償。拿出證據主張「對造與有過失」或「請求權已罹於時效」！',
-    ans:['e_min', 'e_abuse'], 
-    bag:['e_abuse', 'e_min', 'e_deliver', 'j_pineapple', 'j_popcorn', 'j_gun'],
-    success:'審判長，對造前案已盡應訴義務，但未及時清運土石才遭漢臨公司拿走，顯與有過失，且請求金額過高，請求權已罹於時效！',
-    fbOk:'你提出了言詞辯論筆錄與歷審判決，主張對造與有過失，法官心證大幅偏向水利局。',
-    fbNg:'這份證物無法證明對造與有過失，法官心證微幅偏向西瓜寮。'
-  }
-];
-
-const SCENES_JUDGE = [
-  { type:'story', title:'第一章・開庭', speaker:'系統', text:'你是本案的審判長。雙方訴訟代理人將提出證據與主張，請仔細聆聽兩造說法，並適時「追問」或「裁決」以撼動心證。', btn:'進入法庭' },
-  {
-    type:'judge_trial', title:'第二章・程序之戰', 
-    p_claim:'審判長，我們在二審提出招標須知第8條終止契約，是基於河防安全，屬合法行使權利。',
-    d_claim:'審判長，對造直到二審才突然提出終止契約，這屬於民訴法第447條所禁止的「新攻擊防禦方法」，應予駁回！',
-    p_ask:'水利局：這...這是因為河防安全有急迫性，我們認為法院應該要准許！',
-    d_ask:'西瓜寮：對造在原審有委任律師，根本沒有不能提出的理由，這明顯是突襲！',
-    question:'兩造爭執終止契約的提出時機。請問審判長，該如何處理？',
-    options: [
-      { label: '採信水利局（准予終止）', type: 'p', trustM: -20, trustW: 20, fb: '你採信了水利局的急迫性主張，心證大幅偏向水利局。' },
-      { label: '採信西瓜寮（駁回主張）', type: 'd', trustM: 20, trustW: -20, fb: '你認為水利局確實違反447條，心證大幅偏向西瓜寮。' },
-      { label: '追問水利局', type: 'ask_p', trustM: 10, trustW: -10, fb: '你追問了水利局，水利局支吾其詞，心證微幅偏向西瓜寮。' },
-      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問了西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向水利局。' }
-    ]
-  },
-  {
-    type:'judge_trial', title:'第三章・參加效力之戰', 
-    p_claim:'第1381號判決雖然判西瓜寮敗訴，但那是他們自己撤回上訴才確定的，害我方無法在二審防禦。依民訴法63條但書，我方不受該判決拘束！',
-    d_claim:'審判長，對造在第一審就參加訴訟了，而且依法本來就可以「獨立提起上訴」，他們自己不上訴，現在不能反過來說不受拘束！',
-    p_ask:'水利局：我們當時只是輔助參加人，誰知道西瓜寮會突然撤回上訴？我們根本措手不及！',
-    d_ask:'西瓜寮：最高法院判例寫得很清楚，參加人本得獨立上訴，水利局自己不作為，怪誰？',
-    question:'兩造爭執第1381號判決的拘束力。請問審判長，該如何處理？',
-    options: [
-      { label: '採信水利局（不受拘束）', type: 'p', trustM: -20, trustW: 20, fb: '你認為水利局的防禦權受損，心證偏向水利局。' },
-      { label: '採信西瓜寮（受拘束）', type: 'd', trustM: 20, trustW: -20, fb: '你認為參加人本可上訴，水利局應受拘束，心證偏向西瓜寮。' },
-      { label: '追問水利局', type: 'ask_p', trustM: 10, trustW: -10, fb: '你追問水利局為何不獨立上訴，水利局無法自圓其說，心證偏向西瓜寮。' },
-      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向水利局。' }
-    ]
-  },
-  {
-    type:'judge_trial', title:'第四章・所有權之戰', 
-    p_claim:'我們已經把土石交付給西瓜寮管領了，他們已經取得所有權，本件根本沒有給付不能的問題！',
-    d_claim:'第1381號判決已經明確認定，土石是漢臨公司的，我們沒有善意受讓取得所有權，你們賣的東西根本有瑕疵！',
-    p_ask:'水利局：交付就代表移轉了啊，這在民法上是常識吧！',
-    d_ask:'西瓜寮：1381號判決白紙黑字寫著「未善意受讓」，水利局是在睜眼說瞎話嗎？',
-    question:'兩造爭執土石所有權歸屬。請問審判長，該如何處理？',
-    options: [
-      { label: '採信水利局（已取得所有權）', type: 'p', trustM: -20, trustW: 20, fb: '你採信了交付即移轉的觀點，心證偏向水利局。' },
-      { label: '採信西瓜寮（未取得所有權）', type: 'd', trustM: 20, trustW: -20, fb: '你認為1381號判決已認定清楚，心證偏向西瓜寮。' },
-      { label: '追問水利局', type: 'ask_p', trustM: 10, trustW: -10, fb: '你追問水利局關於1381判決的認定，水利局啞口無言，心證偏向西瓜寮。' },
-      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向水利局。' }
-    ]
-  },
-  {
-    type:'judge_trial', title:'第五章・責任之戰', 
-    p_claim:'西瓜寮在前案沒有積極應訴，還故意撤回上訴，現在反過來要求我們賠償，這根本是權利濫用、侵蝕國庫！',
-    d_claim:'我們在前案已經連續參與3次言詞辯論，也提出了抗辯，撤回上訴是綜合考量後的結果，屬於合法權利行使，絕非濫用！',
-    p_ask:'水利局：他們就是看準國庫有錢，想趁機敲詐一筆！',
-    d_ask:'西瓜寮：我們是依法請求，一切都是為了當事人的權益，何錯之有？',
-    question:'兩造爭執西瓜寮的請求是否為權利濫用。請問審判長，該如何處理？',
-    options: [
-      { label: '採信水利局（構成濫用）', type: 'p', trustM: -20, trustW: 20, fb: '你認為西瓜寮別有用心，心證偏向水利局。' },
-      { label: '採信西瓜寮（不構成濫用）', type: 'd', trustM: 20, trustW: -20, fb: '你認為西瓜寮是合法行使權利，心證偏向西瓜寮。' },
-      { label: '追問水利局', type: 'ask_p', trustM: 10, trustW: -10, fb: '你追問水利局有何證據證明濫用，水利局提不出來，心證偏向西瓜寮。' },
-      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向水利局。' }
-    ]
-  }
-];
-
-const SCENE_CALC = {
-  type:'calc', title:'第六章・金額之算',
-  facts: [
-    { label: '系爭土石數量', value: '559,221 立方公尺' },
-    { label: '起訴時市價', value: '每立方公尺 275 元' },
-    { label: '清運費 (函文平均)', value: '47.5 元' }
-  ],
-  options: {
-    qty: [ {label:'300,000 m³', val:300000}, {label:'559,221 m³', val:559221, correct:true}, {label:'859,221 m³', val:859221} ],
-    price: [ {label:'100 元', val:100}, {label:'275 元', val:275, correct:true}, {label:'300 元', val:300} ],
-    cost: [ {label:'40 元', val:40}, {label:'47.5 元', val:47.5, correct:true}, {label:'55 元', val:55} ]
-  }
-};
-
-const SCENE_END = { type:'end', title:'第七章・宣判' };
-const SCENE_END_STORY = { type:'end_story', title:'第八章・宣判' };
-
-class Model {
-  constructor() { 
-    this.i=0; this.score=0; this.max=60; this.lives=3; this.bag=false; this.res=null; 
-    this.logs=[]; this.role=null; this.scenes=[]; 
-    this.charPopup = null;
-    this.gameover=false;
-    this.judgeStep = 0; this.storyStep = 0;
-    this.calcSel = { qty: null, price: null, cost: null };
-    this.bailiffShock = false;
-    this.isDanger = false;
-    this.typingDone = false;
-    this.effect = null; 
-    this.deskItem = null; 
-    
-    this.trustMelon = 50;
-    this.trustWater = 50;
-    this.trustChange = null; 
-    this.trustChangeColor = null;
-    this.isTie = false;
-  }
-  get cur() { return this.scenes[this.i]; }
-  open() { this.bag=true; this.res=null; this.charPopup = null; this.effect = null; this.deskItem = null; this.trustChange = null; }
-  
-  pick(id) {
-    const s=this.cur; const ev = ALL_EVIDENCE[id];
-    this.trustChange = null;
-
-    if (ev.joke) {
-      this.lives--;
-      this.bag = false;
-      this.effect = ev.effect; 
+      <rect x="4" y="3" width="8" height="6" fill="#fce4d6"/>
+      <!-- 眼睛（深藍色帶白點） -->
+      <rect x="4" y="4" width="3" height="3" fill="#1a1a1a"/>
+      <rect x="5" y="5" width="1" height="2" fill="#4a90e2"/>
+      <rect x="4" y="4" width="1" height="1" fill="#fff"/> <!-- 高光 -->
       
-      if (ev.isFood) {
-        const deskSide = (this.role === 'melon') ? 'left' : (this.role === 'water' ? 'right' : 'left');
-        this.deskItem = { icon: ev.foodIcon, side: deskSide };
-      }
-
-      if (id === 'j_gun') {
-        this.bailiffShock = true;
-        this.isDanger = true;
-        this.shakeScreen();
-        this.charPopup = { speaker: '法警', text: ev.joke, icon: 'bailiff', color: 'var(--red)' };
-      } else if (id === 'j_wig') {
-        this.charPopup = { speaker: '審判長', text: ev.joke, icon: 'judge-main', color: 'var(--gold)' };
-      } else if (id === 'j_earbuds') {
-        this.charPopup = { speaker: '陪席法官', text: ev.joke, icon: 'judge-side', color: 'var(--blue)' };
-      } else {
-        this.charPopup = { speaker: '審判長', text: ev.joke, icon: 'judge-main', color: 'var(--gold)' };
-      }
-
-      if (this.role === 'melon') {
-        let penalty = ev.fatal ? 40 : 15;
-        this.trustMelon = Math.max(0, this.trustMelon - penalty);
-        this.trustWater += penalty;
-        this.trustChange = `-${penalty}%`;
-        this.trustChangeColor = 'var(--red)';
-      }
-      if (this.role === 'water') {
-        let penalty = ev.fatal ? 40 : 15;
-        this.trustWater = Math.max(0, this.trustWater - penalty);
-        this.trustMelon += penalty;
-        this.trustChange = `-${penalty}%`;
-        this.trustChangeColor = 'var(--red)';
-      }
-
-      if(this.lives<=0 || (this.role === 'melon' && this.trustMelon <= 0) || (this.role === 'water' && this.trustWater <= 0)){ 
-        this.res={ok:false, rev:'GameOver'}; 
-        this.logs.push({ok:false, fb:'心證崩盤，被趕出法庭'}); 
-        setTimeout(() => { 
-          this.charPopup = null; 
-          this.bailiffAnim = true; 
-          app.start(); 
-          setTimeout(() => {
-            this.bailiffAnim = false;
-            this.gameover = true;
-            app.start();
-          }, 2500);
-        }, 2000); 
-      }
-      else { this.res={ok:false, retry:true}; }
-      return this.res;
-    }
-    
-    if(s.ans.includes(id)){
-      this.score+=10; this.bag=false; this.res={ok:true, fb:s.fbOk, line:s.success, type: 'strong'};
-      this.logs.push({ok:true, fb:s.fbOk});
-      
-      // 修正顏色與加分邏輯
-      if (this.role === 'melon') { 
-        this.trustMelon += 20; this.trustWater -= 20; this.trustChange = '+20%'; this.trustChangeColor = 'var(--green)';
-        this.charPopup = { speaker: '上訴人訴訟代理人', text: s.success, icon: 'ply', color: 'var(--green)' };
-      } 
-      else if (this.role === 'water') {
-        this.trustWater += 20; this.trustMelon -= 20; this.trustChange = '+20%'; this.trustChangeColor = 'var(--green)';
-        this.charPopup = { speaker: '被上訴人訴訟代理人', text: s.success, icon: 'opp', color: 'var(--red)' }; 
-      }
-      
-      setTimeout(() => this.decisiveEffect(), 100);
-      
-    } else {
-      this.bag = false;
-      this.res = { ok: false, fb: s.fbNg, type: 'weak' };
-      
-      if (this.role === 'melon') { this.trustMelon = Math.max(0, this.trustMelon - 10); this.trustWater += 10; this.trustChange = '-10%'; this.trustChangeColor = 'var(--red)'; }
-      if (this.role === 'water') { this.trustWater = Math.max(0, this.trustWater - 10); this.trustMelon += 10; this.trustChange = '-10%'; this.trustChangeColor = 'var(--red)'; }
-    }
-    return this.res;
-  }
-
-  closeCharPopup() {
-    this.charPopup = null;
-    if(this.res && this.res.rev === 'GameOver') {
-      // 保持 gameover 處理
-    } else {
-      app.start();
-    }
-  }
-
-  judgeNextStep() { if (this.judgeStep < 2) { this.judgeStep++; this.typingDone = false; } }
-  
-  judgePick(optionType, trustM, trustW, fb) {
-    this.trustMelon += trustM;
-    this.trustWater += trustW;
-    
-    this.trustChange = trustM > 0 ? `西瓜+${trustM}%` : (trustW > 0 ? `水利+${trustW}%` : '');
-    if(trustM < 0) this.trustChange = `西瓜${trustM}%`;
-    if(trustW < 0) this.trustChange = `水利${trustW}%`;
-
-    this.trustChangeColor = trustM > 0 ? 'var(--green)' : 'var(--red)';
-    if(trustW > 0) this.trustChangeColor = 'var(--red)';
-    if(trustW < 0) this.trustChangeColor = 'var(--green)';
-
-    this.score += (trustM > 0) ? 10 : 0;
-    this.res = { ok: trustM > 0, fb: fb };
-    this.logs.push({ok: trustM > 0, fb: fb});
-  }
-
-  storyPick(isCorrect) {
-    const s=this.cur;
-    if (isCorrect) {
-      this.res = { ok:true, fb: s.fbOk };
-    } else {
-      this.res = { ok:false, fb: s.fbNg };
-    }
-  }
-
-  setCalcOption(type, val) { this.calcSel[type] = val; }
-  submitCalc() {
-    const s=this.cur;
-    const ans = s.options;
-    const isCorrect = 
-      this.calcSel.qty === ans.qty.find(o=>o.correct).val &&
-      this.calcSel.price === ans.price.find(o=>o.correct).val &&
-      this.calcSel.cost === ans.cost.find(o=>o.correct).val;
-    
-    if(isCorrect) {
-      this.score += 10;
-      this.res = { ok:true, msg: '計算正確！' };
-      this.logs.push({ok:true, fb:'計算正確'});
-    } else {
-      this.res = { ok:false, msg: '數字有誤，請重新核對卷宗事實！' };
-      this.logs.push({ok:false, fb:'計算錯誤'});
-    }
-  }
-
-  next() { 
-    if(this.i<this.scenes.length-1){ 
-      this.i++; this.lives=3; this.bag=false; this.res=null; this.charPopup=null; this.effect=null; this.deskItem=null; this.bailiffAnim=false; this.gameover=false; this.bailiffShock = false; this.isDanger = false; this.judgeStep = 0; this.storyStep = 0;
-      this.calcSel = { qty: null, price: null, cost: null };
-      this.typingDone = false;
-      this.trustChange = null;
-      this.isTie = false;
-    } 
-  }
-
-  shakeScreen() {
-    const a=document.getElementById('app'); 
-    if(a) { a.classList.add('shake'); setTimeout(()=>a.classList.remove('shake'), 800); }
-  }
-
-  decisiveEffect() {
-    const flash = document.getElementById('flash-overlay');
-    const dText = document.getElementById('decisive-text');
-    flash.classList.add('flash-active');
-    dText.classList.add('decisive-active');
-    setTimeout(() => { flash.classList.remove('flash-active'); dText.classList.remove('decisive-active'); }, 1500);
-  }
-}
-
-class View {
-  constructor(r) { this.r=r; }
-
-  renderTopBar(m) {
-    let w = Math.max(0, Math.min(100, m.trustWater));
-    let mel = Math.max(0, Math.min(100, m.trustMelon));
-    let total = w + mel;
-    if(total === 0) total = 1;
-    
-    let melPct = (mel / total) * 100;
-    let waterPct = (w / total) * 100;
-    
-    let rotate = (Math.round(melPct) === Math.round(waterPct)) ? 0 : (melPct - 50) * 0.6; 
-
-    return `
-      <div class="top-bar">
-        ${m.trustChange ? `<div class="trust-float" style="color: ${m.trustChangeColor};">${m.trustChange}</div>` : ''}
-        <div class="trust-meter">
-          <div class="trust-left">西瓜寮<br>${Math.round(melPct)}%</div>
-          <div class="balance-container">
-            <div class="balance-bar">
-              <div class="bar-melon" style="width:${melPct}%"></div>
-              <div class="bar-water" style="width:${waterPct}%"></div>
-            </div>
-            <div class="scale-icon" style="transform: translateX(-50%) rotate(${rotate}deg);">⚖️</div>
-          </div>
-          <div class="trust-right">水利局<br>${Math.round(waterPct)}%</div>
-        </div>
-      </div>
-    `;
-  }
-
-  renderEffects(m) {
-    if (!m.effect) return '';
-    let html = '<div class="effect-layer">';
-    
-    if (m.effect === 'wig_fall') {
-      html += `<svg class="falling-wig" viewBox="0 0 16 16"><use href="#i-wig"/></svg>`;
-    } else if (m.effect === 'notes') {
-      for(let i=0; i<8; i++) {
-        html += `<div class="note-bounce" style="left:${Math.random()*100}%; top:50%; animation-delay:${Math.random()}s;">🎵</div>`;
-      }
-    } else if (m.effect === 'gun') {
-      for(let i=0; i<6; i++) {
-        html += `<div class="bullet-hole" style="left:${Math.random()*100}%; top:${Math.random()*100}%;"></div>`;
-      }
-    } else if (m.effect === 'tumbleweed') {
-      html += `<div class="tumbleweed" style="top:50%;">🌿</div>`;
-    }
-    
-    html += '</div>';
-    return html;
-  }
-  
-  renderCourt(m, activeSpeaker) {
-    const isJudge = activeSpeaker === '審判長' || activeSpeaker === '系統' || activeSpeaker === '旁白';
-    const isMelon = activeSpeaker === '上訴人西瓜寮訴訟代理人';
-    const isWater = activeSpeaker === '被上訴人水利局訴訟代理人';
-    const shockClass = m.bailiffShock ? 'bailiff-shock' : '';
-    const dangerClass = m.isDanger ? 'danger' : '';
-    const baldClass = (m.effect === 'wig_fall') ? 'bald-judge' : '';
-
-    let deskLeft = m.deskItem && m.deskItem.side === 'left' ? m.deskItem.icon : '';
-    let deskRight = m.deskItem && m.deskItem.side === 'right' ? m.deskItem.icon : '';
-
-    return `
-      ${this.renderTopBar(m)}
-      <div class="courtroom-scene ${dangerClass}">
-        ${this.renderEffects(m)}
-        <div class="judge-stand">
-          <div class="judge-bench">
-            <svg class="judge-avatar judge-side ${isJudge?'active speaking':''}" viewBox="0 0 16 16"><use href="#judge-side"/></svg>
-            <svg class="judge-avatar main-judge ${isJudge?'active speaking':''} ${dangerClass} ${baldClass}" viewBox="0 0 16 16"><use href="#judge-main"/></svg>
-            <svg class="judge-avatar judge-side ${isJudge?'active speaking':''}" viewBox="0 0 16 16"><use href="#judge-side"/></svg>
-          </div>
-          <div class="bailiff-stand left ${shockClass}"><svg class="bailiff-avatar" viewBox="0 0 16 16"><use href="#bailiff"/></svg><span class="bailiff-label">法警</span></div>
-          <div class="bailiff-stand right ${shockClass}"><svg class="bailiff-avatar" viewBox="0 0 16 16"><use href="#bailiff"/></svg><span class="bailiff-label">法警</span></div>
-        </div>
-        <div class="players-area">
-          <div class="player-side left">
-            <div class="avatar ${isMelon?'active speaking':''}"><svg viewBox="0 0 16 16"><use href="#ply"/></svg></div>
-            <div class="name-tag">上訴人<br>西瓜寮訴訟代理人</div>
-            <div class="lawyer-desk"></div>
-            ${deskLeft ? `<div class="desk-item-container"><div class="desk-item">${deskLeft}</div></div>` : ''}
-          </div>
-          <div class="player-side right">
-            <div class="avatar ${isWater?'active speaking':''}"><svg viewBox="0 0 16 16"><use href="#opp"/></svg></div>
-            <div class="name-tag">被上訴人<br>水利局訴訟代理人</div>
-            <div class="lawyer-desk"></div>
-            ${deskRight ? `<div class="desk-item-container"><div class="desk-item">${deskRight}</div></div>` : ''}
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  render(m) {
-    if(!m.role) { 
-      this.r.innerHTML = `<div class="cover-screen"><div class="cover-title">西瓜寮裁判所</div><div class="cover-sub">THE WEIGHT OF JUSTICE</div><div class="press-start" onclick="window.showRoleSelect()">▶ PRESS START ◀</div></div>`;
-      return; 
-    }
-    
-    if (m.role === 'select') {
-      this.r.innerHTML = `
-        <div class="cover-screen">
-          <div class="cover-title" style="font-size:clamp(24px,6vw,32px);letter-spacing:4px;margin-bottom:20px;">SELECT YOUR ROLE</div>
-          <div class="roles-container">
-            <div class="role-card story" onclick="window.selectRole('story')">
-              <svg class="role-icon" viewBox="0 0 16 16"><use href="#i-book"/></svg>
-              <h3>📖 案件故事模式</h3>
-              <p>跟著判決書一步步審理</p>
-            </div>
-            <div class="role-card melon" onclick="window.selectRole('melon')">
-              <svg class="role-icon" viewBox="0 0 16 16"><use href="#ply"/></svg>
-              <h3>上訴人<br>西瓜寮訴訟代理人</h3>
-              <p>推翻偏見，逆轉心證！</p>
-            </div>
-            <div class="role-card water" onclick="window.selectRole('water')">
-              <svg class="role-icon" viewBox="0 0 16 16"><use href="#opp"/></svg>
-              <h3>被上訴人<br>水利局訴訟代理人</h3>
-              <p>守住優勢，駁回原告！</p>
-            </div>
-            <div class="role-card judge" onclick="window.selectRole('judge')">
-              <svg class="role-icon" viewBox="0 0 16 16"><use href="#judge-main"/></svg>
-              <h3>審判長<br>承審法官</h3>
-              <p>聆聽兩造，裁決心證！</p>
-            </div>
-          </div>
-        </div>`;
-      return;
-    }
-
-    const s=m.cur; let h='';
-
-    if (m.gameover) {
-      h += `
-        <div class="gameover-scene">
-          <div class="gameover-title">GAME OVER</div>
-          <div class="gameover-sub">心證崩盤，你已被法警強制帶離法庭</div>
-          <button class="btn red" onclick="location.reload()">重新遊玩</button>
-        </div>`;
-      this.r.innerHTML = h; return;
-    }
-
-    if (m.bailiffAnim) {
-      h += `
-        <div class="bailiff-scene">
-          <div class="bailiff-text">法警！將這位訴訟代理人帶出去！</div>
-          <div class="bailiff-drag">
-            <svg class="bailiff-svg-large" viewBox="0 0 16 16"><use href="#bailiff"/></svg>
-            <svg class="player-svg-large" viewBox="0 0 16 16"><use href="${m.role==='melon'?'#ply':'#opp'}"/></svg>
-            <svg class="bailiff-svg-large" viewBox="0 0 16 16"><use href="#bailiff"/></svg>
-          </div>
-        </div>`;
-      this.r.innerHTML = h; return;
-    }
-
-    if(s.type==='end' || s.type==='end_story'){
-      h+=this.renderCourt(m, '審判長');
-      
-      let isTie = Math.round(m.trustMelon) === Math.round(m.trustWater);
-      let isMelonWin = m.trustMelon > m.trustWater;
-
-      if (s.type === 'end_story') {
-         h += `<div class="dialog-box" style="margin-top:15px;"><span class="speaker-name">審判長</span><div class="dialog-content">本院判斷如下：被上訴人水利局應給付上訴人西瓜寮 <strong>1 億 2,722 萬 2,777 元</strong>，及自 99 年 6 月 8 日起至清償日止，按年息 5% 計算之利息。</div></div>`;
-         h += `<div class="next-wrap"><button class="btn green" onclick="window.playVictory(true)">觀看判決結果</button></div>`;
-      } else if (isTie) {
-         h += `<div class="tie-ui"><h2>⚖️ 兩造勢均力敵，心證 50% / 50% ⚖️</h2><p style="margin-bottom:20px;color:#aaa;">請法官行使最終裁量權，決定本案勝訴方。</p><div class="tie-btns">
-           <button class="btn green" onclick="window.playVictory(true)">判決西瓜寮勝訴</button>
-           <button class="btn red" onclick="window.playVictory(false)">判決水利局勝訴</button>
-         </div></div>`;
-      } else if (isMelonWin) {
-         h += `<div class="dialog-box" style="margin-top:15px; border-color:var(--green);"><span class="speaker-name" style="background:var(--green); color:#000;">審判長</span><div class="dialog-content">本院判斷如下：被上訴人水利局應給付上訴人西瓜寮 <strong>1 億 2,722 萬 2,777 元</strong>，及自 99 年 6 月 8 日起至清償日止，按年息 5% 計算之利息。</div></div>`;
-         h += `<div class="next-wrap"><button class="btn green" onclick="window.playVictory(true)">西瓜寮勝訴！</button></div>`;
-      } else {
-         h += `<div class="dialog-box" style="margin-top:15px; border-color:var(--red);"><span class="speaker-name" style="background:var(--red); color:#fff;">審判長</span><div class="dialog-content">本院判斷如下：上訴人西瓜寮之訴及假執行之聲請均駁回。訴訟費用由上訴人負擔。</div></div>`;
-         h += `<div class="next-wrap"><button class="btn red" onclick="window.playVictory(false)">水利局勝訴！</button></div>`;
-      }
-      this.r.innerHTML=h; return;
-    }
-
-    if (m.role === 'story') {
-      if(s.type==='story'){
-        h+=this.renderCourt(m, s.speaker);
-        h+=`<div class="dialog-box" id="typewriter-box"><span class="speaker-name">${s.speaker}</span><div class="dialog-content" data-text="${s.text}"></div></div>`;
-        h+=`<div class="next-wrap"><button class="btn" id="btnNext">${s.btn}</button></div>`;
-      } else if (s.type === 'story_choice') {
-        h+=this.renderCourt(m, s.speaker);
-        h+=`<div class="dialog-box" id="typewriter-box"><span class="speaker-name">${s.speaker}</span><div class="dialog-content" data-text="${s.text}"></div></div>`;
-        
-        if (!m.res) {
-          h+=`<div class="judge-ui"><h3>💭 請做出裁決</h3><div class="judge-choice">`;
-          s.opts.forEach((opt, idx) => {
-             h+=`<button class="${idx===1?'btn-object':'btn-pass'}" onclick="window.storyDecide(${opt.correct})">${opt.label}</button>`;
-          });
-          h+=`</div></div>`;
-        } else {
-          h+=`<div class="feedback ${m.res.ok?'ok':'ng'}"><strong>${m.res.ok?'✔ 裁決正確！':'✘ 裁決錯誤！'}</strong>${m.res.fb}</div>`;
-          h+=`<div class="next-wrap"><button class="btn" id="btnNext">繼續故事 →</button></div>`;
-        }
-      } else if (s.type === 'calc') {
-        h+=this.renderCourt(m, '系統');
-        h+=this.renderCalc(m, s);
-      }
-    } else if (m.role === 'judge') {
-      if(s.type==='story'){
-        h+=this.renderCourt(m, '系統');
-        h+=`<div class="dialog-box" id="typewriter-box"><span class="speaker-name">系統</span><div class="dialog-content" data-text="${s.text}"></div></div>`;
-        h+=`<div class="next-wrap"><button class="btn" id="btnNext">${s.btn}</button></div>`;
-      } else if (s.type === 'judge_trial') {
-        let activeSpeaker = (m.judgeStep === 0) ? '被上訴人水利局訴訟代理人' : (m.judgeStep === 1) ? '上訴人西瓜寮訴訟代理人' : '審判長';
-        h+=this.renderCourt(m, activeSpeaker);
-        
-        if (m.judgeStep === 0) {
-          h+=`<div class="dialog-box" id="typewriter-box" style="border-color:var(--red);"><span class="speaker-name" style="background:var(--red);color:#fff;">被上訴人(水利局)</span><div class="dialog-content" data-text="「${s.p_claim}」"></div></div>`;
-          h+=`<div class="next-wrap"><button class="btn" id="btnJudgeNext">聽取上訴人抗辯 →</button></div>`;
-        } else if (m.judgeStep === 1) {
-          h+=`<div class="dialog-box" id="typewriter-box" style="border-color:var(--green);"><span class="speaker-name" style="background:var(--green);color:#fff;">上訴人(西瓜寮)</span><div class="dialog-content" data-text="「${s.d_claim}」"></div></div>`;
-          h+=`<div class="next-wrap"><button class="btn" id="btnJudgeNext">進入審判長裁決 →</button></div>`;
-        } else if (m.judgeStep === 2) {
-          h+=`<div class="judge-ui"><h3>💭 ${s.question}</h3>`;
-          if (!m.res) {
-            h+=`<div class="judge-choice">`;
-            s.options.forEach(opt => {
-              let btnClass = opt.type === 'p' ? 'btn-pass' : (opt.type === 'd' ? 'btn-object' : 'btn-ask');
-              h+=`<button class="${btnClass}" onclick="window.judgeDecide('${opt.type}', ${opt.trustM}, ${opt.trustW}, '${opt.fb}')">${opt.label}</button>`;
-            });
-            h+=`</div>`;
-          } else {
-            h+=`<div class="feedback ${m.res.ok?'ok':'neutral'}"><strong>${m.res.ok?'✔ 裁決成立！':'⚖️ 自由心證裁量'}</strong>${m.res.fb}</div>`;
-            h+=`<div class="next-wrap"><button class="btn" id="btnNext">下一章 →</button></div>`;
-          }
-          h+=`</div>`;
-        }
-      } else if (s.type === 'calc') {
-        h+=this.renderCourt(m, '系統');
-        h+=this.renderCalc(m, s);
-      }
-    } else {
-      if(s.type==='story'){
-        h+=this.renderCourt(m, s.speaker);
-        h+=`<div class="dialog-box" id="typewriter-box"><span class="speaker-name">${s.speaker}</span><div class="dialog-content" data-text="${s.text}"></div></div>`;
-        h+=`<div class="next-wrap"><button class="btn" id="btnNext">${s.btn}</button></div>`;
-      } else if(s.type==='trial'){
-        h+=this.renderCourt(m, (!m.res||m.res.type!=='strong') ? s.speaker : (m.role==='melon'?'上訴人西瓜寮訴訟代理人':'被上訴人水利局訴訟代理人'));
-        if(!m.res||m.res.type!=='strong') h+=`<div class="dialog-box" id="typewriter-box"><span class="speaker-name">${s.speaker}</span><div class="dialog-content" data-text="「${s.opp}」"></div></div>`;
-        else h+=`<div class="dialog-box" id="typewriter-box" style="border-color:${m.role==='melon'?'var(--green)':'var(--red)'};"><span class="speaker-name" style="background:${m.role==='melon'?'var(--green)':'var(--red)'};color:#000;">${m.role==='melon'?'上訴人西瓜寮訴訟代理人':'被上訴人水利局訴訟代理人'}</span><div class="dialog-content" data-text="「${m.res.line}」"></div></div>`;
-
-        if(!m.res&&!m.bag) {
-          h+=`<div class="hint-box">💡 ${s.hint}</div><button class="objection-btn" id="btnObj">異議あり！</button>`;
-        }
-        
-        if(m.bag){
-          const shuffledBag = [...s.bag].sort(() => Math.random() - 0.5);
-          h+=`<div class="evidence-bag"><div class="evidence-grid">`;
-          shuffledBag.forEach(id => {
-            const e = ALL_EVIDENCE[id];
-            h+=`<button class="evidence-card" data-id="${e.id}"><svg class="ev-icon" viewBox="0 0 16 16"><use href="#${e.icon}"/></svg><span class="ev-name">${e.name}</span></button>`; 
-          });
-          h+=`</div></div>`;
-        }
-        
-        if(m.res){
-          let fbClass = m.res.type === 'strong' ? 'ok' : 'neutral';
-          let fbTitle = m.res.type === 'strong' ? '✔ 動搖心證！' : '⚖️ 證據力不足';
-          h+=`<div class="feedback ${fbClass}"><strong>${fbTitle}</strong>${m.res.fb||''}</div>`;
-          
-          if(m.res.ok||m.res.rev) h+=`<div class="next-wrap"><button class="btn" id="btnNext">下一章 →</button></div>`;
-          else if (m.res.retry) h+=`<div class="next-wrap"><button class="btn red" id="btnRetry">重新選擇證物</button></div>`;
-          else h+=`<div class="next-wrap"><button class="btn" id="btnNext">下一章 →</button></div>`;
-        }
-      } else if(s.type==='calc'){
-        h+=this.renderCourt(m, '系統');
-        h+=this.renderCalc(m, s);
-      }
-    }
-
-    if (m.charPopup) {
-      let popupIcon = m.charPopup.icon;
-      if (m.charPopup.icon === 'judge-main' && m.effect === 'wig_fall') {
-        popupIcon = 'judge-main'; 
-      }
-      
-      h += `
-        <div class="character-popup-overlay" onclick="window.closePopup()">
-          <div class="character-popup">
-            <svg class="character-portrait ${m.effect === 'wig_fall' ? 'bald-judge' : ''}" viewBox="0 0 16 16" style="color: ${m.charPopup.color}; filter: drop-shadow(0 0 30px ${m.charPopup.color});">
-              <use href="#${popupIcon}"/>
-            </svg>
-            <div class="character-dialog" style="border-color: ${m.charPopup.color}; box-shadow: 0 15px 40px rgba(0,0,0,0.9), inset 0 0 20px ${m.charPopup.color};">
-              <span class="speaker-name" style="background:${m.charPopup.color}; color:#000;">${m.charPopup.speaker}</span>
-              <div class="dialog-content" data-text="${m.charPopup.text}"></div>
-            </div>
-          </div>
-        </div>`;
-    }
-    
-    this.r.innerHTML=h;
-  }
-
-  renderCalc(m, s) {
-    let h = `<div class="dialog-box" style="margin-top:15px;border-color:var(--blue);"><span class="speaker-name" style="background:var(--blue);color:#fff;">法官算帳</span><div class="dialog-content">請依據卷宗事實，選擇正確的參數以計算損害賠償金額。</div></div>
-      <div class="calc-facts">
-        <h3 style="color:var(--gold);font-size:16px;margin-bottom:10px;">📑 卷宗事實</h3>
-        ${s.facts.map(f=>`<div class="fact-row"><span class="fact-label">${f.label}</span><span class="fact-val">${f.value}</span></div>`).join('')}
-      </div>
-      <div class="calc-options">`;
-
-    if(!m.res) {
-      h += `<div class="option-group"><div class="option-title">1. 選擇【系爭土石數量】</div><div class="option-btns">`;
-      s.options.qty.forEach(opt => { h += `<button class="opt-btn ${m.calcSel.qty === opt.val ? 'selected' : ''}" onclick="window.setCalc('qty', ${opt.val})">${opt.label}</button>`; });
-      h += `</div></div>`;
-      
-      h += `<div class="option-group"><div class="option-title">2. 選擇【起訴時市價】</div><div class="option-btns">`;
-      s.options.price.forEach(opt => { h += `<button class="opt-btn ${m.calcSel.price === opt.val ? 'selected' : ''}" onclick="window.setCalc('price', ${opt.val})">${opt.label}</button>`; });
-      h += `</div></div>`;
-      
-      h += `<div class="option-group"><div class="option-title">3. 選擇【每立方公尺清運費】</div><div class="option-btns">`;
-      s.options.cost.forEach(opt => { h += `<button class="opt-btn ${m.calcSel.cost === opt.val ? 'selected' : ''}" onclick="window.setCalc('cost', ${opt.val})">${opt.label}</button>`; });
-      h += `</div></div>`;
-
-      const disabled = !m.calcSel.qty || !m.calcSel.price || !m.calcSel.cost;
-      h += `<button class="btn green" style="margin-top:20px; ${disabled?'opacity:0.5;cursor:not-allowed;':''}" id="btnSubmitCalc" ${disabled?'disabled':''}>確認並計算金額</button>`;
-    } else {
-      if (m.res.ok) {
-        h += `<div class="feedback ok"><strong>✔ 計算正確！</strong>系統已自動為您算出最終賠償金額。</div>`;
-        h += `<div class="calc-result show">
-          <div style="font-size:16px;color:#fff;margin-bottom:10px;">市價總額：275 × 559,221 = 153,785,775 元</div>
-          <div style="font-size:16px;color:#fff;margin-bottom:10px;">扣除清運費：47.5 × 559,221 = 26,562,998 元</div>
-          <div style="font-size:24px;color:var(--gold);margin-top:20px;">最終賠償：127,222,777 元</div>
-        </div>`;
-      } else {
-        h += `<div class="feedback ng"><strong>✘ 計算錯誤！</strong>請檢查您選擇的數量、市價或清運費是否與卷宗事實相符。</div>`;
-      }
-      h += `<div class="next-wrap" style="margin-top:20px;"><button class="btn" id="btnNext">下一章 →</button></div>`;
-    }
-    
-    h += `</div>`;
-    return h;
-  }
-}
-
-class Ctrl {
-  constructor(m, v) { this.m=m; this.v=v; this.typeTimer=null; }
-  start() { this.v.render(this.m); this.bind(); }
-  
-  bind() {
-    const m=this.m;
-    const nBtn=document.getElementById('btnNext');
-    if(nBtn) nBtn.onclick=()=>{ m.next(); this.start(); };
-    const jNext=document.getElementById('btnJudgeNext');
-    if(jNext) jNext.onclick=()=>{ m.judgeNextStep(); this.start(); };
-    const oBtn=document.getElementById('btnObj');
-    if(oBtn) oBtn.onclick=()=>{ m.open(); this.start(); };
-    const rBtn=document.getElementById('btnRetry');
-    if(rBtn) rBtn.onclick=()=>{ m.res=null; m.open(); this.start(); };
-    
-    document.querySelectorAll('.evidence-card').forEach(c=>{
-      c.onclick=()=>{
-        const r=m.pick(c.dataset.id);
-        if(r.ok) {
-          m.decisiveEffect(); 
-        }
-        else if(r.retry || r.rev) this.shake();
-        this.start();
-      };
-    });
-
-    const sBtn=document.getElementById('btnSubmitCalc');
-    if(sBtn) sBtn.onclick=()=>{ m.submitCalc(); this.start(); };
-
-    const typeBoxes = document.querySelectorAll('[data-text]');
-    if (typeBoxes.length > 0) {
-      typeBoxes.forEach(box => {
-        const text = box.dataset.text;
-        if (text && !box.dataset.typed) {
-          box.dataset.typed = 'true';
-          box.innerText = '';
-          let i = 0;
-          clearInterval(this.typeTimer);
-          this.typeTimer = setInterval(() => {
-            if (i < text.length) {
-              box.innerText += text.charAt(i);
-              i++;
-            } else {
-              clearInterval(this.typeTimer);
-            }
-          }, 30);
-          
-          box.onclick = (e) => {
-            e.stopPropagation();
-            clearInterval(this.typeTimer);
-            box.innerText = text;
-          };
-        } else if (text) {
-          box.innerText = text;
-        }
-      });
-    }
-  }
-  
-  shake() {
-    const a=document.getElementById('app'); a.classList.add('shake'); setTimeout(()=>a.classList.remove('shake'), 400);
-  }
-}
-
-const app = new Ctrl(new Model(), new View(document.getElementById('app')));
-
-window.showRoleSelect = () => { app.m.role = 'select'; app.start(); };
-window.selectRole = (role) => {
-  app.m.role = role; app.m.i = 0; app.m.typingDone = false;
-  
-  if (role === 'melon') {
-    app.m.trustMelon = 20;
-    app.m.trustWater = 80;
-  } else if (role === 'water') {
-    app.m.trustMelon = 60;
-    app.m.trustWater = 40;
-  } else if (role === 'judge') {
-    app.m.trustMelon = 50;
-    app.m.trustWater = 50;
-  }
-
-  if (role === 'story') app.m.scenes = [...SCENES_STORY];
-  else if (role === 'melon') app.m.scenes = [...SCENES_MELON, SCENE_CALC, SCENE_END];
-  else if (role === 'water') app.m.scenes = [...SCENES_WATER, SCENE_CALC, SCENE_END];
-  else if (role === 'judge') app.m.scenes = [...SCENES_JUDGE, SCENE_CALC, SCENE_END];
-  
-  app.m.trustChange = null;
-  app.start();
-};
-
-window.judgeDecide = (type, trustM, trustW, fb) => { 
-  app.m.judgePick(type, trustM, trustW, fb); 
-  app.start(); 
-};
-
-window.storyDecide = (isCorrect) => { app.m.storyPick(isCorrect); app.start(); };
-window.closePopup = () => { app.m.closeCharPopup(); };
-window.setCalc = (type, val) => { app.m.setCalcOption(type, val); app.start(); };
-
-window.playVictory = (isMelonWin) => {
-  const overlay = document.getElementById('victory-overlay');
-  const title = overlay.querySelector('.victory-title');
-  const sub = overlay.querySelector('.victory-sub');
-  
-  if (isMelonWin) {
-    title.innerText = '西瓜寮勝訴！';
-    title.style.color = 'var(--green)';
-    title.style.textShadow = '6px 6px 0 #005500, 12px 12px 0 #000';
-    sub.innerText = '水利局應給付西瓜寮 1 億 2,722 萬 2,777 元';
-  } else {
-    title.innerText = '水利局勝訴！';
-    title.style.color = 'var(--red)';
-    title.style.textShadow = '6px 6px 0 #550000, 12px 12px 0 #000';
-    sub.innerText = '原告之訴及假執行之聲請均駁回，訴訟費用由原告負擔。';
-  }
-
-  overlay.classList.add('show');
-  for(let i=0; i<100; i++) {
-    setTimeout(() => {
-      const c = document.createElement('div');
-      c.className = 'confetti';
-      c.style.left = Math.random() * 100 + 'vw';
-      c.style.top = '-10px';
-      c.style.backgroundColor = ['#ffcc00','#ff0033','#00ff66','#0066ff','#fff'][Math.floor(Math.random()*5)];
-      c.style.animationDuration = (Math.random() * 3 + 2) + 's';
-      c.style.width = c.style.height = (Math.random() * 10 + 5) + 'px';
-      overlay.appendChild(c);
-      setTimeout(() => c.remove(), 5000);
-    }, i * 20);
-  }
-  setTimeout(() => { location.reload(); }, 5000);
-};
-
-app.start();
-</script>
-</body>
-</html>
+      <rect x="9" y="4" width="3" height="3" fill="#1a1a1a"/>
+      <rect x="10" y="5" width="1" height="2" fill
