@@ -17,7 +17,8 @@ body {
   background-size: 100% 100%, 30px 30px, 30px 30px;
   background-attachment: fixed;
 }
-body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.2) 50%); background-size: 100% 4px; }
+/* 復古掃描線 */
+body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.25) 50%); background-size: 100% 4px; }
 
 #app { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; border: 6px solid #111; border-radius: 8px; box-shadow: 0 0 0 4px #444, 0 0 60px rgba(0,0,0,0.9), inset 0 0 100px rgba(0,0,0,0.9); background: #000; padding: 15px; overflow: hidden; }
 
@@ -45,24 +46,36 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .press-start:hover { border-color: var(--gold); color: var(--gold); text-shadow: 2px 2px 0 #000; background: rgba(255, 204, 0, 0.1); border-radius: 8px; }
 @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.05); } }
 
-/* 角色選擇 */
-.roles-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
-.role-card { flex: 1; min-width: 250px; padding: 20px; cursor: pointer; background: rgba(20, 20, 40, 0.9); border: 4px solid #444; text-align: center; transition: .2s; border-radius: 4px; box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 4px 0 #111; position: relative; }
-.role-card:hover { transform: translateY(-5px); box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 8px 0 #111; }
-.role-card:active { transform: translateY(2px); box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 2px 0 #111; }
-.role-card.story { border-color: #fff; }
-.role-card.melon { border-color: var(--green); }
-.role-card.water { border-color: var(--red); }
-.role-card.judge { border-color: var(--gold); }
-.role-icon { width: 80px; height: 80px; margin: 0 auto 10px; filter: drop-shadow(4px 4px 0 #000); }
+/* 角色選擇（格鬥遊戲選人畫面） */
+.roles-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px; width: 100%; max-width: 900px; }
+.role-card { flex: 1; min-width: 200px; padding: 30px 20px; cursor: pointer; background: #111; border: 4px solid #444; text-align: center; transition: .2s; position: relative; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); box-shadow: 0 10px 20px rgba(0,0,0,0.8); }
+.role-card:hover { transform: translateY(-10px) scale(1.05); z-index: 10; }
+.role-card.story { border-color: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.4); }
+.role-card.melon { border-color: var(--green); box-shadow: 0 0 30px rgba(0,255,102,0.4); }
+.role-card.water { border-color: var(--red); box-shadow: 0 0 30px rgba(255,0,51,0.4); }
+.role-card.judge { border-color: var(--gold); box-shadow: 0 0 30px rgba(255,204,0,0.4); }
+.role-icon { width: 100px; height: 100px; margin: 0 auto 15px; filter: drop-shadow(4px 4px 0 #000); transition: .2s; }
+.role-card:hover .role-icon { transform: scale(1.1); }
 .role-card h3 { font-size: clamp(18px, 4vw, 22px); margin-bottom: 8px; color: #fff; text-shadow: 2px 2px 0 #000; line-height: 1.4; }
 .role-card p { font-size: 14px; color: #aaa; }
 
-/* 法庭全景 */
-.courtroom-scene { background: #1a1008; border: 4px solid #333; border-radius: 4px; margin-bottom: 15px; position: relative; height: clamp(320px, 50vh, 450px); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9); transition: filter 0.3s; }
+/* 法庭全景（木紋與精緻光影） */
+.courtroom-scene { 
+  background: linear-gradient(to bottom, #2a1a0e, #1a1008);
+  border: 4px solid #333; border-radius: 4px; margin-bottom: 15px; position: relative; height: clamp(320px, 50vh, 450px); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9); transition: filter 0.3s; 
+}
 .courtroom-scene.danger { filter: drop-shadow(0 0 30px var(--red)) brightness(1.2) contrast(1.5); }
-.courtroom-scene::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.9) 100%), repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 42px); pointer-events: none; z-index: 0; }
-.judge-stand { position: relative; z-index: 2; width: 100%; height: 40%; background: linear-gradient(to bottom, #2a1a0e, #1a1008); border-bottom: 8px solid #4a2e15; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.8); }
+.courtroom-scene::before { 
+  content: ''; position: absolute; inset: 0; 
+  background: 
+    radial-gradient(circle at 50% 10%, rgba(255, 204, 0, 0.1) 0%, transparent 50%),
+    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 42px),
+    linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.9) 100%);
+  pointer-events: none; z-index: 0; 
+}
+
+/* 審判長席 */
+.judge-stand { position: relative; z-index: 2; width: 100%; height: 40%; background: linear-gradient(to bottom, #3a2515, #1a1008); border-bottom: 8px solid #4a2e15; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.8); }
 .judge-bench { display: flex; justify-content: center; align-items: flex-end; gap: clamp(10px, 3vw, 40px); }
 .judge-avatar { filter: drop-shadow(0 0 10px #000); transition: .3s; position: relative;}
 .main-judge { width: clamp(60px, 12vw, 100px); height: clamp(60px, 12vw, 100px); z-index: 2; }
@@ -85,6 +98,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .desk-item { position: absolute; font-size: 40px; z-index: 10; animation: dropOnDesk 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 @keyframes dropOnDesk { 0% { transform: translateY(-50px) scale(2); opacity: 0; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
 
+/* 法警 */
 .bailiff-stand { position: absolute; bottom: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s; }
 .bailiff-stand.left { left: 2%; }
 .bailiff-stand.right { right: 2%; }
@@ -256,22 +270,96 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <symbol id="opp" viewBox="0 0 16 16"><rect x="2" y="0" width="12" height="3" fill="#4a4a4a"/><rect x="2" y="3" width="12" height="6" fill="#e8c8a8"/><rect x="3" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/><rect x="9" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/><rect x="7" y="4.8" width="2" height="0.4" fill="#1a1008"/><rect x="6" y="7.5" width="4" height="0.5" fill="#4a2a2a"/><rect x="2" y="9" width="12" height="7" fill="#2a2a3a"/><rect x="7" y="9" width="2" height="5" fill="#8b3a3a"/></symbol>
-    <symbol id="ply" viewBox="0 0 16 16"><rect x="2" y="0" width="12" height="3" fill="#1e4d1e"/><rect x="2" y="3" width="12" height="6" fill="#f5d5b0"/><rect x="3" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/><rect x="9" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/><rect x="7" y="4.8" width="2" height="0.4" fill="#1a1008"/><rect x="7" y="7.5" width="2" height="0.5" fill="#8b3a3a"/><rect x="2" y="9" width="12" height="7" fill="#1a1a3a"/><rect x="7" y="9" width="2" height="5" fill="#ff4d6d"/></symbol>
-    <symbol id="judge-main" viewBox="0 0 16 16">
-      <rect x="3" y="0" width="10" height="1" fill="#eeeeee" class="judge-wig-part"/><rect x="2" y="1" width="12" height="2" fill="#eeeeee" class="judge-wig-part"/>
-      <rect x="1" y="3" width="2" height="2" fill="#eeeeee" class="judge-wig-part"/><rect x="13" y="3" width="2" height="2" fill="#eeeeee" class="judge-wig-part"/>
+    <!-- 上訴人：西瓜寮代表（律師裝扮） -->
+    <symbol id="ply" viewBox="0 0 16 16">
+      <!-- 頭髮 -->
+      <rect x="3" y="0" width="10" height="1" fill="#1e4d1e"/>
+      <rect x="2" y="1" width="12" height="2" fill="#1e4d1e"/>
+      <rect x="1" y="3" width="2" height="2" fill="#1e4d1e"/>
+      <!-- 臉 -->
       <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
-      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/><rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
+      <!-- 眼鏡 -->
+      <rect x="3" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/>
+      <rect x="9" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/>
+      <rect x="7" y="4.8" width="2" height="0.4" fill="#1a1008"/>
+      <!-- 嘴巴 -->
+      <rect x="7" y="7.5" width="2" height="0.5" fill="#8b3a3a"/>
+      <!-- 西裝與紅領帶 -->
+      <rect x="2" y="9" width="12" height="7" fill="#1a1a3a"/>
+      <rect x="5" y="9" width="6" height="7" fill="#ffffff"/>
+      <rect x="7" y="9" width="2" height="5" fill="#ff4d6d"/>
+    </symbol>
+
+    <!-- 被上訴人：水利局代表（律師裝扮，灰色系） -->
+    <symbol id="opp" viewBox="0 0 16 16">
+      <!-- 頭髮 -->
+      <rect x="2" y="0" width="12" height="3" fill="#4a4a4a"/>
+      <rect x="3" y="1" width="10" height="2" fill="#333333"/>
+      <!-- 臉 -->
+      <rect x="2" y="3" width="12" height="6" fill="#e8c8a8"/>
+      <!-- 眼鏡 -->
+      <rect x="3" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/>
+      <rect x="9" y="4" width="4" height="2" fill="none" stroke="#1a1008" stroke-width="0.4"/>
+      <rect x="7" y="4.8" width="2" height="0.4" fill="#1a1008"/>
+      <!-- 嘴巴 -->
+      <rect x="6" y="7.5" width="4" height="0.5" fill="#4a2a2a"/>
+      <!-- 西裝與藍領帶 -->
+      <rect x="2" y="9" width="12" height="7" fill="#2a2a3a"/>
+      <rect x="5" y="9" width="6" height="7" fill="#dddddd"/>
+      <rect x="7" y="9" width="2" height="5" fill="#3a5a8b"/>
+    </symbol>
+
+    <!-- 審判長 -->
+    <symbol id="judge-main" viewBox="0 0 16 16">
+      <!-- 白髮假髮 -->
+      <rect x="3" y="0" width="10" height="1" fill="#eeeeee"/>
+      <rect x="2" y="1" width="12" height="2" fill="#eeeeee"/>
+      <rect x="1" y="3" width="2" height="2" fill="#eeeeee"/>
+      <rect x="13" y="3" width="2" height="2" fill="#eeeeee"/>
+      <!-- 臉與皺紋 -->
+      <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
+      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/>
+      <rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
       <rect x="7" y="7" width="2" height="1" fill="#8b3a3a"/>
+      <!-- 法袍 -->
       <rect x="1" y="9" width="14" height="7" fill="#1a1a1a"/>
       <rect x="4" y="9" width="8" height="7" fill="#2a2a2a"/>
+      <!-- 紅色領口與法槌 -->
       <rect x="7" y="9" width="2" height="3" fill="#8b3a3a"/>
       <rect x="2" y="11" width="4" height="2" fill="#a87840"/>
       <rect x="4" y="11" width="1" height="4" fill="#6b4f2f"/>
     </symbol>
-    <symbol id="judge-side" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="2" fill="#dddddd"/><rect x="2" y="3" width="12" height="1" fill="#dddddd"/><rect x="3" y="4" width="10" height="6" fill="#f5d5b0"/><rect x="4" y="5" width="2" height="1" fill="#1a1008"/><rect x="10" y="5" width="2" height="1" fill="#1a1008"/><rect x="6" y="7.5" width="4" height="0.5" fill="#1a1008"/><rect x="1" y="10" width="14" height="6" fill="#222"/><rect x="5" y="10" width="6" height="6" fill="#333"/><rect x="7" y="10" width="2" height="4" fill="#003366"/></symbol>
-    <symbol id="bailiff" viewBox="0 0 16 16"><rect x="4" y="0" width="8" height="2" fill="#1a1a1a"/><rect x="2" y="2" width="12" height="1" fill="#000"/><rect x="7" y="0" width="2" height="2" fill="#f7c948"/><rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/><rect x="4" y="5" width="2" height="1" fill="#1a1008"/><rect x="10" y="5" width="2" height="1" fill="#1a1008"/><rect x="6" y="7" width="4" height="0.5" fill="#1a1008"/><rect x="2" y="9" width="12" height="7" fill="#2a2a3a"/><rect x="7" y="9" width="2" height="4" fill="#111"/><rect x="4" y="9" width="2" height="2" fill="#f7c948"/><rect x="10" y="9" width="2" height="2" fill="#f7c948"/><rect x="13" y="6" width="2" height="6" fill="#111" rx="1"/></symbol>
+
+    <!-- 陪席法官 -->
+    <symbol id="judge-side" viewBox="0 0 16 16">
+      <rect x="3" y="1" width="10" height="2" fill="#dddddd"/>
+      <rect x="2" y="3" width="12" height="1" fill="#dddddd"/>
+      <rect x="3" y="4" width="10" height="6" fill="#f5d5b0"/>
+      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/>
+      <rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
+      <rect x="6" y="7.5" width="4" height="0.5" fill="#1a1008"/>
+      <rect x="1" y="10" width="14" height="6" fill="#222"/>
+      <rect x="5" y="10" width="6" height="6" fill="#333"/>
+      <rect x="7" y="10" width="2" height="4" fill="#003366"/>
+    </symbol>
+
+    <!-- 法警 -->
+    <symbol id="bailiff" viewBox="0 0 16 16">
+      <rect x="4" y="0" width="8" height="2" fill="#1a1a1a"/>
+      <rect x="2" y="2" width="12" height="1" fill="#000"/>
+      <rect x="7" y="0" width="2" height="2" fill="#f7c948"/>
+      <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
+      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/>
+      <rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
+      <rect x="6" y="7" width="4" height="0.5" fill="#1a1008"/>
+      <rect x="2" y="9" width="12" height="7" fill="#2a2a3a"/>
+      <rect x="7" y="9" width="2" height="4" fill="#111"/>
+      <rect x="4" y="9" width="2" height="2" fill="#f7c948"/>
+      <rect x="10" y="9" width="2" height="2" fill="#f7c948"/>
+      <rect x="13" y="6" width="2" height="6" fill="#111" rx="1"/>
+    </symbol>
+
+    <!-- 證物 -->
     <symbol id="i-doc" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="14" fill="#f5e6c8"/><rect x="4" y="3" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="5" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="7" width="6" height="0.6" fill="#5a4020"/></symbol>
     <symbol id="i-book" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#8b3a3a"/><rect x="3" y="3" width="10" height="0.8" fill="#f7c948"/><rect x="3" y="12.2" width="10" height="0.8" fill="#f7c948"/><rect x="6" y="6" width="4" height="4" fill="#f7c948"/></symbol>
     <symbol id="i-scale" viewBox="0 0 16 16"><rect x="7.5" y="3" width="1" height="10" fill="#c8a878"/><rect x="5" y="13" width="6" height="1" fill="#c8a878"/><rect x="2" y="4" width="12" height="0.6" fill="#c8a878"/><rect x="1" y="7" width="3" height="0.6" fill="#c8a878"/><rect x="12" y="7" width="3" height="0.6" fill="#c8a878"/></symbol>
@@ -589,14 +677,13 @@ class Model {
       this.score+=10; this.bag=false; this.res={ok:true, fb:s.fbOk, line:s.success, type: 'strong'};
       this.logs.push({ok:true, fb:s.fbOk});
       
-      // 修正顏色與加分邏輯
       if (this.role === 'melon') { 
         this.trustMelon += 20; this.trustWater -= 20; this.trustChange = '+20%'; this.trustChangeColor = 'var(--green)';
         this.charPopup = { speaker: '上訴人訴訟代理人', text: s.success, icon: 'ply', color: 'var(--green)' };
       } 
       else if (this.role === 'water') {
         this.trustWater += 20; this.trustMelon -= 20; this.trustChange = '+20%'; this.trustChangeColor = 'var(--green)';
-        this.charPopup = { speaker: '被上訴人訴訟代理人', text: s.success, icon: 'opp', color: 'var(--red)' }; // 水利局是紅色
+        this.charPopup = { speaker: '被上訴人訴訟代理人', text: s.success, icon: 'opp', color: 'var(--red)' }; 
       }
       
       setTimeout(() => this.decisiveEffect(), 100);
@@ -798,10 +885,26 @@ class View {
         <div class="cover-screen">
           <div class="cover-title" style="font-size:clamp(24px,6vw,32px);letter-spacing:4px;margin-bottom:20px;">SELECT YOUR ROLE</div>
           <div class="roles-container">
-            <div class="role-card story" onclick="window.selectRole('story')"><svg class="role-icon" viewBox="0 0 16 16"><use href="#i-book"/></svg><h3>📖 案件故事模式</h3><p>跟著判決書一步步審理，揭開真相！</p></div>
-            <div class="role-card melon" onclick="window.selectRole('melon')"><svg class="role-icon" viewBox="0 0 16 16"><use href="#ply"/></svg><h3>上訴人<br>西瓜寮訴訟代理人</h3><p>推翻偏見，逆轉心證！</p></div>
-            <div class="role-card water" onclick="window.selectRole('water')"><svg class="role-icon" viewBox="0 0 16 16"><use href="#opp"/></svg><h3>被上訴人<br>水利局訴訟代理人</h3><p>守住優勢，駁回原告！</p></div>
-            <div class="role-card judge" onclick="window.selectRole('judge')"><svg class="role-icon" viewBox="0 0 16 16"><use href="#judge-main"/></svg><h3>審判長<br>承審法官</h3><p>聆聽兩造，適時追問以撼動心證！</p></div>
+            <div class="role-card story" onclick="window.selectRole('story')">
+              <svg class="role-icon" viewBox="0 0 16 16"><use href="#i-book"/></svg>
+              <h3>📖 案件故事模式</h3>
+              <p>跟著判決書一步步審理</p>
+            </div>
+            <div class="role-card melon" onclick="window.selectRole('melon')">
+              <svg class="role-icon" viewBox="0 0 16 16"><use href="#ply"/></svg>
+              <h3>上訴人<br>西瓜寮訴訟代理人</h3>
+              <p>推翻偏見，逆轉心證！</p>
+            </div>
+            <div class="role-card water" onclick="window.selectRole('water')">
+              <svg class="role-icon" viewBox="0 0 16 16"><use href="#opp"/></svg>
+              <h3>被上訴人<br>水利局訴訟代理人</h3>
+              <p>守住優勢，駁回原告！</p>
+            </div>
+            <div class="role-card judge" onclick="window.selectRole('judge')">
+              <svg class="role-icon" viewBox="0 0 16 16"><use href="#judge-main"/></svg>
+              <h3>審判長<br>承審法官</h3>
+              <p>聆聽兩造，裁決心證！</p>
+            </div>
           </div>
         </div>`;
       return;
@@ -1087,7 +1190,6 @@ window.showRoleSelect = () => { app.m.role = 'select'; app.start(); };
 window.selectRole = (role) => {
   app.m.role = role; app.m.i = 0; app.m.typingDone = false;
   
-  // 調整初始心證比例，增加挑戰性
   if (role === 'melon') {
     app.m.trustMelon = 20;
     app.m.trustWater = 80;
