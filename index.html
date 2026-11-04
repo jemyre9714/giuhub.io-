@@ -17,7 +17,6 @@ body {
   background-size: 100% 100%, 30px 30px, 30px 30px;
   background-attachment: fixed;
 }
-/* 復古掃描線（降低不透明度，避免干擾文字與角色） */
 body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.12) 50%); background-size: 100% 4px; }
 
 #app { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; border: 6px solid #111; border-radius: 8px; box-shadow: 0 0 0 4px #444, 0 0 60px rgba(0,0,0,0.9), inset 0 0 100px rgba(0,0,0,0.9); background: #000; padding: 15px; overflow: hidden; }
@@ -33,11 +32,10 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .bar-water { height: 100%; background: linear-gradient(90deg, #ff0033, #aa0022); transition: width 0.5s ease; }
 .scale-icon { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 32px; transition: transform 0.5s ease; z-index: 2; filter: drop-shadow(0 0 5px #fff); }
 
-/* 心證浮動提示 */
 .trust-float { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-size: 24px; font-weight: 900; text-shadow: 2px 2px 0 #000; animation: floatUp 1s ease-out forwards; pointer-events: none; z-index: 100; font-style: italic; }
 @keyframes floatUp { 0% { opacity: 0; top: 20px; } 20% { opacity: 1; top: 10px; } 100% { opacity: 0; top: -20px; } }
 
-/* 封面（街機風格） */
+/* 封面畫面 */
 .cover-screen { text-align: center; padding: 80px 20px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; }
 .cover-title { font-size: clamp(40px, 10vw, 80px); color: var(--gold); font-weight: 900; letter-spacing: 6px; text-shadow: 4px 4px 0 #a00, 8px 8px 0 #000, 0 0 20px rgba(255, 204, 0, 0.5); margin-bottom: 10px; font-style: italic; animation: titlePulse 2s infinite alternate; }
 @keyframes titlePulse { from { filter: brightness(1); } to { filter: brightness(1.3); } }
@@ -107,7 +105,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .bailiff-shock { animation: shock 0.15s infinite alternate; }
 @keyframes shock { from { transform: translateY(0) scale(1); } to { transform: translateY(-20px) scale(1.3) rotate(5deg); filter: drop-shadow(0 0 20px var(--red)); } }
 
-/* 雙方代理人與桌子（已去除方框與黑底，完美融入背景） */
+/* 雙方代理人與桌子 */
 .players-area { position: relative; z-index: 2; display: flex; justify-content: space-between; padding: 0 5%; width: 100%; height: 60%; align-items: flex-end; padding-bottom: 20px;}
 .player-side { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 5px; width: 45%; position: relative; height: 100%; }
 .player-side .avatar { width: clamp(70px, 14vw, 110px); height: clamp(70px, 14vw, 110px); background: transparent; border: none; box-shadow: none; transition: .2s; z-index: 3; display: flex; align-items: center; justify-content: center; overflow: visible; }
@@ -134,7 +132,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .speaking { animation: speakBounce 0.3s infinite alternate; }
 @keyframes speakBounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-12px) scale(1.05); filter: drop-shadow(0 0 15px currentColor); } }
 
-/* 對話框（加強文字陰影，確保超清晰） */
+/* 對話框 */
 .dialog-box { background: #111; border: 4px solid #fff; border-radius: 4px; padding: 20px; min-height: 120px; position: relative; box-shadow: inset 0 0 0 2px #000, 0 10px 20px rgba(0,0,0,0.8); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
 .speaker-name { position: absolute; top: -16px; left: 15px; background: var(--gold); color: #000; font-size: clamp(12px, 3vw, 14px); font-weight: 900; padding: 4px 15px; border: 2px solid #000; transform: skewX(-10deg); box-shadow: 2px 2px 0 rgba(0,0,0,0.8); z-index: 2; }
 .dialog-content { font-size: clamp(14px, 3.5vw, 18px); line-height: 1.6; color: #fff; margin-top: 8px; font-family: "Noto Sans TC", sans-serif; font-weight: bold; white-space: pre-wrap; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); }
@@ -178,7 +176,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .feedback.neutral { background: rgba(255,204,0,0.2); border-color: var(--gold); color: #ffefb3; }
 .feedback strong { display: block; margin-bottom: 8px; font-size: clamp(16px, 4vw, 20px); font-family: "Arial Black", sans-serif; text-transform: uppercase; }
 
-/* 角色彈出視窗 */
+/* 角色彈出視窗（異議時帶入指向圖） */
 .character-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: flex-end; justify-content: center; z-index: 2000; padding: 20px; overflow: hidden; }
 .character-popup { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 600px; animation: popOutFromBottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .character-portrait { width: clamp(150px, 35vw, 280px); height: clamp(150px, 35vw, 280px); filter: drop-shadow(0 0 40px rgba(0,0,0,1)); z-index: 2; margin-bottom: -20px; position: relative; animation: speakBounce 0.3s infinite alternate; }
@@ -220,6 +218,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .shake { animation: shake .4s ease; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-15px); } 40%, 80% { transform: translateX(15px); } }
 
+/* 土石計算系統專屬樣式（包含卷證資料檢附供核算） */
 .calc-facts { background: #222; border: 3px solid var(--gold); padding: 15px; border-radius: 4px; margin-bottom: 15px; animation: popIn .3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
 .fact-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #555; font-family: "Noto Sans TC", sans-serif; font-size: 15px; }
 .fact-row:last-child { border-bottom: none; }
@@ -286,6 +285,8 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 <script type="module">
 const MELON_AVATAR = "lawyer_melon.png"; 
 const WATER_AVATAR = "lawyer_water.png"; 
+const MELON_POINT_AVATAR = "lawyer_melon_point.png"; 
+const WATER_POINT_AVATAR = "lawyer_water_point.png"; 
 const JUDGE_AVATAR = "judge.png";
 const BAILIFF_AVATAR = "bailiff.png";
 
@@ -590,11 +591,11 @@ class Model {
       
       if (this.role === 'melon') { 
         this.trustMelon += 20; this.trustWater -= 20; this.trustChange = '+20%'; this.trustChangeColor = 'var(--green)';
-        this.charPopup = { speaker: '上訴人訴訟代理人', text: s.success, icon: MELON_AVATAR, color: 'var(--green)', isImg: true };
+        this.charPopup = { speaker: '上訴人西瓜寮訴訟代理人', text: s.success, icon: MELON_POINT_AVATAR, color: 'var(--green)', isImg: true };
       } 
       else if (this.role === 'water') {
         this.trustWater += 20; this.trustMelon -= 20; this.trustChange = '+20%'; this.trustChangeColor = 'var(--green)';
-        this.charPopup = { speaker: '被上訴人水利局訴訟代理人', text: s.success, icon: WATER_AVATAR, color: 'var(--red)', isImg: true }; 
+        this.charPopup = { speaker: '被上訴人水利局訴訟代理人', text: s.success, icon: WATER_POINT_AVATAR, color: 'var(--red)', isImg: true }; 
       }
       
       setTimeout(() => this.decisiveEffect(), 100);
@@ -889,7 +890,7 @@ class View {
         h+=this.renderCourt(m, activeSpeaker);
         
         if (m.judgeStep === 0) {
-          h+=`<div class="dialog-box" id="typewriter-box" style="border-color:var(--red);"><span class="speaker-name" style="background:var(--red);color:#fff;">被上訴人(水利局)</span><div class="dialog-content" data-text="「${s.p_claim}」"></div></div>`;
+          h+=`<div class="dialog-box" id="typewriter-box" style="border-color:var(--red);"><span class="speaker-name" style="background:var(--red);color:#fff;">被上訴人(水利局)</span><div class="dialog-content" data-text="<div>「${s.p_claim}」</div>"></div></div>`;
           h+=`<div class="next-wrap"><button class="btn" id="btnJudgeNext">聽取上訴人抗辯 →</button></div>`;
         } else if (m.judgeStep === 1) {
           h+=`<div class="dialog-box" id="typewriter-box" style="border-color:var(--green);"><span class="speaker-name" style="background:var(--green);color:#fff;">上訴人(西瓜寮)</span><div class="dialog-content" data-text="「${s.d_claim}」"></div></div>`;
@@ -975,7 +976,7 @@ class View {
   renderCalc(m, s) {
     let h = `<div class="dialog-box" style="margin-top:15px;border-color:var(--blue);"><span class="speaker-name" style="background:var(--blue);color:#fff;">法官算帳</span><div class="dialog-content">請依據卷宗事實，選擇正確的參數以計算損害賠償金額。</div></div>
       <div class="calc-facts">
-        <h3 style="color:var(--gold);font-size:16px;margin-bottom:10px;">📑 卷宗事實</h3>
+        <h3 style="color:var(--gold);font-size:16px;margin-bottom:10px;">📑 卷宗事實 (附帶卷證資料供核算)</h3>
         ${s.facts.map(f=>`<div class="fact-row"><span class="fact-label">${f.label}</span><span class="fact-val">${f.value}</span></div>`).join('')}
       </div>
       <div class="calc-options">`;
