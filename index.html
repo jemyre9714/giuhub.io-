@@ -17,8 +17,8 @@ body {
   background-size: 100% 100%, 30px 30px, 30px 30px;
   background-attachment: fixed;
 }
-/* 復古掃描線 */
-body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.25) 50%); background-size: 100% 4px; }
+/* 復古掃描線（降低不透明度，避免干擾文字與角色） */
+body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.12) 50%); background-size: 100% 4px; }
 
 #app { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; border: 6px solid #111; border-radius: 8px; box-shadow: 0 0 0 4px #444, 0 0 60px rgba(0,0,0,0.9), inset 0 0 100px rgba(0,0,0,0.9); background: #000; padding: 15px; overflow: hidden; }
 
@@ -107,16 +107,14 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .bailiff-shock { animation: shock 0.15s infinite alternate; }
 @keyframes shock { from { transform: translateY(0) scale(1); } to { transform: translateY(-20px) scale(1.3) rotate(5deg); filter: drop-shadow(0 0 20px var(--red)); } }
 
-/* 雙方代理人與桌子 */
+/* 雙方代理人與桌子（已去除方框與黑底，完美融入背景） */
 .players-area { position: relative; z-index: 2; display: flex; justify-content: space-between; padding: 0 5%; width: 100%; height: 60%; align-items: flex-end; padding-bottom: 20px;}
 .player-side { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 5px; width: 45%; position: relative; height: 100%; }
-.player-side .avatar { width: clamp(70px, 14vw, 110px); height: clamp(70px, 14vw, 110px); background: #111; border: 3px solid #555; transition: .2s; z-index: 3; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; }
-.player-side.left .avatar { border-color: var(--green); }
-.player-side.right .avatar { border-color: var(--red); }
-.player-side .avatar.active { transform: translateY(-10px); }
-.player-side.left .avatar.active { box-shadow: 0 0 20px var(--green); }
-.player-side.right .avatar.active { box-shadow: 0 0 20px var(--red); }
-.player-side .avatar img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+.player-side .avatar { width: clamp(70px, 14vw, 110px); height: clamp(70px, 14vw, 110px); background: transparent; border: none; box-shadow: none; transition: .2s; z-index: 3; display: flex; align-items: center; justify-content: center; overflow: visible; }
+.player-side .avatar.active { transform: translateY(-10px); filter: drop-shadow(0 0 15px currentColor); }
+.player-side.left .avatar.active { color: var(--green); }
+.player-side.right .avatar.active { color: var(--red); }
+.player-side .avatar img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.8)); }
 
 .name-tag { font-size: clamp(10px, 2.5vw, 14px); font-weight: 900; color: #fff; background: #000; padding: 4px 10px; border: 2px solid #555; text-transform: uppercase; text-align: center; line-height: 1.2; z-index: 4; box-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 .player-side.left .name-tag { color: var(--green); border-color: var(--green); }
@@ -136,10 +134,10 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .speaking { animation: speakBounce 0.3s infinite alternate; }
 @keyframes speakBounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-12px) scale(1.05); filter: drop-shadow(0 0 15px currentColor); } }
 
-/* 對話框 */
+/* 對話框（加強文字陰影，確保超清晰） */
 .dialog-box { background: #111; border: 4px solid #fff; border-radius: 4px; padding: 20px; min-height: 120px; position: relative; box-shadow: inset 0 0 0 2px #000, 0 10px 20px rgba(0,0,0,0.8); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
-.speaker-name { position: absolute; top: -16px; left: 15px; background: var(--gold); color: #000; font-size: clamp(12px, 3vw, 14px); font-weight: 900; padding: 4px 15px; border: 2px solid #000; transform: skewX(-10deg); box-shadow: 2px 2px 0 rgba(0,0,0,0.8); }
-.dialog-content { font-size: clamp(14px, 3.5vw, 18px); line-height: 1.6; color: #fff; margin-top: 8px; font-family: "Noto Sans TC", sans-serif; font-weight: bold; white-space: pre-wrap; }
+.speaker-name { position: absolute; top: -16px; left: 15px; background: var(--gold); color: #000; font-size: clamp(12px, 3vw, 14px); font-weight: 900; padding: 4px 15px; border: 2px solid #000; transform: skewX(-10deg); box-shadow: 2px 2px 0 rgba(0,0,0,0.8); z-index: 2; }
+.dialog-content { font-size: clamp(14px, 3.5vw, 18px); line-height: 1.6; color: #fff; margin-top: 8px; font-family: "Noto Sans TC", sans-serif; font-weight: bold; white-space: pre-wrap; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); }
 
 @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
@@ -256,7 +254,6 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <!-- 陪席法官 SVG (保留做為背景點綴) -->
     <symbol id="judge-side" viewBox="0 0 16 16">
       <rect x="3" y="1" width="10" height="2" fill="#dddddd"/>
       <rect x="2" y="3" width="12" height="1" fill="#dddddd"/>
@@ -269,7 +266,6 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
       <rect x="7" y="10" width="2" height="4" fill="#003366"/>
     </symbol>
 
-    <!-- 證物圖示保留 SVG -->
     <symbol id="i-doc" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="14" fill="#f5e6c8"/><rect x="4" y="3" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="5" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="7" width="6" height="0.6" fill="#5a4020"/></symbol>
     <symbol id="i-book" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#8b3a3a"/><rect x="3" y="3" width="10" height="0.8" fill="#f7c948"/><rect x="3" y="12.2" width="10" height="0.8" fill="#f7c948"/><rect x="6" y="6" width="4" height="4" fill="#f7c948"/></symbol>
     <symbol id="i-scale" viewBox="0 0 16 16"><rect x="7.5" y="3" width="1" height="10" fill="#c8a878"/><rect x="5" y="13" width="6" height="1" fill="#c8a878"/><rect x="2" y="4" width="12" height="0.6" fill="#c8a878"/><rect x="1" y="7" width="3" height="0.6" fill="#c8a878"/><rect x="12" y="7" width="3" height="0.6" fill="#c8a878"/></symbol>
@@ -288,7 +284,6 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 </svg>
 
 <script type="module">
-// 在這裡註冊你的四張專屬圖檔名稱
 const MELON_AVATAR = "lawyer_melon.png"; 
 const WATER_AVATAR = "lawyer_water.png"; 
 const JUDGE_AVATAR = "judge.png";
@@ -442,13 +437,13 @@ const SCENES_JUDGE = [
       { label: '採信水利局（准予終止）', type: 'p', trustM: -20, trustW: 20, fb: '你採信了水利局的急迫性主張，心證大幅偏向水利局。' },
       { label: '採信西瓜寮（駁回主張）', type: 'd', trustM: 20, trustW: -20, fb: '你認為水利局確實違反447條，心證大幅偏向西瓜寮。' },
       { label: '追問水利局', type: 'ask_p', trustM: 10, trustW: -10, fb: '你追問了水利局，水利局支吾其詞，心證微幅偏向西瓜寮。' },
-      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問了西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向水利局。' }
+      { label: '追問西瓜寮', type: 'ask_d', trustM: -10, trustW: 10, fb: '你追問了西瓜寮，西瓜寮雖然有理，但水利局順勢裝可憐，心證微幅偏向西瓜寮。' }
     ]
   },
   {
     type:'judge_trial', title:'第三章・參加效力之戰', 
     p_claim:'第1381號判決雖然判西瓜寮敗訴，但那是他們自己撤回上訴才確定的，害我方無法在二審防禦。依民訴法63條但書，我方不受該判決拘束！',
-    d_claim:'審判長，對造在第一審就參加訴訟了，而且依法本來就可以「獨立提起上訴」，他們自己不上訴，現在不能反過來說不受拘束！',
+    d_claim:'審判長，對造在第一審就參加訴訟了，而且依法本來就可以專門「獨立提起上訴」，他們自己不上訴，現在不能反過來說不受拘束！',
     p_ask:'水利局：我們當時只是輔助參加人，誰知道西瓜寮會突然撤回上訴？我們根本措手不及！',
     d_ask:'西瓜寮：最高法院判例寫得很清楚，參加人本得獨立上訴，水利局自己不作為，怪誰？',
     question:'兩造爭執第1381號判決的拘束力。請問審判長，該如何處理？',
@@ -543,7 +538,6 @@ class Model {
         this.deskItem = { icon: ev.foodIcon, side: deskSide };
       }
 
-      // 直接把彈出對話框圖案改為新圖檔
       if (id === 'j_gun') {
         this.bailiffShock = true;
         this.isDanger = true;
@@ -750,7 +744,6 @@ class View {
     let deskLeft = m.deskItem && m.deskItem.side === 'left' ? m.deskItem.icon : '';
     let deskRight = m.deskItem && m.deskItem.side === 'right' ? m.deskItem.icon : '';
 
-    // 法官跟法警都換成了 img 圖片標籤
     return `
       ${this.renderTopBar(m)}
       <div class="courtroom-scene ${dangerClass}">
@@ -831,7 +824,6 @@ class View {
     }
 
     if (m.bailiffAnim) {
-      // 這裡也把法警跟角色的動畫替換成你的專屬 PNG
       h += `
         <div class="bailiff-scene">
           <div class="bailiff-text">法警！將這位訴訟代理人帶出去！</div>
