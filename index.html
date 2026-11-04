@@ -54,7 +54,8 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .role-card.melon { border-color: var(--green); box-shadow: 0 0 30px rgba(0,255,102,0.4); }
 .role-card.water { border-color: var(--red); box-shadow: 0 0 30px rgba(255,0,51,0.4); }
 .role-card.judge { border-color: var(--gold); box-shadow: 0 0 30px rgba(255,204,0,0.4); }
-.role-icon { width: 100px; height: 100px; margin: 0 auto 15px; filter: drop-shadow(4px 4px 0 #000); transition: .2s; overflow: hidden; border-radius: 50%; }
+.role-icon { width: 100px; height: 100px; margin: 0 auto 15px; filter: drop-shadow(4px 4px 0 #000); transition: .2s; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #000; }
+.role-icon img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
 .role-card:hover .role-icon { transform: scale(1.1); }
 .role-card h3 { font-size: clamp(18px, 4vw, 22px); margin-bottom: 8px; color: #fff; text-shadow: 2px 2px 0 #000; line-height: 1.4; }
 .role-card p { font-size: 14px; color: #aaa; }
@@ -77,7 +78,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 /* 審判長席 */
 .judge-stand { position: relative; z-index: 2; width: 100%; height: 40%; background: linear-gradient(to bottom, #3a2515, #1a1008); border-bottom: 8px solid #4a2e15; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 5px; box-shadow: 0 10px 20px rgba(0,0,0,0.8); }
 .judge-bench { display: flex; justify-content: center; align-items: flex-end; gap: clamp(10px, 3vw, 40px); }
-.judge-avatar { filter: drop-shadow(0 0 10px #000); transition: .3s; position: relative;}
+.judge-avatar { filter: drop-shadow(0 0 10px #000); transition: .3s; position: relative; object-fit: contain; image-rendering: pixelated;}
 .main-judge { width: clamp(60px, 12vw, 100px); height: clamp(60px, 12vw, 100px); z-index: 2; }
 .judge-side { width: clamp(40px, 8vw, 70px); height: clamp(40px, 8vw, 70px); opacity: 0.7; }
 .judge-avatar.active { filter: drop-shadow(0 0 20px var(--gold)); transform: translateY(-5px); }
@@ -100,7 +101,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .bailiff-stand { position: absolute; bottom: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s; }
 .bailiff-stand.left { left: 2%; }
 .bailiff-stand.right { right: 2%; }
-.bailiff-avatar { width: clamp(40px, 8vw, 70px); height: clamp(40px, 8vw, 70px); filter: drop-shadow(0 0 5px #000); }
+.bailiff-avatar { width: clamp(40px, 8vw, 70px); height: clamp(40px, 8vw, 70px); filter: drop-shadow(0 0 5px #000); object-fit: contain; image-rendering: pixelated; }
 .bailiff-label { font-size: 10px; color: #ffcc00; background: #000; padding: 2px 6px; border-radius: 4px; margin-top: 2px; display: none; }
 @media (min-width: 600px) { .bailiff-label { display: block; } }
 .bailiff-shock { animation: shock 0.15s infinite alternate; }
@@ -183,7 +184,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .character-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: flex-end; justify-content: center; z-index: 2000; padding: 20px; overflow: hidden; }
 .character-popup { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 600px; animation: popOutFromBottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .character-portrait { width: clamp(150px, 35vw, 280px); height: clamp(150px, 35vw, 280px); filter: drop-shadow(0 0 40px rgba(0,0,0,1)); z-index: 2; margin-bottom: -20px; position: relative; animation: speakBounce 0.3s infinite alternate; }
-.character-portrait img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; border-radius: 12px; }
+.character-portrait img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; border-radius: 12px; }
 .character-dialog { background: #000; border: 5px solid var(--gold); border-radius: 8px; padding: 25px; width: 100%; position: relative; z-index: 1; box-shadow: 0 15px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,0,0,1); text-align: center; }
 .character-dialog .dialog-content { font-size: clamp(16px, 4vw, 24px); text-align: left; padding: 10px; text-shadow: 1px 1px 0 #000; }
 @keyframes popOutFromBottom { 0% { transform: translateY(100%); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
@@ -255,24 +256,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <!-- 審判長 -->
-    <symbol id="judge-main" viewBox="0 0 16 16">
-      <rect x="3" y="0" width="10" height="1" fill="#eeeeee"/>
-      <rect x="2" y="1" width="12" height="2" fill="#eeeeee"/>
-      <rect x="1" y="3" width="2" height="2" fill="#eeeeee"/>
-      <rect x="13" y="3" width="2" height="2" fill="#eeeeee"/>
-      <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
-      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="7" y="7" width="2" height="1" fill="#8b3a3a"/>
-      <rect x="1" y="9" width="14" height="7" fill="#1a1a1a"/>
-      <rect x="4" y="9" width="8" height="7" fill="#2a2a2a"/>
-      <rect x="7" y="9" width="2" height="3" fill="#8b3a3a"/>
-      <rect x="2" y="11" width="4" height="2" fill="#a87840"/>
-      <rect x="4" y="11" width="1" height="4" fill="#6b4f2f"/>
-    </symbol>
-
-    <!-- 陪席法官 -->
+    <!-- 陪席法官 SVG (保留做為背景點綴) -->
     <symbol id="judge-side" viewBox="0 0 16 16">
       <rect x="3" y="1" width="10" height="2" fill="#dddddd"/>
       <rect x="2" y="3" width="12" height="1" fill="#dddddd"/>
@@ -285,23 +269,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
       <rect x="7" y="10" width="2" height="4" fill="#003366"/>
     </symbol>
 
-    <!-- 法警 -->
-    <symbol id="bailiff" viewBox="0 0 16 16">
-      <rect x="4" y="0" width="8" height="2" fill="#1a1a1a"/>
-      <rect x="2" y="2" width="12" height="1" fill="#000"/>
-      <rect x="7" y="0" width="2" height="2" fill="#f7c948"/>
-      <rect x="3" y="3" width="10" height="6" fill="#f5d5b0"/>
-      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="6" y="7" width="4" height="0.5" fill="#1a1008"/>
-      <rect x="2" y="9" width="12" height="7" fill="#2a2a3a"/>
-      <rect x="7" y="9" width="2" height="4" fill="#111"/>
-      <rect x="4" y="9" width="2" height="2" fill="#f7c948"/>
-      <rect x="10" y="9" width="2" height="2" fill="#f7c948"/>
-      <rect x="13" y="6" width="2" height="6" fill="#111" rx="1"/>
-    </symbol>
-
-    <!-- 證物圖示 -->
+    <!-- 證物圖示保留 SVG -->
     <symbol id="i-doc" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="14" fill="#f5e6c8"/><rect x="4" y="3" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="5" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="7" width="6" height="0.6" fill="#5a4020"/></symbol>
     <symbol id="i-book" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#8b3a3a"/><rect x="3" y="3" width="10" height="0.8" fill="#f7c948"/><rect x="3" y="12.2" width="10" height="0.8" fill="#f7c948"/><rect x="6" y="6" width="4" height="4" fill="#f7c948"/></symbol>
     <symbol id="i-scale" viewBox="0 0 16 16"><rect x="7.5" y="3" width="1" height="10" fill="#c8a878"/><rect x="5" y="13" width="6" height="1" fill="#c8a878"/><rect x="2" y="4" width="12" height="0.6" fill="#c8a878"/><rect x="1" y="7" width="3" height="0.6" fill="#c8a878"/><rect x="12" y="7" width="3" height="0.6" fill="#c8a878"/></symbol>
@@ -320,8 +288,11 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 </svg>
 
 <script type="module">
+// 在這裡註冊你的四張專屬圖檔名稱
 const MELON_AVATAR = "lawyer_melon.png"; 
 const WATER_AVATAR = "lawyer_water.png"; 
+const JUDGE_AVATAR = "judge.png";
+const BAILIFF_AVATAR = "bailiff.png";
 
 const ALL_EVIDENCE = {
   e_prep: { id:'e_prep', name:'準備書(一)狀', icon:'i-doc' },
@@ -335,7 +306,7 @@ const ALL_EVIDENCE = {
   
   j_gun: { id:'j_gun', name:'法警的手槍', icon:'i-gun', joke:'法警（驚恐）：等、等等！我的槍怎麼會在你那裡？！（全場法警掏槍對準你）', effect: 'gun', danger: true, fatal: true },
   j_badge: { id:'j_badge', name:'律師執照', icon:'i-badge', joke:'審判長：代理人，你拿自己的執照給我看，是想證明你考過國考嗎？', effect: 'shake' },
-  j_wig: { id:'j_wig', name:'法官假髮', icon:'i-wig', joke:'審判長（摸頭）：大膽！竟簡拿假髮調侃本官？法警！', effect: 'wig_fall', fatal: true },
+  j_wig: { id:'j_wig', name:'法官假髮', icon:'i-wig', joke:'審判長（摸頭）：大膽！竟敢拿假髮調侃本官？法警！', effect: 'wig_fall', fatal: true },
   j_pineapple: { id:'j_pineapple', name:'鳳梨', icon:'i-pineapple', joke:'審判長：帶鳳梨來法院？你是在詛咒本件「旺」到無法結案嗎？', effect: 'desk_item', isFood: true, foodIcon: '🍍' },
   j_chicken: { id:'j_chicken', name:'鹹酥雞', icon:'i-chicken', joke:'審判長：現在是言詞辯論，不是宵夜時間！你當這裡是熱炒店？', effect: 'desk_item', isFood: true, foodIcon: '🍗' },
   j_pokeball: { id:'j_pokeball', name:'寶貝球', icon:'i-pokeball', joke:'審判長：你想用這個收服本官嗎？本官可不是寶可夢！', effect: 'shake' },
@@ -572,17 +543,18 @@ class Model {
         this.deskItem = { icon: ev.foodIcon, side: deskSide };
       }
 
+      // 直接把彈出對話框圖案改為新圖檔
       if (id === 'j_gun') {
         this.bailiffShock = true;
         this.isDanger = true;
         this.shakeScreen();
-        this.charPopup = { speaker: '法警', text: ev.joke, icon: 'bailiff', color: 'var(--red)', isImg: false };
+        this.charPopup = { speaker: '法警', text: ev.joke, icon: BAILIFF_AVATAR, color: 'var(--red)', isImg: true };
       } else if (id === 'j_wig') {
-        this.charPopup = { speaker: '審判長', text: ev.joke, icon: 'judge-main', color: 'var(--gold)', isImg: false };
+        this.charPopup = { speaker: '審判長', text: ev.joke, icon: JUDGE_AVATAR, color: 'var(--gold)', isImg: true };
       } else if (id === 'j_earbuds') {
         this.charPopup = { speaker: '陪席法官', text: ev.joke, icon: 'judge-side', color: 'var(--blue)', isImg: false };
       } else {
-        this.charPopup = { speaker: '審判長', text: ev.joke, icon: 'judge-main', color: 'var(--gold)', isImg: false };
+        this.charPopup = { speaker: '審判長', text: ev.joke, icon: JUDGE_AVATAR, color: 'var(--gold)', isImg: true };
       }
 
       if (this.role === 'melon') {
@@ -778,6 +750,7 @@ class View {
     let deskLeft = m.deskItem && m.deskItem.side === 'left' ? m.deskItem.icon : '';
     let deskRight = m.deskItem && m.deskItem.side === 'right' ? m.deskItem.icon : '';
 
+    // 法官跟法警都換成了 img 圖片標籤
     return `
       ${this.renderTopBar(m)}
       <div class="courtroom-scene ${dangerClass}">
@@ -785,11 +758,11 @@ class View {
         <div class="judge-stand">
           <div class="judge-bench">
             <svg class="judge-avatar judge-side ${isJudge?'active speaking':''}" viewBox="0 0 16 16"><use href="#judge-side"/></svg>
-            <svg class="judge-avatar main-judge ${isJudge?'active speaking':''} ${dangerClass} ${baldClass}" viewBox="0 0 16 16"><use href="#judge-main"/></svg>
+            <img src="${JUDGE_AVATAR}" class="judge-avatar main-judge ${isJudge?'active speaking':''} ${dangerClass} ${baldClass}">
             <svg class="judge-avatar judge-side ${isJudge?'active speaking':''}" viewBox="0 0 16 16"><use href="#judge-side"/></svg>
           </div>
-          <div class="bailiff-stand left ${shockClass}"><svg class="bailiff-avatar" viewBox="0 0 16 16"><use href="#bailiff"/></svg><span class="bailiff-label">法警</span></div>
-          <div class="bailiff-stand right ${shockClass}"><svg class="bailiff-avatar" viewBox="0 0 16 16"><use href="#bailiff"/></svg><span class="bailiff-label">法警</span></div>
+          <div class="bailiff-stand left ${shockClass}"><img src="${BAILIFF_AVATAR}" class="bailiff-avatar"><span class="bailiff-label">法警</span></div>
+          <div class="bailiff-stand right ${shockClass}"><img src="${BAILIFF_AVATAR}" class="bailiff-avatar"><span class="bailiff-label">法警</span></div>
         </div>
         <div class="players-area">
           <div class="player-side left">
@@ -821,22 +794,22 @@ class View {
           <div class="cover-title" style="font-size:clamp(24px,6vw,32px);letter-spacing:4px;margin-bottom:20px;">SELECT YOUR ROLE</div>
           <div class="roles-container">
             <div class="role-card story" onclick="window.selectRole('story')">
-              <svg class="role-icon" viewBox="0 0 16 16"><use href="#i-book"/></svg>
+              <svg class="role-icon" viewBox="0 0 16 16" style="background:transparent;"><use href="#i-book"/></svg>
               <h3>📖 案件故事模式</h3>
               <p>跟著判決書一步步審理</p>
             </div>
             <div class="role-card melon" onclick="window.selectRole('melon')">
-              <div class="role-icon"><img src="${MELON_AVATAR}" style="width:100%;height:100%;object-fit:cover;image-rendering:pixelated;"></div>
+              <div class="role-icon"><img src="${MELON_AVATAR}"></div>
               <h3>上訴人<br>西瓜寮訴訟代理人</h3>
               <p>推翻偏見，逆轉心證！</p>
             </div>
             <div class="role-card water" onclick="window.selectRole('water')">
-              <div class="role-icon"><img src="${WATER_AVATAR}" style="width:100%;height:100%;object-fit:cover;image-rendering:pixelated;"></div>
+              <div class="role-icon"><img src="${WATER_AVATAR}"></div>
               <h3>被上訴人<br>水利局訴訟代理人</h3>
               <p>守住優勢，駁回原告！</p>
             </div>
             <div class="role-card judge" onclick="window.selectRole('judge')">
-              <svg class="role-icon" viewBox="0 0 16 16"><use href="#judge-main"/></svg>
+              <div class="role-icon"><img src="${JUDGE_AVATAR}"></div>
               <h3>審判長<br>承審法官</h3>
               <p>聆聽兩造，裁決心證！</p>
             </div>
@@ -858,13 +831,14 @@ class View {
     }
 
     if (m.bailiffAnim) {
+      // 這裡也把法警跟角色的動畫替換成你的專屬 PNG
       h += `
         <div class="bailiff-scene">
           <div class="bailiff-text">法警！將這位訴訟代理人帶出去！</div>
           <div class="bailiff-drag">
-            <svg class="bailiff-svg-large" viewBox="0 0 16 16"><use href="#bailiff"/></svg>
+            <img src="${BAILIFF_AVATAR}" class="bailiff-svg-large" style="object-fit:contain; image-rendering:pixelated;">
             <img src="${m.role==='melon' ? MELON_AVATAR : WATER_AVATAR}" class="player-img-large">
-            <svg class="bailiff-svg-large" viewBox="0 0 16 16"><use href="#bailiff"/></svg>
+            <img src="${BAILIFF_AVATAR}" class="bailiff-svg-large" style="object-fit:contain; image-rendering:pixelated;">
           </div>
         </div>`;
       this.r.innerHTML = h; return;
@@ -990,9 +964,9 @@ class View {
       h += `
         <div class="character-popup-overlay" onclick="window.closePopup()">
           <div class="character-popup">
-            <div class="character-portrait" style="color: ${m.charPopup.color}; filter: drop-shadow(0 0 30px ${m.charPopup.color});">
+            <div class="character-portrait" style="color: ${m.charPopup.color}; filter: drop-shadow(0 0 40px ${m.charPopup.color});">
               ${m.charPopup.isImg 
-                ? `<img src="${m.charPopup.icon}" style="width:100%;height:100%;object-fit:cover;image-rendering:pixelated;border-radius:12px;">` 
+                ? `<img src="${m.charPopup.icon}">` 
                 : `<svg viewBox="0 0 16 16" style="width:100%;height:100%;"><use href="#${m.charPopup.icon}"/></svg>`}
             </div>
             <div class="character-dialog" style="border-color: ${m.charPopup.color}; box-shadow: 0 15px 40px rgba(0,0,0,0.9), inset 0 0 20px ${m.charPopup.color};">
