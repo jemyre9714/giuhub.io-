@@ -218,7 +218,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .shake { animation: shake .4s ease; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-15px); } 40%, 80% { transform: translateX(15px); } }
 
-/* 土石計算系統專屬樣式（文字輸入框設計） */
+/* 土石計算系統專屬樣式 */
 .calc-facts { background: #222; border: 3px solid var(--gold); padding: 15px; border-radius: 4px; margin-bottom: 15px; animation: popIn .3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
 .fact-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #555; font-family: "Noto Sans TC", sans-serif; font-size: 15px; }
 .fact-row:last-child { border-bottom: none; }
@@ -429,8 +429,8 @@ const SCENES_JUDGE = [
     type:'judge_trial', title:'第二章・程序之戰', 
     p_claim:'審判長，我們在二審提出招標須知第8條終止契約，是基於河防安全，屬合法行使權利。',
     d_claim:'審判長，對造直到二審才突然提出終止契約，這屬於民訴法第447條所禁止的「新攻擊防禦方法」，應予駁回！',
-    p_ask:'水利局：這...這是因為河防安全有急迫性，我們認為法院應該要准許！',
-    d_ask:'西瓜寮：對造在原審有委任律師，根本沒有不能提出的理由，這明顯是突襲！',
+    p_ask:'水利局 : 這...這是因為河防安全有急迫性，我們認為法院應該要准許！',
+    d_ask:'西瓜寮 : 對造在原審有委任律師，根本沒有不能提出的理由，這明顯是突襲！',
     question:'兩造爭執終止契約的提出時機。請問審判長，該如何處理？',
     options: [
       { label: '採信水利局（准予終止）', type: 'p', trustM: -20, trustW: 20, fb: '你採信了水利局的急迫性主張，心證大幅偏向水利局。' },
@@ -639,7 +639,6 @@ class Model {
     const s=this.cur;
     const ans = s.answer;
     
-    // 將使用者輸入轉為數值進行比對（自動忽略逗號與空格）
     const userQty = parseFloat(this.calcInput.qty.replace(/,/g, ''));
     const userPrice = parseFloat(this.calcInput.price.replace(/,/g, ''));
     const userCost = parseFloat(this.calcInput.cost.replace(/,/g, ''));
@@ -1100,7 +1099,6 @@ window.storyDecide = (isCorrect) => { app.m.storyPick(isCorrect); app.start(); }
 window.closePopup = () => { app.m.closeCharPopup(); };
 window.updateInput = (type, val) => { 
   app.m.setCalcInput(type, val); 
-  // 即時更新按鈕狀態，不重新渲染整個畫面以防影響輸入游標
   const btn = document.getElementById('btnSubmitCalc');
   if (btn) {
     const hasAll = app.m.calcInput.qty && app.m.calcInput.price && app.m.calcInput.cost;
