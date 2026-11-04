@@ -255,18 +255,6 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <symbol id="judge-side" viewBox="0 0 16 16">
-      <rect x="3" y="1" width="10" height="2" fill="#dddddd"/>
-      <rect x="2" y="3" width="12" height="1" fill="#dddddd"/>
-      <rect x="3" y="4" width="10" height="6" fill="#f5d5b0"/>
-      <rect x="4" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="10" y="5" width="2" height="1" fill="#1a1008"/>
-      <rect x="6" y="7.5" width="4" height="0.5" fill="#1a1008"/>
-      <rect x="1" y="10" width="14" height="6" fill="#222"/>
-      <rect x="5" y="10" width="6" height="6" fill="#333"/>
-      <rect x="7" y="10" width="2" height="4" fill="#003366"/>
-    </symbol>
-
     <symbol id="i-doc" viewBox="0 0 16 16"><rect x="3" y="1" width="10" height="14" fill="#f5e6c8"/><rect x="4" y="3" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="5" width="8" height="0.6" fill="#5a4020"/><rect x="4" y="7" width="6" height="0.6" fill="#5a4020"/></symbol>
     <symbol id="i-book" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#8b3a3a"/><rect x="3" y="3" width="10" height="0.8" fill="#f7c948"/><rect x="3" y="12.2" width="10" height="0.8" fill="#f7c948"/><rect x="6" y="6" width="4" height="4" fill="#f7c948"/></symbol>
     <symbol id="i-scale" viewBox="0 0 16 16"><rect x="7.5" y="3" width="1" height="10" fill="#c8a878"/><rect x="5" y="13" width="6" height="1" fill="#c8a878"/><rect x="2" y="4" width="12" height="0.6" fill="#c8a878"/><rect x="1" y="7" width="3" height="0.6" fill="#c8a878"/><rect x="12" y="7" width="3" height="0.6" fill="#c8a878"/></symbol>
@@ -290,6 +278,8 @@ const WATER_AVATAR = "lawyer_water.png";
 const MELON_POINT_AVATAR = "lawyer_melon_point.png"; 
 const WATER_POINT_AVATAR = "lawyer_water_point.png"; 
 const JUDGE_AVATAR = "judge.png";
+const JUDGE_LEFT_AVATAR = "judge_left.png";
+const JUDGE_RIGHT_AVATAR = "judge_right.png";
 const BAILIFF_AVATAR = "bailiff.png";
 
 const ALL_EVIDENCE = {
@@ -309,7 +299,7 @@ const ALL_EVIDENCE = {
   j_chicken: { id:'j_chicken', name:'鹹酥雞', icon:'i-chicken', joke:'審判長：現在是言詞辯論，不是宵夜時間！你當這裡是熱炒店？', effect: 'desk_item', isFood: true, foodIcon: '🍗' },
   j_pokeball: { id:'j_pokeball', name:'寶貝球', icon:'i-pokeball', joke:'審判長：你想用這個收服本官嗎？本官可不是寶可夢！', effect: 'shake' },
   j_popcorn: { id:'j_popcorn', name:'爆米花', icon:'i-popcorn', joke:'審判長：你是來看法庭電影的嗎？要不要順便來杯可樂？', effect: 'desk_item', isFood: true, foodIcon: '🍿' },
-  j_earbuds: { id:'j_earbuds', name:'陪席法官耳機', icon:'i-earbuds', joke:'陪席法官（臉紅）：咳...那是...助聽器...', effect: 'notes' },
+  j_earbuds: { id:'j_earbuds', name:'陪席法官耳機', icon:'i-earbuds', joke:'陪席法官（臉紅）：咳...那是...藍牙耳機...', effect: 'notes' },
   j_leaf: { id:'j_leaf', name:'法院盆栽', icon:'i-leaf', joke:'審判長：你連法院的盆栽都不放過嗎？你到底是來幹嘛的！', effect: 'tumbleweed' }
 };
 
@@ -429,8 +419,8 @@ const SCENES_JUDGE = [
     type:'judge_trial', title:'第二章・程序之戰', 
     p_claim:'審判長，我們在二審提出招標須知第8條終止契約，是基於河防安全，屬合法行使權利。',
     d_claim:'審判長，對造直到二審才突然提出終止契約，這屬於民訴法第447條所禁止的「新攻擊防禦方法」，應予駁回！',
-    p_ask:'水利局 : 這...這是因為河防安全有急迫性，我們認為法院應該要准許！',
-    d_ask:'西瓜寮 : 對造在原審有委任律師，根本沒有不能提出的理由，這明顯是突襲！',
+    p_ask:'水利局：這...這是因為河防安全有急迫性，我們認為法院應該要准許！',
+    d_ask:'西瓜寮：對造在原審有委任律師，根本沒有不能提出的理由，這明顯是突襲！',
     question:'兩造爭執終止契約的提出時機。請問審判長，該如何處理？',
     options: [
       { label: '採信水利局（准予終止）', type: 'p', trustM: -20, trustW: 20, fb: '你採信了水利局的急迫性主張，心證大幅偏向水利局。' },
@@ -541,7 +531,7 @@ class Model {
       } else if (id === 'j_wig') {
         this.charPopup = { speaker: '審判長', text: ev.joke, icon: JUDGE_AVATAR, color: 'var(--gold)', isImg: true };
       } else if (id === 'j_earbuds') {
-        this.charPopup = { speaker: '陪席法官', text: ev.joke, icon: 'judge-side', color: 'var(--blue)', isImg: false };
+        this.charPopup = { speaker: '左陪席・陳正直', text: ev.joke, icon: JUDGE_LEFT_AVATAR, color: 'var(--blue)', isImg: true };
       } else {
         this.charPopup = { speaker: '審判長', text: ev.joke, icon: JUDGE_AVATAR, color: 'var(--gold)', isImg: true };
       }
@@ -747,9 +737,9 @@ class View {
         ${this.renderEffects(m)}
         <div class="judge-stand">
           <div class="judge-bench">
-            <svg class="judge-avatar judge-side ${isJudge?'active speaking':''}" viewBox="0 0 16 16"><use href="#judge-side"/></svg>
-            <img src="${JUDGE_AVATAR}" class="judge-avatar main-judge ${isJudge?'active speaking':''} ${dangerClass} ${baldClass}">
-            <svg class="judge-avatar judge-side ${isJudge?'active speaking':''}" viewBox="0 0 16 16"><use href="#judge-side"/></svg>
+            <img src="${JUDGE_LEFT_AVATAR}" class="judge-avatar judge-side ${isJudge?'active speaking':''}" alt="左陪席">
+            <img src="${JUDGE_AVATAR}" class="judge-avatar main-judge ${isJudge?'active speaking':''} ${dangerClass} ${baldClass}" alt="審判長">
+            <img src="${JUDGE_RIGHT_AVATAR}" class="judge-avatar judge-side ${isJudge?'active speaking':''}" alt="右陪席">
           </div>
           <div class="bailiff-stand left ${shockClass}"><img src="${BAILIFF_AVATAR}" class="bailiff-avatar"><span class="bailiff-label">法警</span></div>
           <div class="bailiff-stand right ${shockClass}"><img src="${BAILIFF_AVATAR}" class="bailiff-avatar"><span class="bailiff-label">法警</span></div>
