@@ -176,7 +176,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .feedback.neutral { background: rgba(255,204,0,0.2); border-color: var(--gold); color: #ffefb3; }
 .feedback strong { display: block; margin-bottom: 8px; font-size: clamp(16px, 4vw, 20px); font-family: "Arial Black", sans-serif; text-transform: uppercase; }
 
-/* 角色彈出視窗（異議時帶入指向圖） */
+/* 角色彈出視窗 */
 .character-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: flex-end; justify-content: center; z-index: 2000; padding: 20px; overflow: hidden; }
 .character-popup { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 600px; animation: popOutFromBottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .character-portrait { width: clamp(150px, 35vw, 280px); height: clamp(150px, 35vw, 280px); filter: drop-shadow(0 0 40px rgba(0,0,0,1)); z-index: 2; margin-bottom: -20px; position: relative; animation: speakBounce 0.3s infinite alternate; }
@@ -218,19 +218,21 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .shake { animation: shake .4s ease; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-15px); } 40%, 80% { transform: translateX(15px); } }
 
-/* 土石計算系統專屬樣式（包含卷證資料檢附供核算） */
+/* 土石計算系統專屬樣式（文字輸入框設計） */
 .calc-facts { background: #222; border: 3px solid var(--gold); padding: 15px; border-radius: 4px; margin-bottom: 15px; animation: popIn .3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
 .fact-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #555; font-family: "Noto Sans TC", sans-serif; font-size: 15px; }
 .fact-row:last-child { border-bottom: none; }
 .fact-label { color: #aaa; }
 .fact-val { color: var(--gold); font-weight: bold; text-shadow: 1px 1px 0 #000; }
+
 .calc-options { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
 .option-group { background: #111; border: 3px solid #444; padding: 15px; border-radius: 4px; }
 .option-title { font-size: 14px; color: var(--blue); margin-bottom: 10px; font-weight: bold; text-shadow: 1px 1px 0 #000; }
-.option-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-.opt-btn { flex: 1; padding: 12px; background: #333; color: #fff; border: 2px solid #555; border-radius: 4px; cursor: pointer; font-size: 14px; transition: .1s; box-shadow: 0 4px 0 #111; }
-.opt-btn:active { transform: translateY(4px); box-shadow: none; }
-.opt-btn.selected { background: var(--blue); border-color: #fff; box-shadow: 0 4px 0 #002; }
+
+/* 填入格子 Input 樣式 */
+.calc-input { width: 100%; padding: 14px; background: #222; color: var(--gold); border: 3px solid #555; border-radius: 4px; font-size: 18px; font-weight: 900; text-align: center; outline: none; transition: .2s; }
+.calc-input:focus { border-color: var(--gold); background: #1a1a2e; box-shadow: 0 0 10px rgba(255,204,0,0.4); }
+
 .calc-result { margin-top: 20px; text-align: center; font-size: 20px; color: var(--gold); font-weight: bold; display: none; }
 .calc-result.show { display: block; animation: popIn .3s forwards; }
 
@@ -336,11 +338,7 @@ const SCENES_STORY = [
       { label: '起訴時市價', value: '每立方公尺 275 元' },
       { label: '清運費 (函文平均)', value: '47.5 元' }
     ],
-    options: {
-      qty: [ {label:'300,000 m³', val:300000}, {label:'559,221 m³', val:559221, correct:true}, {label:'859,221 m³', val:859221} ],
-      price: [ {label:'100 元', val:100}, {label:'275 元', val:275, correct:true}, {label:'300 元', val:300} ],
-      cost: [ {label:'40 元', val:40}, {label:'47.5 元', val:47.5, correct:true}, {label:'55 元', val:55} ]
-    }
+    answer: { qty: 559221, price: 275, cost: 47.5 }
   },
   { type:'end_story', title:'第八章：宣判' }
 ];
@@ -492,11 +490,7 @@ const SCENE_CALC = {
     { label: '起訴時市價', value: '每立方公尺 275 元' },
     { label: '清運費 (函文平均)', value: '47.5 元' }
   ],
-  options: {
-    qty: [ {label:'300,000 m³', val:300000}, {label:'559,221 m³', val:559221, correct:true}, {label:'859,221 m³', val:859221} ],
-    price: [ {label:'100 元', val:100}, {label:'275 元', val:275, correct:true}, {label:'300 元', val:300} ],
-    cost: [ {label:'40 元', val:40}, {label:'47.5 元', val:47.5, correct:true}, {label:'55 元', val:55} ]
-  }
+  answer: { qty: 559221, price: 275, cost: 47.5 }
 };
 
 const SCENE_END = { type:'end', title:'第七章・宣判' };
@@ -509,7 +503,7 @@ class Model {
     this.charPopup = null;
     this.gameover=false;
     this.judgeStep = 0; this.storyStep = 0;
-    this.calcSel = { qty: null, price: null, cost: null };
+    this.calcInput = { qty: '', price: '', cost: '' };
     this.bailiffShock = false;
     this.isDanger = false;
     this.typingDone = false;
@@ -640,14 +634,17 @@ class Model {
     else { this.res = { ok:false, fb: s.fbNg }; }
   }
 
-  setCalcOption(type, val) { this.calcSel[type] = val; }
+  setCalcInput(type, val) { this.calcInput[type] = val; }
   submitCalc() {
     const s=this.cur;
-    const ans = s.options;
-    const isCorrect = 
-      this.calcSel.qty === ans.qty.find(o=>o.correct).val &&
-      this.calcSel.price === ans.price.find(o=>o.correct).val &&
-      this.calcSel.cost === ans.cost.find(o=>o.correct).val;
+    const ans = s.answer;
+    
+    // 將使用者輸入轉為數值進行比對（自動忽略逗號與空格）
+    const userQty = parseFloat(this.calcInput.qty.replace(/,/g, ''));
+    const userPrice = parseFloat(this.calcInput.price.replace(/,/g, ''));
+    const userCost = parseFloat(this.calcInput.cost.replace(/,/g, ''));
+
+    const isCorrect = (userQty === ans.qty) && (userPrice === ans.price) && (userCost === ans.cost);
     
     if(isCorrect) {
       this.score += 10;
@@ -662,7 +659,7 @@ class Model {
   next() { 
     if(this.i<this.scenes.length-1){ 
       this.i++; this.lives=3; this.bag=false; this.res=null; this.charPopup=null; this.effect=null; this.deskItem=null; this.bailiffAnim=false; this.gameover=false; this.bailiffShock = false; this.isDanger = false; this.judgeStep = 0; this.storyStep = 0;
-      this.calcSel = { qty: null, price: null, cost: null };
+      this.calcInput = { qty: '', price: '', cost: '' };
       this.typingDone = false;
       this.trustChange = null;
       this.isTie = false;
@@ -890,7 +887,7 @@ class View {
         h+=this.renderCourt(m, activeSpeaker);
         
         if (m.judgeStep === 0) {
-          h+=`<div class="dialog-box" id="typewriter-box" style="border-color:var(--red);"><span class="speaker-name" style="background:var(--red);color:#fff;">被上訴人(水利局)</span><div class="dialog-content" data-text="<div>「${s.p_claim}」</div>"></div></div>`;
+          h+=`<div class="dialog-box" id="typewriter-box" style="border-color:var(--red);"><span class="speaker-name" style="background:var(--red);color:#fff;">被上訴人(水利局)</span><div class="dialog-content" data-text="「${s.p_claim}」"></div></div>`;
           h+=`<div class="next-wrap"><button class="btn" id="btnJudgeNext">聽取上訴人抗辯 →</button></div>`;
         } else if (m.judgeStep === 1) {
           h+=`<div class="dialog-box" id="typewriter-box" style="border-color:var(--green);"><span class="speaker-name" style="background:var(--green);color:#fff;">上訴人(西瓜寮)</span><div class="dialog-content" data-text="「${s.d_claim}」"></div></div>`;
@@ -974,7 +971,7 @@ class View {
   }
 
   renderCalc(m, s) {
-    let h = `<div class="dialog-box" style="margin-top:15px;border-color:var(--blue);"><span class="speaker-name" style="background:var(--blue);color:#fff;">法官算帳</span><div class="dialog-content">請依據卷宗事實，選擇正確的參數以計算損害賠償金額。</div></div>
+    let h = `<div class="dialog-box" style="margin-top:15px;border-color:var(--blue);"><span class="speaker-name" style="background:var(--blue);color:#fff;">法官算帳</span><div class="dialog-content">請依據卷宗事實，在下方格子中填入正確的計算參數。</div></div>
       <div class="calc-facts">
         <h3 style="color:var(--gold);font-size:16px;margin-bottom:10px;">📑 卷宗事實 (附帶卷證資料供核算)</h3>
         ${s.facts.map(f=>`<div class="fact-row"><span class="fact-label">${f.label}</span><span class="fact-val">${f.value}</span></div>`).join('')}
@@ -982,19 +979,22 @@ class View {
       <div class="calc-options">`;
 
     if(!m.res) {
-      h += `<div class="option-group"><div class="option-title">1. 選擇【系爭土石數量】</div><div class="option-btns">`;
-      s.options.qty.forEach(opt => { h += `<button class="opt-btn ${m.calcSel.qty === opt.val ? 'selected' : ''}" onclick="window.setCalc('qty', ${opt.val})">${opt.label}</button>`; });
-      h += `</div></div>`;
+      h += `<div class="option-group">
+              <div class="option-title">1. 填入【系爭土石數量】(立方公尺)</div>
+              <input type="text" class="calc-input" id="inputQty" value="${m.calcInput.qty}" placeholder="請輸入數量，例如：559221" oninput="window.updateInput('qty', this.value)">
+            </div>`;
       
-      h += `<div class="option-group"><div class="option-title">2. 選擇【起訴時市價】</div><div class="option-btns">`;
-      s.options.price.forEach(opt => { h += `<button class="opt-btn ${m.calcSel.price === opt.val ? 'selected' : ''}" onclick="window.setCalc('price', ${opt.val})">${opt.label}</button>`; });
-      h += `</div></div>`;
+      h += `<div class="option-group">
+              <div class="option-title">2. 填入【起訴時市價】(元)</div>
+              <input type="text" class="calc-input" id="inputPrice" value="${m.calcInput.price}" placeholder="請輸入市價，例如：275" oninput="window.updateInput('price', this.value)">
+            </div>`;
       
-      h += `<div class="option-group"><div class="option-title">3. 選擇【每立方公尺清運費】</div><div class="option-btns">`;
-      s.options.cost.forEach(opt => { h += `<button class="opt-btn ${m.calcSel.cost === opt.val ? 'selected' : ''}" onclick="window.setCalc('cost', ${opt.val})">${opt.label}</button>`; });
-      h += `</div></div>`;
+      h += `<div class="option-group">
+              <div class="option-title">3. 填入【每立方公尺清運費】(元)</div>
+              <input type="text" class="calc-input" id="inputCost" value="${m.calcInput.cost}" placeholder="請輸入清運費，例如：47.5" oninput="window.updateInput('cost', this.value)">
+            </div>`;
 
-      const disabled = !m.calcSel.qty || !m.calcSel.price || !m.calcSel.cost;
+      const disabled = !m.calcInput.qty || !m.calcInput.price || !m.calcInput.cost;
       h += `<button class="btn green" style="margin-top:20px; ${disabled?'opacity:0.5;cursor:not-allowed;':''}" id="btnSubmitCalc" ${disabled?'disabled':''}>確認並計算金額</button>`;
     } else {
       if (m.res.ok) {
@@ -1005,7 +1005,7 @@ class View {
           <div style="font-size:24px;color:var(--gold);margin-top:20px;">最終賠償：127,222,777 元</div>
         </div>`;
       } else {
-        h += `<div class="feedback ng"><strong>✘ 計算錯誤！</strong>請檢查您選擇的數量、市價或清運費是否與卷宗事實相符。</div>`;
+        h += `<div class="feedback ng"><strong>✘ 計算錯誤！</strong>請檢查您填入的數字是否與卷宗事實相符。</div>`;
       }
       h += `<div class="next-wrap" style="margin-top:20px;"><button class="btn" id="btnNext">下一章 →</button></div>`;
     }
@@ -1098,7 +1098,23 @@ window.selectRole = (role) => {
 window.judgeDecide = (type, trustM, trustW, fb) => { app.m.judgePick(type, trustM, trustW, fb); app.start(); };
 window.storyDecide = (isCorrect) => { app.m.storyPick(isCorrect); app.start(); };
 window.closePopup = () => { app.m.closeCharPopup(); };
-window.setCalc = (type, val) => { app.m.setCalcOption(type, val); app.start(); };
+window.updateInput = (type, val) => { 
+  app.m.setCalcInput(type, val); 
+  // 即時更新按鈕狀態，不重新渲染整個畫面以防影響輸入游標
+  const btn = document.getElementById('btnSubmitCalc');
+  if (btn) {
+    const hasAll = app.m.calcInput.qty && app.m.calcInput.price && app.m.calcInput.cost;
+    if (hasAll) {
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      btn.removeAttribute('disabled');
+    } else {
+      btn.style.opacity = '0.5';
+      btn.style.cursor = 'not-allowed';
+      btn.setAttribute('disabled', 'true');
+    }
+  }
+};
 
 window.playVictory = (isMelonWin) => {
   const overlay = document.getElementById('victory-overlay');
