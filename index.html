@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>法庭攻防與土石清運計算系統</title>
+  <title>法庭攻防與土石計算系統</title>
   <style>
     body {
       background-color: #121212;
@@ -12,76 +12,45 @@
       margin: 0;
       padding: 20px;
     }
-    
-    /* 1. 合議庭區：完美對齊、不懸空 */
+    /* 完美解決懸空：使用 align-items: flex-end 底部對齊 */
     .judicial-bench {
       display: flex;
       justify-content: center;
       align-items: flex-end;
       gap: 15px;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
       background: #1a1a1a;
-      padding: 15px 20px;
+      padding: 20px;
       border-radius: 8px;
-      border: 1px solid #333;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .bench-seat {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
     .judicial-bench img {
-      max-height: 140px;
+      max-height: 160px;
       object-fit: contain;
     }
-    .bench-label {
-      font-size: 12px;
-      color: #ccc;
-      margin-top: 5px;
-    }
-
-    /* 2. 訴訟代理人區 (點擊觸發選擇證據異議視窗) */
+    /* 角色立繪區 */
     .lawyer-section {
       display: flex;
       justify-content: space-around;
-      margin-bottom: 25px;
-    }
-    .lawyer-box {
-      background: #1a1a1a;
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px solid #333;
+      margin-bottom: 20px;
     }
     .lawyer-box img {
-      max-height: 180px;
+      max-height: 200px;
       cursor: pointer;
       transition: transform 0.1s;
     }
     .lawyer-box img:active {
       transform: scale(0.95);
     }
-    .tip {
-      font-size: 12px;
-      color: #aaa;
-      margin-top: 5px;
-    }
-
-    /* 3. 數據表格與按鈕樣式 */
+    /* 表格與按鈕 */
     table {
       margin: 20px auto;
       border-collapse: collapse;
-      width: 65%;
+      width: 60%;
       background: #222;
     }
     th, td {
       border: 1px solid #444;
-      padding: 12px;
-    }
-    th {
-      background: #333;
+      padding: 10px;
     }
     button {
       padding: 10px 20px;
@@ -95,106 +64,60 @@
     button:hover {
       background-color: #c9302c;
     }
-
-    /* 4. 彈跳視窗 (Modal) 共用樣式 */
+    /* 彈跳視窗 (Modal) 樣式 */
     .modal {
       display: none;
       position: fixed;
       z-index: 1000;
       left: 0; top: 0; width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.85);
+      background-color: rgba(0,0,0,0.8);
     }
     .modal-content {
       background-color: #2c2c2c;
-      margin: 5% auto;
-      padding: 25px;
+      margin: 15% auto;
+      padding: 20px;
       border: 1px solid #555;
-      width: 500px;
+      width: 300px;
       border-radius: 8px;
       text-align: left;
-      max-height: 85vh;
-      overflow-y: auto;
     }
-    .modal-content label {
-      display: block;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-    .modal-content input, .modal-content select {
+    .modal-content input {
       width: 100%;
       padding: 8px;
-      margin-top: 5px;
+      margin: 10px 0;
       box-sizing: border-box;
       background: #111;
       border: 1px solid #444;
       color: #fff;
-      border-radius: 4px;
-    }
-
-    /* 卷證資料區塊樣式 */
-    .evidence-box {
-      background: #1e1e1e;
-      border: 1px dashed #777;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      font-size: 13px;
-      color: #ddd;
-    }
-    .evidence-box h4 {
-      margin: 0 0 5px 0;
-      color: #f0ad4e;
-    }
-    
-    /* 異議視窗內配置 */
-    .objection-layout {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-    .objection-layout img {
-      max-height: 110px;
     }
   </style>
 </head>
 <body>
 
-  <h1>法庭攻防與土石清運計算系統</h1>
+  <h1>法庭合議庭與攻防系統</h1>
 
-  <!-- 1. 合議庭區：左陪席法官、審判長、右陪席法官 -->
+  <!-- 1. 合議庭區 (底部對齊，解決懸空) -->
   <div class="judicial-bench">
-    <div class="bench-seat">
-      <img src="judge_left.png" alt="左陪席法官">
-      <div class="bench-label">左陪席法官</div>
-    </div>
-    <div class="bench-seat">
-      <img src="judge_chief.png" alt="審判長">
-      <div class="bench-label">審判長</div>
-    </div>
-    <div class="bench-seat">
-      <img src="judge_right.png" alt="右陪席法官">
-      <div class="bench-label">右陪席法官</div>
-    </div>
+    <img src="judge_left.png" alt="左陪席法官">
+    <img src="judge_chief.png" alt="審判長"> <!-- 請對應您原有的審判長圖檔 -->
+    <img src="judge_right.png" alt="右陪席法官">
   </div>
 
-  <!-- 2. 訴訟代理人區 (點擊代理人可開啟選擇證據的異議彈跳視窗) -->
+  <!-- 2. 訴訟代理人區 (點擊可切換異議指向動畫) -->
   <div class="lawyer-section">
     <div class="lawyer-box">
       <h3>上訴人：西瓜寮</h3>
-      <img id="melon-avatar" src="lawyer_melon.png" alt="西瓜寮代理人" onclick="openObjectionModal('melon')">
-      <div class="tip">點擊角色發動異議 (選擇證據)</div>
+      <img id="melon-avatar" src="lawyer_melon.png" alt="西瓜寮代理人" onclick="triggerObjection('melon')">
     </div>
     <div class="lawyer-box">
       <h3>被上訴人：水利局</h3>
-      <img id="water-avatar" src="lawyer_water.png" alt="水利局代理人" onclick="openObjectionModal('water')">
-      <div class="tip">點擊角色發動異議 (選擇證據)</div>
+      <img id="water-avatar" src="lawyer_water.png" alt="水利局代理人" onclick="triggerObjection('water')">
     </div>
   </div>
 
-  <hr style="border-color: #444; width: 80%;">
+  <hr style="border-color: #444;">
 
-  <!-- 3. 數據申報表格 -->
+  <!-- 3. 數據表格與計算機觸發 -->
   <h2>土石清運與金額申報表</h2>
   <table>
     <tr>
@@ -203,120 +126,61 @@
       <th>金額 (新台幣)</th>
     </tr>
     <tr>
-      <td>系爭土石體積與清運費計算</td>
+      <td>土石體積計算</td>
       <td id="result-volume">0</td>
       <td id="result-amount">0</td>
     </tr>
   </table>
-  <br>
-  <button onclick="openCalculatorModal()">開啟土石計算機 (檢附卷證資料)</button>
+  <button onclick="openCalculator()">開啟土石計算機</button>
 
-  <!-- ================= 彈跳視窗 1：選擇證據的異議視窗 ================= -->
-  <div id="objectionModal" class="modal">
-    <div class="modal-content">
-      <h3 id="obj-title" style="margin-top:0; color:#d9534f;">發動異議主張</h3>
-      
-      <div class="objection-layout">
-        <!-- 這裡會自動代入我們做好的指向動畫圖片 lawyer_melon_point.png 或 lawyer_water_point.png -->
-        <img id="obj-avatar" src="" alt="指向特寫">
-        <div>
-          <p id="obj-speech" style="font-style: italic; margin:0; font-size: 15px;">「異議あり！對造所提之攻擊防禦方法違反民事訴訟法第447條！」</p>
-        </div>
-      </div>
-      
-      <label>請選擇用以反駁/異議之卷證資料：</label>
-      <select id="evidence-select">
-        <option value="e1">【原證三】土地複丈成果圖（證明無越界或體積計算基礎錯誤）</option>
-        <option value="e2">【被證五】現場勘驗筆錄與照片（證明土石堆置實際體積與面積）</option>
-        <option value="e3">【民訴法第447條】二審新攻擊防禦方法限制規定</option>
-      </select>
-
-      <div style="text-align: right; margin-top: 20px;">
-        <button onclick="submitObjection()" style="background-color: #5cb85c;">提出異議主張</button>
-        <button onclick="closeModals()" style="background-color: #666;">取消</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= 彈跳視窗 2：檢附卷證資料的土石計算機 ================= -->
+  <!-- 4. 彈跳計算機 Modal -->
   <div id="calcModal" class="modal">
     <div class="modal-content">
-      <h3 style="margin-top:0; color: #f0ad4e;">系爭土石清運計算機</h3>
-      
-      <!-- 檢附卷證資料區 -->
-      <div class="evidence-box">
-        <h4>📋 檢附卷證資料依據：</h4>
-        <p>1. <b>臺灣OO地方法院勘驗筆錄</b>：記載堆置長度 10m、寬度 5m、平均深度 2m。<br>
-           2. <b>土石清運公會鑑價參考表</b>：一般營建混合物清運單價計新台幣 1,500 元/m³。</p>
-      </div>
-
-      <label>長度 (公尺) [依勘驗筆錄]：</label>
+      <h3>土石數量計算機</h3>
+      <label>長度 (公尺)：</label>
       <input type="number" id="calc-length" value="10">
       
-      <label>寬度 (公尺) [依勘驗筆錄]：</label>
+      <label>寬度 (公尺)：</label>
       <input type="number" id="calc-width" value="5">
       
-      <label>深度/高度 (公尺) [依勘驗筆錄]：</label>
+      <label>深度/高度 (公尺)：</label>
       <input type="number" id="calc-depth" value="2">
       
-      <label>單價 (元/立方公尺) [依鑑價參考表]：</label>
+      <label>單價 (元/立方公尺)：</label>
       <input type="number" id="calc-price" value="1500">
       
-      <div style="text-align: right; margin-top: 20px;">
-        <button onclick="calculateAndFill()">確認計算並填入表格</button>
-        <button onclick="closeModals()" style="background-color: #666;">關閉</button>
-      </div>
+      <button onclick="calculateAndFill()" style="width: 100%; margin-top: 10px;">計算並自動填入</button>
     </div>
   </div>
 
   <script>
-    let currentLawyer = '';
-
-    // 點擊代理人時開啟「選擇證據的異議視窗」，並換上對應的指向圖片
-    function openObjectionModal(lawyer) {
-      currentLawyer = lawyer;
-      const modal = document.getElementById('objectionModal');
-      const avatarImg = document.getElementById('obj-avatar');
-      const title = document.getElementById('obj-title');
+    // 點擊代理人切換異議指向動畫
+    function triggerObjection(lawyer) {
+      const melonImg = document.getElementById('melon-avatar');
+      const waterImg = document.getElementById('water-avatar');
       
       if (lawyer === 'melon') {
-        title.innerText = "上訴人 (西瓜寮) 發動異議";
-        avatarImg.src = 'lawyer_melon_point.png'; // 換上西瓜寮指向右側圖片
-      } else {
-        title.innerText = "被上訴人 (水利局) 發動異議";
-        avatarImg.src = 'lawyer_water_point.png'; // 換上水利局指向左側圖片
+        melonImg.src = 'lawyer_melon_point.png';
+        setTimeout(() => { melonImg.src = 'lawyer_melon.png'; }, 2000); // 2秒後還原
+      } else if (lawyer === 'water') {
+        waterImg.src = 'lawyer_water_point.png';
+        setTimeout(() => { waterImg.src = 'lawyer_water.png'; }, 2000); // 2秒後還原
       }
-      
-      modal.style.display = 'block';
     }
 
-    // 提交異議主張
-    function submitObjection() {
-      const selectElem = document.getElementById('evidence-select');
-      const selectedText = selectElem.options[selectElem.selectedIndex].text;
-      alert(`【法庭筆錄】${currentLawyer === 'melon' ? '上訴人' : '被上訴人'} 針對造主張提出異議，並引用「${selectedText}」為證。審判長諭知：納入辯論意旨。`);
-      closeModals();
-    }
-
-    // 開啟附帶卷證資料的土石計算機視窗
-    function openCalculatorModal() {
+    // 開啟與關閉計算機 Modal
+    function openCalculator() {
       document.getElementById('calcModal').style.display = 'block';
     }
 
-    // 關閉所有彈跳視窗
-    function closeModals() {
-      document.getElementById('calcModal').style.display = 'none';
-      document.getElementById('objectionModal').style.display = 'none';
-    }
-
-    // 點擊 Modal 外部黑幕自動關閉
     window.onclick = function(event) {
-      if (event.target.classList.contains('modal')) {
-        closeModals();
+      const modal = document.getElementById('calcModal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
       }
     }
 
-    // 土石計算邏輯並自動填入表格
+    // 計算並自動填入表格
     function calculateAndFill() {
       const L = parseFloat(document.getElementById('calc-length').value) || 0;
       const W = parseFloat(document.getElementById('calc-width').value) || 0;
@@ -326,11 +190,12 @@
       const volume = L * W * D;
       const amount = volume * P;
 
-      // 填入表格
+      // 自動填入網頁表格
       document.getElementById('result-volume').innerText = volume.toLocaleString();
       document.getElementById('result-amount').innerText = amount.toLocaleString() + ' 元';
 
-      closeModals();
+      // 關閉視窗
+      document.getElementById('calcModal').style.display = 'none';
     }
   </script>
 
